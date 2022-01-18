@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 16:45:11 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/14 22:42:32 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/18 16:12:11 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,12 +104,12 @@ void	ft_lst_clear(t_env **lst)
 		tmp = curr;
 		if (tmp)
 			printf("tmp\n"); // delete
-		if (tmp->line)
+		if (tmp->sep)
 		{
-			printf("free(tmp->line)\n"); // delete
-			free(tmp->line);
+			printf("free(tmp->sep)\n"); // delete
+			free(tmp->sep);
 		}
-		tmp->line = NULL;
+		tmp->sep = NULL;
 		if (tmp->key)
 		{
 			printf("free(tmp->key)\n"); // delete

@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 18:45:00 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/14 23:37:32 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/18 23:27:46 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,9 @@
 
 typedef struct s_env
 {
-	char			*line; // вся строка переменной окружения
+	// char			*line; // вся строка переменной окружения
 	char			*key; // ключ переменной окружения (до "равно")
+	char			*sep; // разделитель ключа и значения (знак "равно", если есть)
 	char			*value; // значение переменной окружения (после "равно")
 	struct s_env	*next;
 }					t_env;
@@ -72,9 +73,23 @@ int		ft_len_value(char *str);
 t_env	*parse_envrmnt(t_env *lst, char **envp);
 void	ft_lst_clear(t_env **lst);
 
+/* функции для создания массива переменных окружения
+ft_lstsize_env - считает сколько переменных содержит "="
+ft_lstsize_all - считает сколько всего переменных окружения (сколько заполненных листов)
+ft_malloc_array_err(char **array, t_data *data, int check) - выделяет память и проверяет, выделилась ли
+**create_array_env - создает массив переменных (где есть "=")
+**create_array_all - создает массив со всеми переменными окружения
+*/
+
+int		ft_lstsize_env(t_data *data);
+int		ft_lstsize_all(t_data *data);
+int		ft_malloc_array_err(char ***array, t_data *data, int check);
+char	**create_array_env(t_data *data, char **array);
+char	**create_array_all(t_data *data, char **array);
+
 int		ft_init_data(t_data *data, char **envp);
 void	ft_data_clear(t_data *data); // переписать, не работает
-int		ft_error(int errnum, t_data *data, char *str); // переписать c errno
+int		ft_error(int errnum, t_data *data, char *str); // проверить c errno
 int		put_err_message(char *str);
 int		action(t_data *data, char **envp);
 char	**create_array_path(char **envp);
@@ -84,5 +99,6 @@ int		ft_read_exec(t_data *data, char **envp);
 
 void	ft_test_readline(void); // delete
 void	ft_print_lsts(t_data *data); // delete для проверки печати переменных окружения из листов
+void	ft_print_array(t_data *data); // delete для проверки печати переменных окружения из массива
 
 #endif

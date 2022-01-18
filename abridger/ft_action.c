@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 16:29:06 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/15 18:49:54 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/18 23:37:51 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,10 @@ int	action(t_data *data, char **envp)
 	else
 	{
 		ft_init_data(data, envp);
-		ft_read_exec(data, envp);
+		// ft_read_exec(data, envp);
 		// ft_test_readline(); // test
-		// ft_print_lsts(data); // test
+		ft_print_array(data); // test
+		ft_print_lsts(data); // test
 		// ft_data_clear(data);
 	}
 	return (0);

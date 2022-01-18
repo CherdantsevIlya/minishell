@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 15:46:39 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/13 20:48:24 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/18 17:25:59 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,12 @@ t_env	*ft_lstnew(const char *line)
 		return (NULL);
 	else
 	{
-		new->line = ft_strdup(line);
+		// new->line = ft_strdup(line);
 		new->key = ft_substr(line, 0, len_key);
+		if (ft_strlen((char *)line) - len_key >= 1)
+			new->sep = ft_substr(line, len_key, 1);
+		else
+			new->sep = NULL;
 		if (len_value > 0)
 			new->value = ft_substr(line, len_key + 1, len_value);
 		else
