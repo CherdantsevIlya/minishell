@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 18:45:00 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/18 23:27:46 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/19 23:11:25 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,21 @@ typedef struct s_env
 	struct s_env	*next;
 }					t_env;
 
+typedef struct s_red  // структура с листами имен файлов для редиректа
+{
+	char			*name; // имя файла
+	struct s_red	*prev;
+	struct s_red	*next;
+}					t_red;
+
 typedef struct s_cmd // куда сохранять имя файла, если подается? в одном листе данные для выполнения одной команды?
 {
 	char			**cmd_args; // распарсенная строка из ридлайн (до точки с запятой, т.е. одна команда с аргументами), cmd_args[0] - команда?
 	int				nb_cmd; // номер команды, если подана команда, на которую надо написать свою функцию, если nb=8, например, то команда исполяется execve
-	int				red_flag; // если есть редирект, подумать над флагами
-	int				pipe_flag; // если есть пайп, подумать над флагами
+	t_red			*red_list; // если есть редирект, то записывать в листы имена файлов для редиректа
+	int				red_flag; // если есть редирект, подумать над флагами, например 1, если > outfile; 2 если < infile, 0 - нет редиректов в команде
+	int				pipe_flag; // если есть пайп, подумать над флагами 0 = нет пайпа, 1 = есть пайп
+	struct s_cmd	*prev;
 	struct s_cmd	*next;
 
 }					t_cmd;
@@ -50,9 +59,13 @@ typedef struct s_data
 {
 	t_env			*envrmnt; // указатель на листы с переменными окружения
 	t_cmd			*shell_cmd; // указатель на листы с командами и аргументами
-	char			**array_path; // PATH значения, для исполнения execve
+	int				count; // количество команд по указателю на листы с командами и аргументами
+	char			**array_path; // PATH значения, для исполнения execve, возможно лучше вынести в отдельную функцию и не сохранять в стр-ре, а вызывать, если потребуется
 	int				pid; // для форка, чтобы в дочернем процессе запустить execve
-	int				fd[2]; // дескрипторы для редиректа, может нужно переместить их в листы с командами?
+	int				fd_red[2]; // дескрипторы для редиректа
+	int				fd_pipe[2]; // дескрипторы пайпа;
+	int				save_in; // для сохранения дескриптора 0
+	int				save_out; // для сохранения дескриптора 1
 }					t_data;
 
 int		ft_strlen(char *str);
@@ -96,6 +109,25 @@ char	**create_array_path(char **envp);
 int		create_fork(t_data *data, char **envp, char *str_path);
 int		ft_exec_in_child(t_data *data, char **envp);
 int		ft_read_exec(t_data *data, char **envp);
+
+/* функции для исполнения команд
+ft_init_saved_fd - инициализирует fd, которые надо сохранить
+ft_try_input - открывает файловый дескриптор на чтение, проверяет есть ли < редирект и имя файла за нми, если есть, то откроет файл на чтение, либо выдаст ошибку
+ft_try_output - открывает файловый дескриптор на запись, проверяет есть ли > редирект и имя файла за нми, если есть, то откроет файл на запись, либо выдаст ошибку
+ft_check_pipe - если есть пайп, откроет пайп
+ft_close_saved_fd - закрывает дескрипторы
+ft_execute - выполнение в цикле по командам
+*/
+void	ft_init_saved_fd(t_data *data);
+int		ft_try_input(t_data *data, t_cmd *curr);
+int		ft_try_output(t_data *data, t_cmd *curr);
+void	ft_check_pipe(t_data *data, t_cmd *curr);
+void	ft_close_saved_fd(t_data *data);
+void	ft_execute(t_data *data)ж
+
+
+
+
 
 void	ft_test_readline(void); // delete
 void	ft_print_lsts(t_data *data); // delete для проверки печати переменных окружения из листов

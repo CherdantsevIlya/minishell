@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 15:32:20 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/18 23:25:54 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/19 21:29:38 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	put_err_message(char *str)
 {
-	write(STDERR_FILENO, "Error: ", 7);
+	// write(STDERR_FILENO, "Error: ", 7);
 	write(STDERR_FILENO, str, ft_strlen(str));
 	write(STDERR_FILENO, "\n", 1);
 	return (1);
