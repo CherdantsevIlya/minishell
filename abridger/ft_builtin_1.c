@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 16:43:39 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/20 23:15:38 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/20 23:21:04 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,11 @@ int	ft_exec_cd(t_data *data, t_cmd *curr)
 	str = getcwd(NULL, sizeof(buf));
 	if (!ft_strcmp(curr->cmd_args[0], "cd"))
 	{
+		if (chdir(curr->cmd_args[1]) < 0)
+			return (ft_error(1, data, "DIR error: "));
+		str = getcwd(NULL, sizeof(buf));
 		while (tmp)
 		{
-			if (chdir(curr->cmd_args[1]) < 0)
-				return (ft_error(1, data, "DIR error: "));
-			str = getcwd(NULL, sizeof(buf));
 			if (0 == ft_strcmp(tmp->key, "PWD")) // если нет PWD, надо ли создать?
 			{
 				// if (0 == ft_strncmp(curr->cmd_args[1], "../", 3)) // путь относительный
