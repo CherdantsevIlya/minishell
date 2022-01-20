@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 16:45:11 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/18 16:12:11 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/20 18:50:56 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ void	ft_lst_clear(t_env **lst)
 	*lst = NULL;
 }
 
-void	array_clear(char **array)
+void	ft_array_clear(char **array)
 {
 	int	i;
 
@@ -169,7 +169,7 @@ void	ft_data_clear(t_data *data)
 		else
 			printf("no data->envrmnt\n"); // delete
 		if (data->array_path != NULL)
-			array_clear(data->array_path);
+			ft_array_clear(data->array_path);
 		// free(data);
 	}
 	else

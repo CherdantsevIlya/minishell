@@ -6,7 +6,7 @@
 #    By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/05 18:35:44 by abridger          #+#    #+#              #
-#    Updated: 2022/01/19 21:19:15 by abridger         ###   ########.fr        #
+#    Updated: 2022/01/20 17:28:53 by abridger         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,8 @@ SRCS			=	minishell.c				\
 					ft_process.c			\
 					ft_create_array.c		\
 					ft_input_output_pipe.c	\
+					ft_builtin_1.c			\
+					ft_builtin_2.c			\
 					ft_read_line.c
 
 

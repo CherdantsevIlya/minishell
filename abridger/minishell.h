@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 18:45:00 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/19 23:11:25 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/20 22:34:04 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,10 @@
 # include <termios.h>
 # include <term.h>
 # include <string.h>
+
+typedef int	(*t_builtin)(t_data *data);
+enum	e_command {echo, cd, pwd, export, unset, exit, env};
+
 
 typedef struct s_env
 {
@@ -68,23 +72,23 @@ typedef struct s_data
 	int				save_out; // для сохранения дескриптора 1
 }					t_data;
 
-int		ft_strlen(char *str);
-int		ft_strcmp(const char *s1, const char *s2);
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
-char	*ft_strdup(const char *s1);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
-void	*ft_memcpy(void *dst, const void *src, size_t n);
-char	*ft_strjoin(char const *s1, char const *s2);
-char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
-char	**ft_split(char const *s, char c);
+int			ft_strlen(char *str);
+int			ft_strcmp(const char *s1, const char *s2);
+int			ft_strncmp(const char *s1, const char *s2, size_t n);
+char		*ft_strdup(const char *s1);
+char		*ft_substr(char const *s, unsigned int start, size_t len);
+void		*ft_memcpy(void *dst, const void *src, size_t n);
+char		*ft_strjoin(char const *s1, char const *s2);
+char		*ft_strnstr(const char *haystack, const char *needle, size_t len);
+char		**ft_split(char const *s, char c);
 
-t_env	*ft_lstnew(const char *line);
-t_env	*ft_lstlast(t_env *lst);
-void	ft_lstadd_back(t_env **lst, t_env *new);
-int		ft_len_key(char *str);
-int		ft_len_value(char *str);
-t_env	*parse_envrmnt(t_env *lst, char **envp);
-void	ft_lst_clear(t_env **lst);
+t_env		*ft_lstnew(const char *line);
+t_env		*ft_lstlast(t_env *lst);
+void		ft_lstadd_back(t_env **lst, t_env *new);
+int			ft_len_key(char *str);
+int			ft_len_value(char *str);
+t_env		*parse_envrmnt(t_env *lst, char **envp);
+void		ft_lst_clear(t_env **lst);
 
 /* функции для создания массива переменных окружения
 ft_lstsize_env - считает сколько переменных содержит "="
@@ -94,21 +98,22 @@ ft_malloc_array_err(char **array, t_data *data, int check) - выделяет п
 **create_array_all - создает массив со всеми переменными окружения
 */
 
-int		ft_lstsize_env(t_data *data);
-int		ft_lstsize_all(t_data *data);
-int		ft_malloc_array_err(char ***array, t_data *data, int check);
-char	**create_array_env(t_data *data, char **array);
-char	**create_array_all(t_data *data, char **array);
+int			ft_lstsize_env(t_data *data);
+int			ft_lstsize_all(t_data *data);
+int			ft_malloc_array_err(char ***array, t_data *data, int check);
+char		**create_array_env(t_data *data, char **array);
+char		**create_array_all(t_data *data, char **array);
 
-int		ft_init_data(t_data *data, char **envp);
-void	ft_data_clear(t_data *data); // переписать, не работает
-int		ft_error(int errnum, t_data *data, char *str); // проверить c errno
-int		put_err_message(char *str);
-int		action(t_data *data, char **envp);
-char	**create_array_path(char **envp);
-int		create_fork(t_data *data, char **envp, char *str_path);
-int		ft_exec_in_child(t_data *data, char **envp);
-int		ft_read_exec(t_data *data, char **envp);
+int			ft_init_data(t_data *data, char **envp);
+void		ft_array_clear(char **array);
+void		ft_data_clear(t_data *data); // переписать, не работает
+int			ft_error(int errnum, t_data *data, char *str); // проверить c errno
+int			put_err_message(char *str);
+int			action(t_data *data, char **envp);
+char		**create_array_path(char **envp);
+int			create_fork(t_data *data, char **envp, char *str_path);
+int			ft_exec_in_child(t_data *data, char **envp);
+int			ft_read_exec(t_data *data, char **envp);
 
 /* функции для исполнения команд
 ft_init_saved_fd - инициализирует fd, которые надо сохранить
@@ -116,21 +121,31 @@ ft_try_input - открывает файловый дескриптор на ч�
 ft_try_output - открывает файловый дескриптор на запись, проверяет есть ли > редирект и имя файла за нми, если есть, то откроет файл на запись, либо выдаст ошибку
 ft_check_pipe - если есть пайп, откроет пайп
 ft_close_saved_fd - закрывает дескрипторы
-ft_execute - выполнение в цикле по командам
+ft_execute - выполнит одну команду
+ft_execution_cycle - выполнение в цикле по командам
 */
-void	ft_init_saved_fd(t_data *data);
-int		ft_try_input(t_data *data, t_cmd *curr);
-int		ft_try_output(t_data *data, t_cmd *curr);
-void	ft_check_pipe(t_data *data, t_cmd *curr);
-void	ft_close_saved_fd(t_data *data);
-void	ft_execute(t_data *data)ж
+void		ft_init_saved_fd(t_data *data);
+int			ft_try_input(t_data *data, t_cmd *curr);
+int			ft_try_output(t_data *data, t_cmd *curr);
+void		ft_check_pipe(t_data *data, t_cmd *curr);
+void		ft_close_saved_fd(t_data *data);
+t_builtin	*create_array_function(void);
+void		ft_execute(t_data *data, t_cmd *curr);
+void		ft_execution_cycle(t_data *data);
+int		ft_exec_echo(t_data *data, t_cmd *curr);
+int		ft_exec_cd(t_data *data, t_cmd *curr);
+int		ft_exec_pwd(t_data *data, t_cmd *curr);
+int		ft_exec_export(t_data *data, t_cmd *curr);
+int		ft_exec_unset(t_data *data, t_cmd *curr);
+int		ft_exec_exit(t_data *data, t_cmd *curr);
+int		ft_exec_env(t_data *data, t_cmd *curr);
 
 
 
 
 
-void	ft_test_readline(void); // delete
-void	ft_print_lsts(t_data *data); // delete для проверки печати переменных окружения из листов
-void	ft_print_array(t_data *data); // delete для проверки печати переменных окружения из массива
+void		ft_test_readline(void); // delete
+void		ft_print_lsts(t_data *data); // delete для проверки печати переменных окружения из листов
+void		ft_print_array(t_data *data); // delete для проверки печати переменных окружения из массива
 
 #endif
