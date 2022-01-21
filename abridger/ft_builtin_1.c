@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 16:43:39 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/20 23:21:04 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/21 19:33:28 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,27 @@ t_builtin	*create_array_function(void)
 
 int	ft_exec_echo(t_data *data, t_cmd *curr)
 {
-
+	if (!ft_strcmp(curr->cmd_args[0], "echo"))
+	{
+		if (!ft_strcmp(curr->cmd_args[1], "-n"))
+		{
+			write(1, curr->cmd_args[2], ft_strlen(curr->cmd_args[2]));
+			write(1, "\n", 1);
+		}
+		else
+			write(1, curr->cmd_args[1], ft_strlen(curr->cmd_args[1]));
+	}
+	return (0);
 }
 
 int	ft_exec_cd(t_data *data, t_cmd *curr)
 {
 	t_env	*tmp;
-	// char	*str1;
-	// char	*str2;
 	char	*buf;
 	char	*str;
 
 	tmp = data->shell_cmd;
 	buf = NULL;
-	str = getcwd(NULL, sizeof(buf));
 	if (!ft_strcmp(curr->cmd_args[0], "cd"))
 	{
 		if (chdir(curr->cmd_args[1]) < 0)
@@ -51,20 +58,10 @@ int	ft_exec_cd(t_data *data, t_cmd *curr)
 		str = getcwd(NULL, sizeof(buf));
 		while (tmp)
 		{
-			if (0 == ft_strcmp(tmp->key, "PWD")) // если нет PWD, надо ли создать?
+			if (0 == ft_strcmp(tmp->key, "PWD"))
 			{
-				// if (0 == ft_strncmp(curr->cmd_args[1], "../", 3)) // путь относительный
-				// 	str1 = ft_substr(curr->cmd_args[1], 2, ft_strlen(curr->cmd_args[1]) - 2);
-				// else if (0 == ft_strncmp(curr->cmd_args[1], "./", 2))// путь относительный
-				// 	str1 = ft_substr(curr->cmd_args[1], 1, ft_strlen(curr->cmd_args[1]) - 1);
-				// else
-				// 	str1 = ft_strjoin("/", curr->cmd_args[1]);// путь относительный, добавить для абсолютного пути
-				// str2 = ft_strjoin(tmp->value, str1);
 				free(tmp->value);
-				// free(str1);
-				// tmp->value = ft_strdup(str2);
-				// free(str2);
-				tmp->value = ft_strdup(str); // если получать из функции getcwd
+				tmp->value = ft_strdup(str);
 				free(str);
 			}
 			tmp = tmp->next;
@@ -75,60 +72,17 @@ int	ft_exec_cd(t_data *data, t_cmd *curr)
 
 int	ft_exec_pwd(t_data *data, t_cmd *curr)
 {
-	t_env	*tmp;
+	char	*str;
+	char	*buf;
 
-	tmp = data->shell_cmd;
+	(void) data;
+	buf = NULL;
+	str = getcwd(NULL, sizeof(buf));
 	if (!ft_strcmp(curr->cmd_args[0], "pwd"))
 	{
-		while (tmp)
-		{
-			if (0 == ft_strcmp(tmp->key, "PWD")) // если нет PWD, надо ли печатать ошибку?
-			{
-				write(STDIN_FILENO, tmp->value, ft_strlen(tmp->value));
-				write(STDIN_FILENO, "\n", 1);
-			}
-			tmp = tmp->next;
-		}
+		write(1, str, ft_strlen(str));
+		write(1, "\n", 1);
+		ft_str_clear(str);
 	}
-	return (0);
-}
-
-// int	ft_exec_pwd(t_data *data, t_cmd *curr)
-// {
-// 	char	*str;
-// 	char	*buf;
-
-// 	(void) data;
-// 	buf = NULL;
-// 	str = getcwd(NULL, sizeof(buf));
-// 	if (!ft_strcmp(curr->cmd_args[0], "pwd"))
-// 	{
-// 		write(STDIN_FILENO, str, ft_strlen(str));
-// 		write(STDIN_FILENO, "\n", 1);
-// 		free(str);
-// 	}
-// retutn (0);
-// }
-
-int	ft_exec_export(t_data *data, t_cmd *curr)
-{
-	int		size;
-	int		i;
-	char	**array;
-
-	size = ft_lstsize_all(data);
-	i = 0;
-	array = create_array_all(data, NULL); // добавить сортировку
-	if (data->envrmnt != NULL && !ft_strcmp(curr->cmd_args[0], "export"))
-	{
-		while (i < size)
-		{
-			write(STDIN_FILENO, "declare -x ", ft_strlen("declare -x "));
-			write(STDIN_FILENO, array[i], ft_strlen(array[i]));
-			write(STDIN_FILENO, "\n", 1);
-			i++;
-		}
-	}
-	ft_array_clear(array);
-	return (0);
+	retutn (0);
 }

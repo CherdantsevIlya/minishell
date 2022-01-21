@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 16:45:11 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/20 18:50:56 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/21 17:04:04 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,4 +175,11 @@ void	ft_data_clear(t_data *data)
 	else
 		printf("no data\n"); // delete
 	data = NULL;
+}
+
+void	ft_str_clear(char **str)
+{
+	if (*str)
+		free(*str);
+	*str = NULL;
 }

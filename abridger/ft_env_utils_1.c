@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env_utils.c                                     :+:      :+:    :+:   */
+/*   ft_env_utils_1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 15:46:39 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/18 17:25:59 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/21 17:16:29 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ t_env	*ft_lstnew(const char *line)
 		return (NULL);
 	else
 	{
-		// new->line = ft_strdup(line);
 		new->key = ft_substr(line, 0, len_key);
 		if (ft_strlen((char *)line) - len_key >= 1)
 			new->sep = ft_substr(line, len_key, 1);
@@ -67,6 +66,7 @@ t_env	*parse_envrmnt(t_env *lst, char **envp)
 	t_env	*tmp;
 
 	i = 0;
+	tmp = NULL;
 	// (void) data;
 	// data->envrmnt = NULL;
 	// lst = data->envrmnt;
