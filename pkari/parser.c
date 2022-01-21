@@ -1,20 +1,39 @@
 #include "minishell.h"
 
-static int is_token(t_shell *msh, int *i)
+t_info *add_new_info(void)
 {
-	if (msh->str[*i] == '|')
-		return (gfhdf);
-	else if (msh->str[*i] == '>')
+	t_info *tmp;
+
+	tmp = (t_info *)malloc(sizeof(t_info));
+	if (!tmp)
+		return (NULL);
+	tmp->token = 0;
+	tmp->argc = 0;
+	tmp->argv = NULL;
+	tmp->output_file = NULL;
+	tmp->fd_output_file = 0;
+	tmp->input_file = NULL;
+	tmp->fd_input_file = 0;
+	tmp->error = 0;
+	tmp->prev = tmp;
+	tmp->next = NULL;
+	return (tmp);
+}
+
+void add_info(t_shell *msh)
+{
+	t_info *new;
+	t_info *last;
+
+	if (msh->info == NULL)
+		msh->info = add_new_info();
+	else
 	{
-		if (msh->str[*i + 1] == '>')
-			return(dfdhdfg);
-		return (ddghdh);
-	}
-	else if (msh->str[*i] == '<')
-	{
-		if (msh->str[*i + 1] == '<')
-			return(dfdhdfg);
-		return (ddghdh);
+		prev = msh->info->prev;
+		new = add_new_info();
+		msh->info->next = new;
+		msh->info = msh->info->next;
+		msh->info->prev = prev;
 	}
 }
 
@@ -27,9 +46,21 @@ static int minishell_parser(t_shell *msh, int *i)
 	else if (msh->str[*i] == '$')
 		return (dollar(msh, i));
 	else if (msh->str[*i] == ' ' || msh->str[*i] == '\t' || msh->str[*i] == 0)
-		gfh;
-	else if (is_token(msh, i))
-		return (1);
+		return (token_space(msh, i));
+	else if (msh->str[*i] == '|')
+		return (token_pipe(msh, i));
+	else if (msh->str[*i] == '>')
+	{
+		if (msh->str[*i + 1] == '>')
+			return(token_redirects(msh, i, TOKEN_REDIRECT_OUTPUT2));
+		return (token_redirects(msh, i, TOKEN_REDIRECT_OUTPUT1));
+	}
+	else if (msh->str[*i] == '<')
+	{
+		if (msh->str[*i + 1] == '<')
+			return(token_redirects(msh, i, TOKEN_HEREDOC));
+		return (token_redirects(msh, i, TOKEN_REDIRECT_INPUT));
+	}
 	return (0);
 }
 
@@ -62,7 +93,7 @@ int parser(t_shell *msh)
 	i = 0;
 	if (minishell_pre_parser(msh))
 		return (0);
-//	add_list(); информация про токен и не только
+	add_info(msh);
 	while (msh->str)
 	{
 		if (minishell_parser(msh, &i))
