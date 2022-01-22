@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 20:56:15 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/19 23:16:35 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/22 23:03:33 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_try_input(t_data *data, t_cmd *curr)
 					unexpected token `newline'"));
 			else
 			{
-				data->fd_red[0] = open(curr->red_list, O_RDONLY); // ? add loop if more than 1 file
+				data->fd_red[0] = open(curr->red_list->name, O_RDONLY); // ? add loop if more than 1 file
 				if (data->fd_red[0] == -1)
 					return (ft_error(1, data, "Wrong file name: ")); // errno
 			}
@@ -61,7 +61,7 @@ int	ft_try_output(t_data *data, t_cmd *curr)
 					unexpected token `newline'"));
 			else
 			{
-				data->fd_red[1] = open(command->red_list, O_WRONLY | O_CREAT | O_TRUNC, 0666); // ? add loop if more than 1 file
+				data->fd_red[1] = open(curr->red_list->name, O_WRONLY | O_CREAT | O_TRUNC, 0666); // ? add loop if more than 1 file
 				if (data->fd_red[1] == -1)
 					return (ft_error(1, data, "Error file: ")); // errno
 			}
@@ -96,32 +96,3 @@ void	ft_close_saved_fd(t_data *data)
 	close(data->save_in);
 	close(data->save_out);
 }
-
-// int	ft_try_input(t_data *data)
-// {
-// 	t_cmd	*tmp;
-// 	int		check;
-
-// 	tmp = data->shell_cmd;
-// 	check = 0;
-// 	while (tmp && check == 0)
-// 	{
-// 		if (tmp->red_flag == 2)
-// 		{
-// 			check = 1;
-// 			if (!tmp->red_list)
-// 				return (put_err_message("syntax error near \
-// 					unexpected token `newline'"));
-// 			else
-// 			{
-// 				data->fd_red[0] = open(tmp->red_list, O_RDONLY); // ? add loop if more than 1 file
-// 				if (data->fd_red[0] == -1)
-// 					return (ft_error(1, data, "Wrong file name: ")); // errno
-// 			}
-// 		}
-// 		tmp = tmp->next;
-// 	}
-// 	if (check == 0)
-// 		data->fd_red[0] = dup(data->save_in);
-// 	return (0);
-// }

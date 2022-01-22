@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_builtin_1.c                                     :+:      :+:    :+:   */
+/*   ft_echo_cd_pwd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 16:43:39 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/21 19:33:28 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/22 20:00:51 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,19 @@ t_builtin	*create_array_function(void)
 
 	array_func = NULL;
 	array_func = (t_builtin *)malloc(sizeof(7));
-	(array_func)[echo] = &ft_exec_echo;
-	(array_func)[cd] = &ft_exec_cd;
-	(array_func)[pwd] = &ft_exec_pwd;
-	(array_func)[export] = &ft_exec_export;
-	(array_func)[unset] = &ft_exec_unset;
-	(array_func)[exit] = &ft_exec_exit;
-	(array_func)[env] = &ft_exec_env;
+	(array_func)[0] = &ft_exec_echo;
+	(array_func)[1] = &ft_exec_cd;
+	(array_func)[2] = &ft_exec_pwd;
+	(array_func)[3] = &ft_exec_export;
+	(array_func)[4] = &ft_exec_unset;
+	(array_func)[5] = &ft_exec_exit;
+	(array_func)[6] = &ft_exec_env;
 	return (array_func);
 }
 
 int	ft_exec_echo(t_data *data, t_cmd *curr)
 {
+	(void) data;
 	if (!ft_strcmp(curr->cmd_args[0], "echo"))
 	{
 		if (!ft_strcmp(curr->cmd_args[1], "-n"))
@@ -49,7 +50,7 @@ int	ft_exec_cd(t_data *data, t_cmd *curr)
 	char	*buf;
 	char	*str;
 
-	tmp = data->shell_cmd;
+	tmp = data->envrmnt;
 	buf = NULL;
 	if (!ft_strcmp(curr->cmd_args[0], "cd"))
 	{
@@ -82,7 +83,7 @@ int	ft_exec_pwd(t_data *data, t_cmd *curr)
 	{
 		write(1, str, ft_strlen(str));
 		write(1, "\n", 1);
-		ft_str_clear(str);
+		ft_str_clear(&str);
 	}
-	retutn (0);
+	return (0);
 }

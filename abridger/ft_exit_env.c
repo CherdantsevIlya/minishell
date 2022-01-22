@@ -1,36 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_builtin_2.c                                     :+:      :+:    :+:   */
+/*   ft_exit_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 17:23:47 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/21 20:48:33 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/22 23:14:49 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_exec_export(t_data *data, t_cmd *curr)
+int	ft_exec_exit(t_data *data, t_cmd *curr)
+{
+	(void) data;
+	if (!ft_strcmp(curr->cmd_args[0], "exit"))
+	{
+		write(1, curr->cmd_args[0], ft_strlen(curr->cmd_args[0]));
+		exit(0); //?
+	}
+	return (0);
+}
+
+int	ft_exec_env(t_data *data, t_cmd *curr)
 {
 	int		i;
 	int		size;
-	int		height;
 	char	**array;
 
 	i = 0;
-	size = ft_lstsize_all(data);
-	height = ft_height_array(curr->cmd_args);
-	if (!ft_strcmp(curr->cmd_args[0], "export")) // or number
+	size = ft_lstsize_env(data);
+	if (!ft_strcmp(curr->cmd_args[0], "envp")) // or number
 	{
-		ft_add_variable(curr, data, height);
-		if (data->envrmnt != NULL && height == 0)
+		if (data->envrmnt != NULL)
 		{
-			array = create_array_all(data, NULL); // добавить сортировку
+			array = create_array_env(data, NULL);
 			while (i < size)
 			{
-				write(1, "declare -x ", ft_strlen("declare -x "));
 				write(1, array[i], ft_strlen(array[i]));
 				write(1, "\n", 1);
 				i++;
@@ -39,14 +46,4 @@ int	ft_exec_export(t_data *data, t_cmd *curr)
 		}
 	}
 	return (0);
-}
-
-int	ft_exec_exit(t_data *data, t_cmd *curr)
-{
-
-}
-
-int	ft_exec_env(t_data *data, t_cmd *curr)
-{
-
 }

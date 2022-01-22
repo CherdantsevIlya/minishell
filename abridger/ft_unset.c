@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_builtin_3.c                                     :+:      :+:    :+:   */
+/*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 20:46:58 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/21 22:38:34 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/22 22:50:55 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,25 +31,30 @@ int	ft_err_unset(t_data *data, char *str)
 	return (0);
 }
 
-void	ft_del_lst(char *str, t_data *data)// неверно, переделать на двусвязный список
+void	ft_del_lst(char *str, t_data *data)
 {
-	// t_env	*tmp;
-	// t_env	*envrmnt;
+	t_env	*tmp;
+	t_env	*envrmnt;
+	t_env	*previous;
 
-	// tmp = NULL;
-	// envrmnt = data->envrmnt;
-	// while (envrmnt->next)
-	// {
-	// 	if (!ft_strcmp(envrmnt->next->key, str))
-	// 	{
-	// 		tmp = envrmnt->next;
-	// 		ft_str_clear(envrmnt->key);
-	// 		ft_str_clear(envrmnt->sep);
-	// 		ft_str_clear(envrmnt->value);
-	// 		free(envrmnt);
-	// 		envrmnt = tmp;
-	// 	}
-	// }
+	tmp = NULL;
+	previous = NULL;
+	envrmnt = data->envrmnt;
+	while (envrmnt)
+	{
+		if (!ft_strcmp(envrmnt->next->key, str))
+		{
+			tmp = envrmnt;
+			previous = envrmnt->prev;
+			ft_str_clear(&envrmnt->key);
+			ft_str_clear(&envrmnt->sep);
+			ft_str_clear(&envrmnt->value);
+			envrmnt = envrmnt->next;
+			free(tmp);
+			if (envrmnt->prev)
+				envrmnt->prev = previous;
+		}
+	}
 }
 
 int	ft_exec_unset(t_data *data, t_cmd *curr)

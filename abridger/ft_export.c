@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env_utils_2.c                                   :+:      :+:    :+:   */
+/*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 17:15:16 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/21 18:30:04 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/22 19:46:58 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	ft_lst_change_value(t_env *lst, const char *line)
 {
 	int		len_key;
 	int		len_value;
-	char	*value;
 	char	*key;
 	int		done;
 
@@ -55,7 +54,7 @@ void	ft_lst_change_value(t_env *lst, const char *line)
 	{
 		if (!ft_strcmp(key, lst->key))
 		{
-			ft_str_clear(lst->value);
+			ft_str_clear(&lst->value);
 			if (len_value > 0)
 				lst->value = ft_substr(line, len_key + 1, len_value);
 			else
@@ -64,7 +63,7 @@ void	ft_lst_change_value(t_env *lst, const char *line)
 		}
 		lst = lst->next;
 	}
-	ft_str_clear(key);
+	ft_str_clear(&key);
 }
 
 void	ft_add_variable(t_cmd *curr, t_data *data, int height)
@@ -90,7 +89,7 @@ void	ft_add_variable(t_cmd *curr, t_data *data, int height)
 				ft_lstadd_back(&env, new);
 			}
 			else if (check == 1)
-				ft_lst_change_value(&env, curr->cmd_args[i]);
+				ft_lst_change_value(env, curr->cmd_args[i]);
 			i++;
 		}
 	}
@@ -104,4 +103,33 @@ int	ft_height_array(char **array)
 	while (array[i])
 		i++;
 	return (i);
+}
+
+int	ft_exec_export(t_data *data, t_cmd *curr)
+{
+	int		i;
+	int		size;
+	int		height;
+	char	**array;
+
+	i = 0;
+	size = ft_lstsize_all(data);
+	height = ft_height_array(curr->cmd_args);
+	if (!ft_strcmp(curr->cmd_args[0], "export")) // or number
+	{
+		ft_add_variable(curr, data, height);
+		if (data->envrmnt != NULL && height == 0)
+		{
+			array = create_array_all(data, NULL); // добавить сортировку
+			while (i < size)
+			{
+				write(1, "declare -x ", ft_strlen("declare -x "));
+				write(1, array[i], ft_strlen(array[i]));
+				write(1, "\n", 1);
+				i++;
+			}
+			ft_array_clear(array);
+		}
+	}
+	return (0);
 }
