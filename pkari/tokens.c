@@ -3,7 +3,7 @@
 void token_handler(t_shell *msh, int *i)
 {
 	char **tmp;
-	int i;
+	int n;
 
 	if (msh->info->token == TOKEN_REDIRECT_INPUT)
 		redirect_input(msh, i);
@@ -14,7 +14,19 @@ void token_handler(t_shell *msh, int *i)
 		redirect_heredoc(msh, i);
 	else
 	{
-		// записать аргументы строки в массив и передать его в структуру t_info
+		n = 0;
+		tmp = (char **)malloc(sizeof(char *) * (msh->info->argc + 1));
+		msh->info->argc++;
+		while (n < msh->info->argc - 1)
+		{
+			tmp[n] = msh->info->argv[n];
+			n++;
+		}
+		if (msh->info->argv != NULL)
+			free(msh->info->argv);
+		tmp[n] = ft_substr(msh->str, 0, *i);
+		tmp[n + 1] = NULL;
+		msh->info->argv = tmp;
 	}
 }
 
@@ -33,7 +45,7 @@ int token_redirects(t_shell *msh, int *i, int token)
 		(*i)++;
 	if (msh->str[*i + 1] == 0 || msh->str[*i + 1] == '|'
 		|| msh->str[*i + 1] == '<' || msh->str[*i + 1] == '>')
-		return (ERROR());
+		return (syntax_error(msh, msh->str + *i + 1, 1));
 	if (msh->str[*i] != 0 && msh->str[*i + 1] != 0)
 		tmp = ft_strdup(msh->str + *i + 1);
 	(*i) = -1;
@@ -56,7 +68,7 @@ int token_pipe(t_shell *msh, int *i)
 		(*i)++;
 	if (msh->str[*i + 1] == 0 || msh->str[*i + 1] == '|'
 		|| msh->str[*i + 1] == '<' || msh->str[*i + 1] == '>')
-		return (ERROR());
+		return (syntax_error(msh, msh->str + *i + 1, 1));
 	if (msh->str[*i] != 0 && msh->str[*i + 1] != 0)
 		tmp = ft_strdup(msh->str + *i + 1);
 	(*i) = -1;

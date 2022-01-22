@@ -12,7 +12,7 @@ int single_quotes(t_shell *msh, int *i)
 		if (msh->str[*i] == '\'')
 			break ;
 	if (msh->str[*i] == 0)
-		return (ERROR());
+		return (syntax_error(msh, msh->str + *i, 1));
 	tmp = ft_substr(msh->str, 0, j);
 	tmp1 = ft_substr(msh->str, j + 1, *i - j - 1);
 	tmp2 = ft_strdup(msh->str + *i + 1);
@@ -40,7 +40,7 @@ int double_quotes(t_shell *msh, int *i)
 			dollar(msh, i);
 	}
 	if (msh->str[*i] == 0)
-		return (ERROR());
+		return (syntax_error(msh, msh->str + *i, 1));
 	tmp = ft_substr(msh->str, 0, j);
 	tmp1 = ft_substr(msh->str, j + 1, *i - j - 1);
 	tmp2 = ft_strdup(msh->str + *i + 1);

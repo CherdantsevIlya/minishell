@@ -10,8 +10,8 @@ void shlvl(t_shell *msh)
 	{
 		if (!tmp)
 		{
-			msh_lstadd_back(&tmp,
-						 msh_lstnew(ft_strdup("SHLVL"), ft_strdup("1")));
+			msh_lstadd_back(&tmp, msh_lstnew(ft_strdup("SHLVL"),ft_strdup
+			("1")));
 			break ;
 		}
 		else if (!(ft_strcmp("SHLVL", tmp->key)))
@@ -76,8 +76,9 @@ int main(int argc, char **argv, char **env)
 	{
 		msh.str = readline("\x1b[34mminishell$\x1b[0m ");
 		add_history(msh.str);
-		if (parser(&msh))
-			exec();
+		if (parser(&msh)) // parser part (pkari)
+			execute_next(); // builtin part (abridger)
+		free_all(&msh);
 	}
 }
 

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static int dollar_question(t_shell *msh, int *i, int j)
+int dollar_question(t_shell *msh, int *i, int j)
 {
 	char *tmp;
 	char *tmp1;
@@ -18,7 +18,7 @@ static int dollar_question(t_shell *msh, int *i, int j)
 	return (0);
 }
 
-static int dollar_ignore(t_shell *msh, int *i, int j)
+int dollar_ignore(t_shell *msh, int *i, int j)
 {
 	char *tmp;
 	char *tmp1;
@@ -32,7 +32,7 @@ static int dollar_ignore(t_shell *msh, int *i, int j)
 	return (0);
 }
 
-static int dollar_pass(t_shell *msh, int *i, int j)
+int dollar_pass(t_shell *msh, int *i, int j)
 {
 	char *tmp;
 	char *tmp1;
@@ -48,7 +48,7 @@ static int dollar_pass(t_shell *msh, int *i, int j)
 	return (0);
 }
 
-static int dollar_env(t_shell *msh, int *i, int j)
+int dollar_env(t_shell *msh, int *i, int j)
 {
 	char *tmp;
 	char *tmp1;

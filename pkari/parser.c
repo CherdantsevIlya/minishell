@@ -14,8 +14,10 @@ t_info *add_new_info(void)
 	tmp->fd_output_file = 0;
 	tmp->input_file = NULL;
 	tmp->fd_input_file = 0;
+	tmp->heredoc = NULL;
+	tmp->fd_heredoc = 0;
 	tmp->error = 0;
-	tmp->prev = tmp;
+	tmp->head = tmp;
 	tmp->next = NULL;
 	return (tmp);
 }
@@ -23,21 +25,21 @@ t_info *add_new_info(void)
 void add_info(t_shell *msh)
 {
 	t_info *new;
-	t_info *last;
+	t_info *head;
 
 	if (msh->info == NULL)
 		msh->info = add_new_info();
 	else
 	{
-		prev = msh->info->prev;
+		head = msh->info->head;
 		new = add_new_info();
 		msh->info->next = new;
 		msh->info = msh->info->next;
-		msh->info->prev = prev;
+		msh->info->head = head;
 	}
 }
 
-static int minishell_parser(t_shell *msh, int *i)
+int minishell_parser(t_shell *msh, int *i)
 {
 	if (msh->str[*i] == '\'')
 		return (single_quotes(msh, i));
@@ -64,7 +66,7 @@ static int minishell_parser(t_shell *msh, int *i)
 	return (0);
 }
 
-static int minishell_pre_parser(t_shell *msh)
+int minishell_pre_parser(t_shell *msh)
 {
 	int i;
 	char *new;
@@ -76,11 +78,15 @@ static int minishell_pre_parser(t_shell *msh)
 	if (msh->str[i] == '|')
 	{
 		if (msh->str[i] == msh->str[i + 1])
-			return (ERROR());
-		return (ERROR());
+			return (syntax_error(msh, msh->str + i, 2));
+		return (syntax_error(msh, msh->str + i, 1));
 	}
-	if (msh->str)
-		new = ft_strdup(msh->str + i);
+	if (!msh->str)
+	{
+		free(msh->str);
+		return (1);
+	}
+	new = ft_strdup(msh->str + i);
 	free(msh->str);
 	msh->str = new;
 	return (0);
