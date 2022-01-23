@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_echo_cd_pwd.c                                   :+:      :+:    :+:   */
+/*   ft_echo_pwd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 16:43:39 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/22 20:00:51 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/23 18:13:22 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,33 +40,6 @@ int	ft_exec_echo(t_data *data, t_cmd *curr)
 		}
 		else
 			write(1, curr->cmd_args[1], ft_strlen(curr->cmd_args[1]));
-	}
-	return (0);
-}
-
-int	ft_exec_cd(t_data *data, t_cmd *curr)
-{
-	t_env	*tmp;
-	char	*buf;
-	char	*str;
-
-	tmp = data->envrmnt;
-	buf = NULL;
-	if (!ft_strcmp(curr->cmd_args[0], "cd"))
-	{
-		if (chdir(curr->cmd_args[1]) < 0)
-			return (ft_error(1, data, "DIR error: "));
-		str = getcwd(NULL, sizeof(buf));
-		while (tmp)
-		{
-			if (0 == ft_strcmp(tmp->key, "PWD"))
-			{
-				free(tmp->value);
-				tmp->value = ft_strdup(str);
-				free(str);
-			}
-			tmp = tmp->next;
-		}
 	}
 	return (0);
 }

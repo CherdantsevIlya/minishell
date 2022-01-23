@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 18:45:00 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/22 23:23:59 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/23 18:47:10 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct s_data
 	int				fd_pipe[2]; // дескрипторы пайпа;
 	int				save_in; // для сохранения дескриптора 0
 	int				save_out; // для сохранения дескриптора 1
+	int				exit_status;
 }					t_data;
 
 typedef int	(*t_builtin)(t_data *, t_cmd *);
@@ -139,13 +140,19 @@ void		ft_close_saved_fd(t_data *data);
 
 //*** ft_exit_env.c ***//
 int			ft_exec_exit(t_data *data, t_cmd *curr);
+int			ft_wrong_path(t_data *data, char *str, int errnum);
 int			ft_exec_env(t_data *data, t_cmd *curr);
 
-//*** ft_echo_cd_pwd.c ***//
+//*** ft_echo_pwd.c ***//
 t_builtin	*create_array_function(void);
 int			ft_exec_echo(t_data *data, t_cmd *curr);
-int			ft_exec_cd(t_data *data, t_cmd *curr);
 int			ft_exec_pwd(t_data *data, t_cmd *curr);
+
+//*** ft_cd.c ***//
+int			ft_exec_cd(t_data *data, t_cmd *curr);
+void		ft_add_oldpwd_env(t_data *data, char *curr_pwd);
+void		ft_change_oldpwd_env(t_data *data, char *curr_pwd, int check);
+void		ft_change_pwd_env(t_data *data, char *curr_pwd, char *new_pwd);
 
 //*** ft_unset.c ***//
 int			ft_exec_unset(t_data *data, t_cmd *curr);
@@ -163,12 +170,14 @@ int			ft_height_array(char **array);
 
 int			ft_error(int errnum, t_data *data, char *str); // проверить c errno
 int			put_err_message(char *str);
+char		*ft_add_colon(char *s1, char *s2);
 
 //*** ft_clear.c ***//
 void		ft_data_clear(t_data *data); // переписать
 void		ft_array_clear(char **array);
 void		ft_lst_clear(t_env **lst);
 void		ft_str_clear(char **str);
+void		ft_twostr_clear(char **str1, char **str2);
 
 //*** ft_read_line.c (for testing) ***//
 void		ft_test_readline(void); // delete

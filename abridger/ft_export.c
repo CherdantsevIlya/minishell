@@ -6,11 +6,11 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 17:15:16 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/22 19:46:58 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/23 18:28:15 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h" // вспомогательные для export
+#include "minishell.h"
 
 int	ft_env_check(const char *line, t_env *tmp)
 {
@@ -124,7 +124,7 @@ int	ft_exec_export(t_data *data, t_cmd *curr)
 			while (i < size)
 			{
 				write(1, "declare -x ", ft_strlen("declare -x "));
-				write(1, array[i], ft_strlen(array[i]));
+				write(1, array[i], ft_strlen(array[i])); // добавить кавычки к значению
 				write(1, "\n", 1);
 				i++;
 			}

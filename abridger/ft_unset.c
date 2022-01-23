@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 20:46:58 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/22 22:50:55 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/23 20:07:37 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,25 @@
 int	ft_err_unset(t_data *data, char *str)
 {
 	int		i;
+	char	*part_str;
 	char	*err;
 
 	i = 0;
+	part_str = NULL;
 	err = NULL;
 	while (str[i] != '\0')
 	{
 		if (str[i] == 61)
 		{
-			err = ft_strjoin("unset: ", str);
-			return (ft_error(1, data, err)); // bash: unset: `SHLVL=2': not a valid identifier
+			data->exit_status = 127;
+			part_str = ft_strjoin("unset: `", str);
+			err = ft_strjoin(part_str, "': not a valid identifier");
+			ft_str_clear(&part_str);
+			write(STDERR_FILENO, err, ft_strlen(err));
+			write(STDERR_FILENO, "\n", 1);
+			ft_str_clear(&err);
+			// ft_data_clear(data);
+			return (1); // bash: unset: `SHLVL=2': not a valid identifier
 		}
 		i++;
 	}
@@ -51,8 +60,7 @@ void	ft_del_lst(char *str, t_data *data)
 			ft_str_clear(&envrmnt->value);
 			envrmnt = envrmnt->next;
 			free(tmp);
-			if (envrmnt->prev)
-				envrmnt->prev = previous;
+			envrmnt->prev = previous;
 		}
 	}
 }

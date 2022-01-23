@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 15:46:39 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/22 22:55:11 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/23 19:03:49 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,9 @@ t_env	*ft_lstlast(t_env *lst)
 
 void	ft_lstadd_back(t_env **lst, t_env *new)
 {
+	t_env	*last;
+
+	last = NULL;
 	if (!lst || !new)
 		return ;
 	if (!*lst)
@@ -58,8 +61,9 @@ void	ft_lstadd_back(t_env **lst, t_env *new)
 		*lst = new;
 		return ;
 	}
-	ft_lstlast(*lst)->next = new;
-	new->prev = (*lst);
+	last = ft_lstlast(*lst);
+	last->next = new;
+	last->next->prev = last;
 }
 
 t_env	*parse_envrmnt(t_env *lst, char **envp)

@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 15:32:20 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/22 19:48:29 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/23 20:07:48 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ft_error(int errnum, t_data *data, char *str) // errnum пока невер�
 {
 	char	*str_err;
 
-	(void) data;
+	data->exit_status = errnum;
 	str_err = strerror(errnum);
 	write(STDERR_FILENO, str, ft_strlen(str));
 	write(STDERR_FILENO, str_err, ft_strlen(str_err));
@@ -33,4 +33,28 @@ int	ft_error(int errnum, t_data *data, char *str) // errnum пока невер�
 	ft_str_clear(&str); // иногда строка может быть замалочена
 	ft_str_clear(&str_err);
 	return (1);
+}
+
+char	*ft_add_colon(char *s1, char *s2)
+{
+	char	*str1;
+	char	*str2;
+	char	*str3;
+
+	str1 = NULL;
+	str2 = NULL;
+	str3 = NULL;
+	if (s1)
+		str1 = ft_strjoin(s1, ": ");
+	if (s2)
+		str2 = ft_strjoin(s2, ": ");
+	else
+		return (str1);
+	if (s1 && s2)
+	{
+		str3 = ft_strjoin(str1, str2);
+		free(str1);
+		free(str2);
+	}
+	return (str3);
 }

@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 16:45:11 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/21 17:04:04 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/23 18:35:52 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,4 +182,14 @@ void	ft_str_clear(char **str)
 	if (*str)
 		free(*str);
 	*str = NULL;
+}
+
+void	ft_twostr_clear(char **str1, char **str2)
+{
+	if (*str1)
+		free(*str1);
+	*str1 = NULL;
+	if (*str2)
+		free(*str2);
+	*str2 = NULL;
 }
