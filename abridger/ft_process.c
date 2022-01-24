@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/14 20:09:03 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/14 23:38:03 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/24 18:03:49 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,20 @@ char	**create_array_path(char **envp)
 	return (ft_split(str, ':'));
 }
 
-int	create_fork(t_data *data, char **envp, char *str_path)
+int	create_fork(t_shell *data, char **envp, char *str_path)
 {
 	data->pid = fork();
 	if (data->pid == -1)
 		return (ft_error(3, data, "Fork error"));
 	else if (data->pid == 0)
 	{
-		if (execve(str_path, data->shell_cmd->cmd_args, envp) == -1)
+		if (execve(str_path, data->info->argv, envp) == -1)
 			return (ft_error(3, data, "Error execution"));
 	}
 	return (0);
 }
 
-int	ft_exec_in_child(t_data *data, char **envp)
+int	ft_exec_in_child(t_shell *data, char **envp)
 {
 	char	*str_path;
 	int		i;
@@ -53,7 +53,7 @@ int	ft_exec_in_child(t_data *data, char **envp)
 	{
 		str_path = ft_strjoin(data->array_path[i], "/");
 		tmp = str_path;
-		str_path = ft_strjoin(tmp, data->shell_cmd->cmd_args[0]);
+		str_path = ft_strjoin(tmp, data->info->argv[0]);
 		free(tmp);
 		if (access(str_path, 0) == 0)
 			check = 1;
@@ -64,7 +64,7 @@ int	ft_exec_in_child(t_data *data, char **envp)
 	return (create_fork(data, envp, str_path));
 }
 
-int	ft_read_exec(t_data *data, char **envp)
+int	ft_read_exec(t_shell *data, char **envp)
 {
 	int		status;
 	char	*input;
@@ -72,15 +72,15 @@ int	ft_read_exec(t_data *data, char **envp)
 
 	i = 0;
 	data->array_path = create_array_path(envp);
-	data->shell_cmd = (t_cmd *)malloc(sizeof(t_cmd)); // test
-	if (!data->shell_cmd) // test
+	data->info = (t_info *)malloc(sizeof(t_info)); // test
+	if (!data->info) // test
 		return (ft_error(1, data, "Malloc: ")); // test
 	while (i < 5) // change EOF
 	{
 		input = readline("Minishell$ : ");
 		add_history(input);
-		data->shell_cmd->cmd_args = ft_split(input, ' '); // test
-		data->shell_cmd->next = NULL; // test
+		data->info->argv = ft_split(input, ' '); // test
+		data->info->next = NULL; // test
 		++i;
 		if (input)
 			free(input);

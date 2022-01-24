@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 17:15:16 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/23 18:28:15 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/24 17:28:50 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	ft_lst_change_value(t_env *lst, const char *line)
 	ft_str_clear(&key);
 }
 
-void	ft_add_variable(t_cmd *curr, t_data *data, int height)
+void	ft_add_variable(t_info *curr, t_shell *data, int height)
 {
 	int		i;
 	int		check;
@@ -78,18 +78,18 @@ void	ft_add_variable(t_cmd *curr, t_data *data, int height)
 	new = NULL;
 	if (height > 0)
 	{
-		while (curr->cmd_args[i])
+		while (curr->argv[i])
 		{
-			tmp = data->envrmnt;
-			env = data->envrmnt;
-			check = ft_env_check(curr->cmd_args[i], tmp);
+			tmp = data->env;
+			env = data->env;
+			check = ft_env_check(curr->argv[i], tmp);
 			if (check == 0)
 			{
-				new = ft_lstnew(curr->cmd_args[i]);
+				new = ft_lstnew(curr->argv[i]);
 				ft_lstadd_back(&env, new);
 			}
 			else if (check == 1)
-				ft_lst_change_value(env, curr->cmd_args[i]);
+				ft_lst_change_value(env, curr->argv[i]);
 			i++;
 		}
 	}
@@ -105,7 +105,7 @@ int	ft_height_array(char **array)
 	return (i);
 }
 
-int	ft_exec_export(t_data *data, t_cmd *curr)
+int	ft_exec_export(t_shell *data, t_info *curr)
 {
 	int		i;
 	int		size;
@@ -114,11 +114,11 @@ int	ft_exec_export(t_data *data, t_cmd *curr)
 
 	i = 0;
 	size = ft_lstsize_all(data);
-	height = ft_height_array(curr->cmd_args);
-	if (!ft_strcmp(curr->cmd_args[0], "export")) // or number
+	height = ft_height_array(curr->argv);
+	if (!ft_strcmp(curr->argv[0], "export")) // or number
 	{
 		ft_add_variable(curr, data, height);
-		if (data->envrmnt != NULL && height == 0)
+		if (data->env != NULL && height == 0)
 		{
 			array = create_array_all(data, NULL); // добавить сортировку
 			while (i < size)

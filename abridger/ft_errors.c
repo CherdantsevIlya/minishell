@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 15:32:20 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/23 20:07:48 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/24 18:02:04 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	put_err_message(char *str)
 	return (1);
 }
 
-int	ft_error(int errnum, t_data *data, char *str) // errnum пока неверные в функциях
+int	ft_error(int errnum, t_shell *data, char *str) // errnum пока неверные в функциях
 {
 	char	*str_err;
 

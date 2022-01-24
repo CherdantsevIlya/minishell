@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:03:08 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/18 23:35:47 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/24 17:55:12 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,11 @@ void	ft_test_readline(void)
 	}
 }
 
-void	ft_print_lsts(t_data *data)
+void	ft_print_lsts(t_shell *data)
 {
 	t_env	*tmp;
 
-	tmp = data->envrmnt;
+	tmp = data->env;
 	if (tmp != NULL)
 	{
 		printf("\nPRINT LISTS\n");
@@ -65,7 +65,7 @@ void	ft_print_lsts(t_data *data)
 		printf("test");
 }
 
-void	ft_print_array(t_data *data)
+void	ft_print_array(t_shell *data)
 {
 	int		size;
 	int		i;
@@ -75,7 +75,7 @@ void	ft_print_array(t_data *data)
 	i = 0;
 	array = create_array_all(data, NULL);
 	printf("\n\n\nPRINT ARRAY\n");
-	if (data->envrmnt != NULL)
+	if (data->env != NULL)
 	{
 		while (i < size)
 		{

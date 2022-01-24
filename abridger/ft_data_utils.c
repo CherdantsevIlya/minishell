@@ -6,21 +6,21 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 15:01:41 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/22 22:57:12 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/24 17:37:07 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_init_data(t_data *data, char **envp)
+int	ft_init_data(t_shell *data, char **envp)
 {
 	t_env	*lst;
 
 	lst = NULL;
 	if (data)
 	{
-		data->envrmnt = parse_envrmnt(lst, envp);
-		data->shell_cmd = NULL;
+		data->env = parse_envrmnt(lst, envp);
+		data->info = NULL;
 		return (0);
 	}
 	return (0);

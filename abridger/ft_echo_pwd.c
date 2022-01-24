@@ -28,23 +28,23 @@ t_builtin	*create_array_function(void)
 	return (array_func);
 }
 
-int	ft_exec_echo(t_data *data, t_cmd *curr)
+int	ft_exec_echo(t_shell *data, t_info *curr)
 {
 	(void) data;
-	if (!ft_strcmp(curr->cmd_args[0], "echo"))
+	if (!ft_strcmp(curr->argv[0], "echo"))
 	{
-		if (!ft_strcmp(curr->cmd_args[1], "-n"))
+		if (!ft_strcmp(curr->argv[1], "-n"))
 		{
-			write(1, curr->cmd_args[2], ft_strlen(curr->cmd_args[2]));
+			write(1, curr->argv[2], ft_strlen(curr->argv[2]));
 			write(1, "\n", 1);
 		}
 		else
-			write(1, curr->cmd_args[1], ft_strlen(curr->cmd_args[1]));
+			write(1, curr->argv[1], ft_strlen(curr->argv[1]));
 	}
 	return (0);
 }
 
-int	ft_exec_pwd(t_data *data, t_cmd *curr)
+int	ft_exec_pwd(t_shell *data, t_info *curr)
 {
 	char	*str;
 	char	*buf;
@@ -52,7 +52,7 @@ int	ft_exec_pwd(t_data *data, t_cmd *curr)
 	(void) data;
 	buf = NULL;
 	str = getcwd(NULL, sizeof(buf));
-	if (!ft_strcmp(curr->cmd_args[0], "pwd"))
+	if (!ft_strcmp(curr->argv[0], "pwd"))
 	{
 		write(1, str, ft_strlen(str));
 		write(1, "\n", 1);

@@ -6,13 +6,13 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 20:46:58 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/23 20:07:37 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/24 17:26:04 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_err_unset(t_data *data, char *str)
+int	ft_err_unset(t_shell *data, char *str)
 {
 	int		i;
 	char	*part_str;
@@ -40,7 +40,7 @@ int	ft_err_unset(t_data *data, char *str)
 	return (0);
 }
 
-void	ft_del_lst(char *str, t_data *data)
+void	ft_del_lst(char *str, t_shell *data)
 {
 	t_env	*tmp;
 	t_env	*envrmnt;
@@ -48,7 +48,7 @@ void	ft_del_lst(char *str, t_data *data)
 
 	tmp = NULL;
 	previous = NULL;
-	envrmnt = data->envrmnt;
+	envrmnt = data->env;
 	while (envrmnt)
 	{
 		if (!ft_strcmp(envrmnt->next->key, str))
@@ -65,19 +65,19 @@ void	ft_del_lst(char *str, t_data *data)
 	}
 }
 
-int	ft_exec_unset(t_data *data, t_cmd *curr)
+int	ft_exec_unset(t_shell *data, t_info *curr)
 {
 	int		i;
 	int		height;
 
 	i = 1;
-	height = ft_height_array(curr->cmd_args);
-	if (!ft_strcmp(curr->cmd_args[0], "unset") && height > 0)
+	height = ft_height_array(curr->argv);
+	if (!ft_strcmp(curr->argv[0], "unset") && height > 0)
 	{
-		while (curr->cmd_args[i])
+		while (curr->argv[i])
 		{
-			if (!ft_err_unset(data, curr->cmd_args[i]))
-				ft_del_lst(curr->cmd_args[i], data);
+			if (!ft_err_unset(data, curr->argv[i]))
+				ft_del_lst(curr->argv[i], data);
 			i++;
 		}
 	}

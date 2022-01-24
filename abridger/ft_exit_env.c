@@ -6,28 +6,29 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 17:23:47 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/23 19:51:35 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/24 17:15:15 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_exec_exit(t_data *data, t_cmd *curr)
+int	ft_exec_exit(t_shell *data, t_info *curr)
 {
 	(void) data;
-	if (!ft_strcmp(curr->cmd_args[0], "exit"))
+	if (!ft_strcmp(curr->argv[0], "exit"))
 	{
-		write(1, curr->cmd_args[0], ft_strlen(curr->cmd_args[0]));
-		exit(0); //?
+		write(1, curr->argv[0], ft_strlen(curr->argv[0]));
+		data->exit_status = 0;
+		exit(data->exit_status);
 	}
 	return (0);
 }
 
-int	ft_wrong_path(t_data *data, char *str, int errnum)
+int	ft_wrong_path(t_shell *data, char *str, int errnum)
 {
 	t_env	*curr;
 
-	curr = data->envrmnt;
+	curr = data->env;
 	while (curr)
 	{
 		if (!ft_strcmp(curr->key, "PATH"))
@@ -37,7 +38,7 @@ int	ft_wrong_path(t_data *data, char *str, int errnum)
 	return (ft_error(errnum, data, str));
 }
 
-int	ft_exec_env(t_data *data, t_cmd *curr)
+int	ft_exec_env(t_shell *data, t_info *curr)
 {
 	int		i;
 	int		size;
@@ -45,9 +46,9 @@ int	ft_exec_env(t_data *data, t_cmd *curr)
 
 	i = 0;
 	size = ft_lstsize_env(data);
-	if (!ft_strcmp(curr->cmd_args[0], "env")) // or number
+	if (!ft_strcmp(curr->argv[0], "env")) // or number
 	{
-		if (data->envrmnt != NULL && !ft_wrong_path(data, "env: ", 2)) // 2 - ENOENT- No such file or directory
+		if (data->env != NULL && !ft_wrong_path(data, "env: ", 2)) // 2 - ENOENT- No such file or directory
 		{
 			array = create_array_env(data, NULL);
 			while (i < size)

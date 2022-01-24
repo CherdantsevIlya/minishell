@@ -6,18 +6,18 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 16:22:54 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/18 23:20:01 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/24 17:35:06 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_lstsize_env(t_data *data)
+int	ft_lstsize_env(t_shell *data)
 {
 	int		length;
 	t_env	*lst;
 
-	lst = data->envrmnt;
+	lst = data->env;
 	if (!lst)
 		return (0);
 	length = 1;
@@ -30,12 +30,12 @@ int	ft_lstsize_env(t_data *data)
 	return (length);
 }
 
-int	ft_lstsize_all(t_data *data)
+int	ft_lstsize_all(t_shell *data)
 {
 	int		length;
 	t_env	*lst;
 
-	lst = data->envrmnt;
+	lst = data->env;
 	if (!lst)
 		return (0);
 	length = 1;
@@ -47,7 +47,7 @@ int	ft_lstsize_all(t_data *data)
 	return (length);
 }
 
-int	ft_malloc_array_err(char ***array, t_data *data, int check)
+int	ft_malloc_array_err(char ***array, t_shell *data, int check)
 {
 	int		length;
 
@@ -61,14 +61,14 @@ int	ft_malloc_array_err(char ***array, t_data *data, int check)
 	return (0);
 }
 
-char	**create_array_env(t_data *data, char **array)
+char	**create_array_env(t_shell *data, char **array)
 {
 	char	*tmp;
 	t_env	*lst;
 	int		i;
 
 	i = 0;
-	lst = data->envrmnt;
+	lst = data->env;
 	if (ft_malloc_array_err(&array, data, 1) == 0)
 	{
 		while (i < ft_lstsize_env(data))
@@ -89,14 +89,14 @@ char	**create_array_env(t_data *data, char **array)
 	return (array);
 }
 
-char	**create_array_all(t_data *data, char **array)
+char	**create_array_all(t_shell *data, char **array)
 {
 	char	*tmp;
 	t_env	*lst;
 	int		i;
 
 	i = 0;
-	lst = data->envrmnt;
+	lst = data->env;
 	if (ft_malloc_array_err(&array, data, 2) == 0)
 	{
 		while (i < ft_lstsize_all(data))

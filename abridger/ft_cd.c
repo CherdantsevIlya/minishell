@@ -6,19 +6,19 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/23 18:12:43 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/23 19:51:00 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/24 17:23:05 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_add_oldpwd_env(t_data *data, char *curr_pwd)
+void	ft_add_oldpwd_env(t_shell *data, char *curr_pwd)
 {
 	t_env	*tmp;
 	t_env	*new;
 	char	*str;
 
-	tmp = data->envrmnt;
+	tmp = data->env;
 	str = ft_strjoin("OLDPWD=", curr_pwd);
 	new = ft_lstnew(str);
 	ft_lstadd_back(&tmp, new);
@@ -26,11 +26,11 @@ void	ft_add_oldpwd_env(t_data *data, char *curr_pwd)
 	ft_str_clear(&str);
 }
 
-void	ft_change_oldpwd_env(t_data *data, char *curr_pwd, int check)
+void	ft_change_oldpwd_env(t_shell *data, char *curr_pwd, int check)
 {
 	t_env	*tmp;
 
-	tmp = data->envrmnt;
+	tmp = data->env;
 	if (check == 1)
 	{
 		while (tmp)
@@ -48,12 +48,12 @@ void	ft_change_oldpwd_env(t_data *data, char *curr_pwd, int check)
 	}
 }
 
-void	ft_change_pwd_env(t_data *data, char *curr_pwd, char *new_pwd)
+void	ft_change_pwd_env(t_shell *data, char *curr_pwd, char *new_pwd)
 {
 	t_env	*tmp;
 	int		check;
 
-	tmp = data->envrmnt;
+	tmp = data->env;
 	check = 0;
 	while (tmp && check == 0)
 	{
@@ -70,7 +70,7 @@ void	ft_change_pwd_env(t_data *data, char *curr_pwd, char *new_pwd)
 		ft_change_oldpwd_env(data, curr_pwd, check);
 }
 
-int	ft_exec_cd(t_data *data, t_cmd *curr)
+int	ft_exec_cd(t_shell *data, t_info *curr)
 {
 	char	*buf1;
 	char	*buf2;
@@ -80,12 +80,12 @@ int	ft_exec_cd(t_data *data, t_cmd *curr)
 
 	buf1 = NULL;
 	buf2 = NULL;
-	height = ft_height_array(curr->cmd_args);
-	if (!ft_strcmp(curr->cmd_args[0], "cd") && height > 0)
+	height = ft_height_array(curr->argv);
+	if (!ft_strcmp(curr->argv[0], "cd") && height > 0)
 	{
 		curr_pwd = getcwd(NULL, sizeof(buf1));
-		if (chdir(curr->cmd_args[1]) < 0)
-			return (ft_error(2, data, ft_add_colon("cd", curr->cmd_args[1])));
+		if (chdir(curr->argv[1]) < 0)
+			return (ft_error(2, data, ft_add_colon("cd", curr->argv[1])));
 		new_pwd = getcwd(NULL, sizeof(buf2));
 		ft_change_pwd_env(data, curr_pwd, new_pwd);
 	}
