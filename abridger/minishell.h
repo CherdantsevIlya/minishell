@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 18:45:00 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/25 20:26:33 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/25 21:51:54 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ t_env		*parse_envrmnt(t_env *lst, char **envp);
 
 //*** ft_action.c ***//
 int			action(t_shell *data, char **envp); // for testing envp delete
+void		ft_simple_execute(t_shell *data, t_info *curr, t_builtin *func);
 void		ft_execute(t_shell *data, t_info *curr, t_builtin *func);
 void		ft_execution_cycle(t_shell *data);
 
