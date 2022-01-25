@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 void shlvl(t_shell *msh)
 {
@@ -61,6 +61,7 @@ void create_env(t_shell *msh, char **env)
 void init_shell(t_shell *msh)
 {
 	msh->env = NULL;
+	msh->info = NULL;
 	msh->exit_status = 0;
 	msh->have_a_pipe = 0;
 }
@@ -69,15 +70,25 @@ int main(int argc, char **argv, char **env)
 {
 	t_shell msh;
 
+	(void)argv;
+	if (argc != 1)
+	{
+		write(1, "Error: wrong number of arguments\n", 33);
+		return (1);
+	}
 	init_shell(&msh);
 	create_env(&msh, env);
 	shlvl(&msh);
 	while (1)
 	{
-		msh.str = readline("\x1b[34mminishell$\x1b[0m ");
+		signal(SIGINT, ctrl_c);
+		signal(SIGQUIT, SIG_IGN);
+		msh.str = readline("\x1b[32mminishell$\x1b[0m ");
+		if (msh.str == NULL)
+			ctrl_d();
 		add_history(msh.str);
 		if (parser(&msh)) // parser part (pkari)
-			execute_next(); // builtin part (abridger)
+//			execute_next(); // builtin part (abridger)
 		free_all(&msh);
 	}
 }

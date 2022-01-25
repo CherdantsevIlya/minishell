@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 void token_handler(t_shell *msh, int *i)
 {
@@ -15,8 +15,8 @@ void token_handler(t_shell *msh, int *i)
 	else
 	{
 		n = 0;
-		tmp = (char **)malloc(sizeof(char *) * (msh->info->argc + 1));
 		msh->info->argc++;
+		tmp = (char **)malloc(sizeof(char *) * (msh->info->argc + 1));
 		while (n < msh->info->argc - 1)
 		{
 			tmp[n] = msh->info->argv[n];

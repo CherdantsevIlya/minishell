@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 int syntax_error(t_shell *msh, char *str, int len)
 {

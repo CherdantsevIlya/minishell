@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 t_info *add_new_info(void)
 {
@@ -11,11 +11,10 @@ t_info *add_new_info(void)
 	tmp->argc = 0;
 	tmp->argv = NULL;
 	tmp->output_file = NULL;
-	tmp->fd_output_file = 0;
+	tmp->fd_output_file = -2;
 	tmp->input_file = NULL;
-	tmp->fd_input_file = 0;
+	tmp->fd_input_file = -2;
 	tmp->heredoc = NULL;
-	tmp->fd_heredoc = 0;
 	tmp->error = 0;
 	tmp->head = tmp;
 	tmp->next = NULL;

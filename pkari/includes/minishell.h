@@ -5,12 +5,13 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <fcntl.h>
-#include <signal.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include "libft/libft.h"
+#include <signal.h>
+#include <errno.h>
+#include "../libft/libft.h"
 
 #define TOKEN_PIPE				1 // |
 #define TOKEN_REDIRECT_INPUT	2 // < (fd 0)
@@ -23,6 +24,7 @@ typedef struct s_env
 {
 	char			*key;
 	char			*val;
+	char 			*sep;
 	struct s_env	*next;
 	struct s_env	*prev;
 }					t_env;
@@ -30,6 +32,7 @@ typedef struct s_env
 typedef struct s_info
 {
 	int				token;
+	int				is_pipe;
 	int				argc;
 	char			**argv;
 	char			*output_file;
@@ -48,6 +51,8 @@ typedef struct	s_shell
 	t_info	*info;
 	t_env	*env;
 	char	*str;
+	int 	save_in; // fd
+	int		save_out; // fd
 	int		exit_status;
 	int 	have_a_pipe;
 }			t_shell;
@@ -87,17 +92,22 @@ void redirect_input(t_shell *msh, int *i);
 void redirect_output(t_shell *msh, int *i);
 void redirect_heredoc(t_shell *msh, int *i);
 
-//*** redirects.c ***//
+//*** signals.c ***//
+void ctrl_c(int signal);
+void ctrl_d(void);
+
+//*** lsts.c ***//
 void msh_lstadd_back(t_env **env, t_env *new);
 t_env *msh_lstlast(t_env *env);
 t_env *msh_lstnew(char *ket, char *val);
 
 //*** errors.c ***//
-int syntax_error(t_shell *msh, const char *error, int len);
+int syntax_error(t_shell *msh, char *str, int len);
 void errno_error(t_shell *msh);
 
-//*** errors.c ***//
+//*** utils.c ***//
 void free_all(t_shell *msh);
 
+void rl_replace_line(const char *text, int clear_undo);
 
 #endif

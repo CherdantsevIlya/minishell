@@ -1,11 +1,12 @@
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 void free_all(t_shell *msh)
 {
 	t_info *tmp;
 	int i;
 
-	msh->info = msh->info->head;
+	if (msh->info != NULL)
+		msh->info = msh->info->head;
 	while (msh->info)
 	{
 		i = 0;

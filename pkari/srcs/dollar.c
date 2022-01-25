@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 int dollar_question(t_shell *msh, int *i, int j)
 {
@@ -83,5 +83,6 @@ int dollar(t_shell *msh, int *i)
 		return (dollar_ignore(msh, i, j));
 	else
 		return (dollar_env(msh, i, j));
+	return (0);
 }
 

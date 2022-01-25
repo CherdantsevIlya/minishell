@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 void redirect_input(t_shell *msh, int *i)
 {
@@ -10,7 +10,7 @@ void redirect_input(t_shell *msh, int *i)
 			free(msh->info->input_file);
 			msh->info->input_file = NULL;
 		}
-		msh->info->input_file = ft_strdup(msh->str, 0 , *i);
+		msh->info->input_file = ft_substr(msh->str, 0, *i);
 		if (msh->info->input_file == NULL)
 			errno_error(msh);
 		msh->info->fd_input_file = open(msh->info->input_file, O_RDONLY, 0644);
@@ -30,7 +30,7 @@ void redirect_output(t_shell *msh, int *i)
 			free(msh->info->output_file);
 			msh->info->output_file = NULL;
 		}
-		msh->info->output_file = ft_strdup(msh->str, 0 , *i);
+		msh->info->output_file = ft_substr(msh->str, 0, *i);
 		if (msh->info->output_file == NULL)
 			errno_error(msh);
 		if (msh->info->token == TOKEN_REDIRECT_OUTPUT1)
@@ -55,7 +55,7 @@ void redirect_heredoc(t_shell *msh, int *i)
 		free(msh->info->heredoc);
 		msh->info->heredoc = NULL;
 	}
-	msh->info->heredoc = ft_strdup(msh->str, 0, *i);
+	msh->info->heredoc = ft_substr(msh->str, 0, *i);
 	if (msh->info->heredoc == NULL || pipe(msh->info->fd_heredoc) != 0)
 		errno_error(msh);
 	while (1)

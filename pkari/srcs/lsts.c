@@ -1,6 +1,6 @@
-#include "minishell.h"
+#include "../includes/minishell.h"
 
-t_env *msh_lstnew(char *ket, char *val)
+t_env *msh_lstnew(char *key, char *val)
 {
 	t_env *lst;
 

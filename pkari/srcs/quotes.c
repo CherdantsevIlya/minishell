@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 int single_quotes(t_shell *msh, int *i)
 {
