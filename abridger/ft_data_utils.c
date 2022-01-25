@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 15:01:41 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/24 17:37:07 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/25 19:00:09 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,20 @@ int	ft_len_value(char *str)
 	}
 	else
 		return (0);
+}
+
+int	ft_lstsize(t_info *lst)
+{
+	int	length;
+
+	if (!lst)
+		return (0);
+	length = 1;
+	while (lst->next)
+	{
+		length++;
+		lst = lst->next;
+	}
+	lst = lst->head;
+	return (length);
 }

@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 15:32:20 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/24 18:02:04 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/25 20:23:12 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,14 @@ char	*ft_add_colon(char *s1, char *s2)
 		free(str2);
 	}
 	return (str3);
+}
+
+char	*ft_colon(char *s1)
+{
+	char	*str1;
+
+	str1 = NULL;
+	if (s1)
+		str1 = ft_strjoin(s1, ": ");
+	return (str1);
 }
