@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:03:08 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/24 17:55:12 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/26 17:57:38 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,5 @@ void	ft_print_array(t_shell *data)
 			i++;
 		}
 	}
+	ft_array_clear(array);
 }

@@ -1,30 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_exit_env.c                                      :+:      :+:    :+:   */
+/*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/20 17:23:47 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/24 17:15:15 by abridger         ###   ########.fr       */
+/*   Created: 2022/01/26 21:31:17 by abridger          #+#    #+#             */
+/*   Updated: 2022/01/26 21:31:18 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_exec_exit(t_shell *data, t_info *curr)
-{
-	(void) data;
-	if (!ft_strcmp(curr->argv[0], "exit"))
-	{
-		write(1, curr->argv[0], ft_strlen(curr->argv[0]));
-		data->exit_status = 0;
-		exit(data->exit_status);
-	}
-	return (0);
-}
-
-int	ft_wrong_path(t_shell *data, char *str, int errnum)
+int	ft_wrong_path(t_shell *data, int errnum)
 {
 	t_env	*curr;
 
@@ -35,7 +23,7 @@ int	ft_wrong_path(t_shell *data, char *str, int errnum)
 			return (0);
 		curr = curr->next;
 	}
-	return (ft_error(errnum, data, str));
+	return (ft_error(errnum, data, ft_one_colon("env")));
 }
 
 int	ft_exec_env(t_shell *data, t_info *curr)
@@ -46,9 +34,9 @@ int	ft_exec_env(t_shell *data, t_info *curr)
 
 	i = 0;
 	size = ft_lstsize_env(data);
-	if (!ft_strcmp(curr->argv[0], "env")) // or number
+	if (curr->nb_cmd == 6)
 	{
-		if (data->env != NULL && !ft_wrong_path(data, "env: ", 2)) // 2 - ENOENT- No such file or directory
+		if (data->env != NULL && !ft_wrong_path(data, 2)) // 2 - ENOENT- No such file or directory
 		{
 			array = create_array_env(data, NULL);
 			while (i < size)

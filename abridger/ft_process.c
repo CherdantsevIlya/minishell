@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/14 20:09:03 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/25 20:25:09 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/26 23:38:54 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	**create_array_path(char **env_array)
 	return (ft_split(str, ':'));
 }
 
-int	ft_exec_in_child(t_shell *data, t_info *curr, char **env_array)
+int	ft_run_execve(t_shell *data, t_info *curr, char **env_array)
 {
 	char	*str_path;
 	int		i;
@@ -48,10 +48,24 @@ int	ft_exec_in_child(t_shell *data, t_info *curr, char **env_array)
 			check = 1;
 		i++;
 	}
-	ft_array_clear(&array_path);
+	ft_array_clear(array_path);
 	if (check == 0)
-		return (ft_error(2, data, ft_colon(curr->argv[0]))); //No such file or directory check errno
+		return (ft_no_path(data, curr, env_array));
+	return (ft_execve(data, curr, env_array, str_path));
+}
+
+int	ft_no_path(t_shell *data, t_info *curr, char **env_array)
+{
+	ft_array_clear(env_array);
+	return (ft_error(2, data, ft_one_colon(curr->argv[0]))); //No such file or directory check errno
+}
+
+int	ft_execve(t_shell *data, t_info *curr, char **env_array, char *str_path)
+{
 	if (execve(str_path, curr->argv, env_array) == -1)
-		return (ft_error(2, data, ft_colon(curr->argv[0])));// No such file or directory, а если еще были аргументы?
+	{
+		ft_array_clear(env_array);
+		return (ft_error(2, data, ft_one_colon(curr->argv[0])));// No such file or directory, а если еще были аргументы?
+	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 15:32:20 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/25 20:23:12 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/26 17:52:57 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ int	ft_error(int errnum, t_shell *data, char *str) // errnum пока невер
 	write(STDERR_FILENO, str, ft_strlen(str));
 	write(STDERR_FILENO, str_err, ft_strlen(str_err));
 	write(STDERR_FILENO, "\n", 1);
-	// ft_data_clear(data);
-	ft_str_clear(&str); // иногда строка может быть замалочена
+	ft_str_clear(&str);
 	ft_str_clear(&str_err);
+	ft_data_clear(data);
 	return (1);
 }
 
-char	*ft_add_colon(char *s1, char *s2)
+char	*ft_two_colon(char *s1, char *s2)
 {
 	char	*str1;
 	char	*str2;
@@ -59,7 +59,7 @@ char	*ft_add_colon(char *s1, char *s2)
 	return (str3);
 }
 
-char	*ft_colon(char *s1)
+char	*ft_one_colon(char *s1)
 {
 	char	*str1;
 

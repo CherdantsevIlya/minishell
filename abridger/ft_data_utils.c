@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 15:01:41 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/25 19:00:09 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/26 22:20:42 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	ft_init_data(t_shell *data, char **envp)
 	{
 		data->env = parse_envrmnt(lst, envp);
 		data->info = NULL;
+		data->str = NULL;
 		return (0);
 	}
 	return (0);
@@ -28,17 +29,14 @@ int	ft_init_data(t_shell *data, char **envp)
 
 int	ft_len_key(char *str)
 {
-	int	len;
 	int	i;
 
-	len = 0;
 	i = 0;
 	while (str[i] != '\0' && str[i] != 61)
 	{
 		i++;
-		len++;
 	}
-	return (len);
+	return (i);
 }
 
 int	ft_len_value(char *str)
@@ -76,4 +74,14 @@ int	ft_lstsize(t_info *lst)
 	}
 	lst = lst->head;
 	return (length);
+}
+
+int	ft_height_array(char **array)
+{
+	int	i;
+
+	i = 0;
+	while (array[i])
+		i++;
+	return (i);
 }

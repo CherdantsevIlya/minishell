@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 17:15:16 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/24 17:28:50 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/27 01:03:03 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	ft_lst_change_value(t_env *lst, const char *line)
 	ft_str_clear(&key);
 }
 
-void	ft_add_variable(t_info *curr, t_shell *data, int height)
+void	ft_add_variable(t_info *curr, t_shell *data)
 {
 	int		i;
 	int		check;
@@ -76,60 +76,59 @@ void	ft_add_variable(t_info *curr, t_shell *data, int height)
 
 	i = 1;
 	new = NULL;
-	if (height > 0)
+	while (curr->argv[i])
 	{
-		while (curr->argv[i])
+		tmp = data->env;
+		env = data->env;
+		check = ft_env_check(curr->argv[i], tmp);
+		if (check == 0)
 		{
-			tmp = data->env;
-			env = data->env;
-			check = ft_env_check(curr->argv[i], tmp);
-			if (check == 0)
-			{
-				new = ft_lstnew(curr->argv[i]);
-				ft_lstadd_back(&env, new);
-			}
-			else if (check == 1)
-				ft_lst_change_value(env, curr->argv[i]);
-			i++;
+			new = ft_lstnew(curr->argv[i]);
+			ft_lstadd_back(&env, new);
 		}
+		else if (check == 1)
+			ft_lst_change_value(env, curr->argv[i]);
+		i++;
 	}
 }
 
-int	ft_height_array(char **array)
+void	ft_print_export(t_shell *data, int height)
 {
-	int	i;
+	char	**array;
+	int		i;
+	int		size;
 
+	array = NULL;
 	i = 0;
-	while (array[i])
-		i++;
-	return (i);
+	size = ft_lstsize_all(data);
+	if (data->env != NULL && height == 0)
+	{
+		array = create_array_all(data, NULL); // добавить сортировку
+		while (i < size)
+		{
+			write(1, "declare -x ", ft_strlen("declare -x "));
+			write(1, array[i], ft_strlen(array[i]));
+			write(1, "\n", 1);
+			i++;
+		}
+		ft_array_clear(array);
+	}
 }
 
 int	ft_exec_export(t_shell *data, t_info *curr)
 {
-	int		i;
-	int		size;
 	int		height;
-	char	**array;
 
-	i = 0;
-	size = ft_lstsize_all(data);
 	height = ft_height_array(curr->argv);
-	if (!ft_strcmp(curr->argv[0], "export")) // or number
+	if (curr->nb_cmd == 3)
 	{
-		ft_add_variable(curr, data, height);
-		if (data->env != NULL && height == 0)
+		if (height > 0)
 		{
-			array = create_array_all(data, NULL); // добавить сортировку
-			while (i < size)
-			{
-				write(1, "declare -x ", ft_strlen("declare -x "));
-				write(1, array[i], ft_strlen(array[i])); // добавить кавычки к значению
-				write(1, "\n", 1);
-				i++;
-			}
-			ft_array_clear(array);
+			if (ft_check_key(curr->argv[1]) == 1)
+				return (ft_err_export(data, curr->argv[1]));
+			ft_add_variable(curr, data);
 		}
+		ft_print_export(data, height);
 	}
 	return (0);
 }

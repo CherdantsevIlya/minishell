@@ -6,7 +6,7 @@
 #    By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/05 18:35:44 by abridger          #+#    #+#              #
-#    Updated: 2022/01/25 18:57:18 by abridger         ###   ########.fr        #
+#    Updated: 2022/01/27 01:03:19 by abridger         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,10 +17,13 @@ HEADER			=	minishell.h
 SRCS			=	minishell.c				\
 					ft_strlen.c				\
 					ft_strcmp.c				\
+					ft_atoi.c				\
+					ft_isdigit.c			\
 					ft_str_utils.c			\
 					ft_split.c				\
 					ft_env_utils.c			\
 					ft_export.c				\
+					ft_export_utils.c		\
 					ft_clear.c				\
 					ft_data_utils.c			\
 					ft_errors.c				\
@@ -31,7 +34,8 @@ SRCS			=	minishell.c				\
 					ft_echo_pwd.c			\
 					ft_cd.c					\
 					ft_unset.c				\
-					ft_exit_env.c			\
+					ft_exit.c				\
+					ft_env.c				\
 					ft_read_line.c
 
 

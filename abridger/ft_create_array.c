@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 16:22:54 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/24 17:35:06 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/27 01:00:18 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ char	**create_array_env(t_shell *data, char **array)
 char	**create_array_all(t_shell *data, char **array)
 {
 	char	*tmp;
+	char	*str;
 	t_env	*lst;
 	int		i;
 
@@ -99,19 +100,19 @@ char	**create_array_all(t_shell *data, char **array)
 	lst = data->env;
 	if (ft_malloc_array_err(&array, data, 2) == 0)
 	{
-		while (i < ft_lstsize_all(data))
+		while (i++ < ft_lstsize_all(data))
 		{
+			str = ft_add_quotes(lst->value);
 			if (0 == ft_strcmp(lst->sep, "="))
 				tmp = ft_strjoin(lst->key, "=");
 			else
 				tmp = ft_strdup(lst->key);
 			if (lst->value)
-				array[i] = ft_strjoin(tmp, lst->value);
+				array[i] = ft_strjoin(tmp, str);
 			else
 				array[i] = ft_strdup(tmp);
-			free(tmp);
+			ft_twostr_clear(&tmp, &str);
 			lst = lst->next;
-			i++;
 		}
 	}
 	return (array);
