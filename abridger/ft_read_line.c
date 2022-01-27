@@ -6,19 +6,17 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:03:08 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/26 17:57:38 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/27 20:37:59 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
- // функции для тестирования
 void	ft_test_readline(void)
 {
 	char	*input;
 	int		size;
 	int		i;
-	// char	cwd[100];
 	char	*buf;
 
 	buf = NULL;

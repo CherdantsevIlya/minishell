@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 17:23:47 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/26 22:28:13 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/27 16:32:30 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,12 @@ int	ft_right_exit(t_shell *data, t_info *curr, int flag)
 		data->exit_status = ft_atoi(curr->argv[1]);
 	else if (flag == 2)
 		data->exit_status = 0;
-	write(1, curr->argv[0], ft_strlen(curr->argv[0]));
-	write(1, "\n", 1);
-	return (0); // or exit(data->exit_status)?
+	if (data->count == 1)
+	{
+		write(1, curr->argv[0], ft_strlen(curr->argv[0]));
+		write(1, "\n", 1);
+	}
+	return (0);
 }
 
 int	ft_exec_exit(t_shell *data, t_info *curr)
@@ -71,7 +74,7 @@ int	ft_exec_exit(t_shell *data, t_info *curr)
 	int	size;
 
 	size = ft_height_array(curr->argv);
-	if (curr->nb_cmd == 5 && data->count == 1)
+	if (curr->nb_cmd == 5)
 	{
 		if (size > 1)
 		{

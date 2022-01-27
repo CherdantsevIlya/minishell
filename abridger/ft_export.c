@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 17:15:16 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/27 01:03:03 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/27 16:00:03 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	ft_add_variable(t_info *curr, t_shell *data)
 	}
 }
 
-void	ft_print_export(t_shell *data, int height)
+void	ft_print_export(t_shell *data, t_info *curr, int height)
 {
 	char	**array;
 	int		i;
@@ -101,7 +101,7 @@ void	ft_print_export(t_shell *data, int height)
 	array = NULL;
 	i = 0;
 	size = ft_lstsize_all(data);
-	if (data->env != NULL && height == 0)
+	if (data->env != NULL && height == 0 && curr->is_pipe == 0)
 	{
 		array = create_array_all(data, NULL); // добавить сортировку
 		while (i < size)
@@ -120,7 +120,7 @@ int	ft_exec_export(t_shell *data, t_info *curr)
 	int		height;
 
 	height = ft_height_array(curr->argv);
-	if (curr->nb_cmd == 3)
+	if (curr->nb_cmd == 3 && curr->is_pipe == 0)
 	{
 		if (height > 0)
 		{
@@ -128,7 +128,7 @@ int	ft_exec_export(t_shell *data, t_info *curr)
 				return (ft_err_export(data, curr->argv[1]));
 			ft_add_variable(curr, data);
 		}
-		ft_print_export(data, height);
+		ft_print_export(data, curr, height);
 	}
 	return (0);
 }

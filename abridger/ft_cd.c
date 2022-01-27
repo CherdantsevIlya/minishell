@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/23 18:12:43 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/26 21:47:55 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/27 20:52:35 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,12 @@ int	ft_exec_cd(t_shell *data, t_info *curr)
 	buf1 = NULL;
 	buf2 = NULL;
 	height = ft_height_array(curr->argv);
-	if (curr->nb_cmd == 1 && height > 0 && !data->is_exit)
+	if (curr->nb_cmd == 1 && height > 0 && curr->is_pipe == 0 \
+		&& data->count == 1)
 	{
 		curr_pwd = getcwd(NULL, sizeof(buf1));
 		if (chdir(curr->argv[1]) < 0)
-			return (ft_error(2, data, ft_two_colon("cd", curr->argv[1])));
+			return (ft_error(data, ft_two_colon("cd", curr->argv[1])));
 		new_pwd = getcwd(NULL, sizeof(buf2));
 		ft_change_pwd_env(data, curr_pwd, new_pwd);
 	}

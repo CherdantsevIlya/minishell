@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 15:46:39 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/26 21:56:09 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/27 16:24:28 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,20 +80,4 @@ t_env	*parse_envrmnt(t_env *lst, char **envp)
 		i++;
 	}
 	return (lst);
-}
-
-void	ft_is_exit(t_shell *data)
-{
-	t_info	*tmp;
-
-	tmp = NULL;
-	if (data->info)
-		tmp = data->info;
-	data->is_exit = 0;
-	while (tmp)
-	{
-		if (tmp->nb_cmd == 5)
-			data->is_exit = 1;
-		tmp = tmp->next;
-	}
 }

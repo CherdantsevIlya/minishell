@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 16:22:54 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/27 01:00:18 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/27 20:26:35 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	ft_malloc_array_err(char ***array, t_shell *data, int check)
 		length = ft_lstsize_all(data);
 	*array = (char **)malloc(sizeof(char *) * length);
 	if (!array)
-		return (ft_error(1, data, "Malloc: "));
+		return (ft_error(data, ft_one_colon("malloc")));
 	return (0);
 }
 

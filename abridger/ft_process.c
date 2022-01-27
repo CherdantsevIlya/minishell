@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/14 20:09:03 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/26 23:38:54 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/27 20:37:23 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,12 @@ int	ft_run_execve(t_shell *data, t_info *curr, char **env_array)
 
 	i = 0;
 	check = 0;
+	tmp = NULL;
+	str_path = NULL;
 	array_path = create_array_path(env_array);
 	while (array_path[i] != NULL && check != 1)
 	{
-		str_path = ft_strjoin(array_path[i], "/");
-		tmp = str_path;
+		tmp = ft_strjoin(array_path[i], "/");
 		str_path = ft_strjoin(tmp, curr->argv[0]);
 		free(tmp);
 		if (access(str_path, 0) == 0)
@@ -57,7 +58,7 @@ int	ft_run_execve(t_shell *data, t_info *curr, char **env_array)
 int	ft_no_path(t_shell *data, t_info *curr, char **env_array)
 {
 	ft_array_clear(env_array);
-	return (ft_error(2, data, ft_one_colon(curr->argv[0]))); //No such file or directory check errno
+	return (ft_error(data, ft_one_colon(curr->argv[0])));
 }
 
 int	ft_execve(t_shell *data, t_info *curr, char **env_array, char *str_path)
@@ -65,7 +66,7 @@ int	ft_execve(t_shell *data, t_info *curr, char **env_array, char *str_path)
 	if (execve(str_path, curr->argv, env_array) == -1)
 	{
 		ft_array_clear(env_array);
-		return (ft_error(2, data, ft_one_colon(curr->argv[0])));// No such file or directory, а если еще были аргументы?
+		return (ft_error(data, ft_one_colon(curr->argv[0])));
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 20:46:58 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/26 23:27:58 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/27 20:40:05 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	ft_err_unset(t_shell *data, char *str)
 			write(STDERR_FILENO, err, ft_strlen(err));
 			write(STDERR_FILENO, "\n", 1);
 			ft_str_clear(&err);
-			return (1); // bash: unset: `SHLVL=2': not a valid identifier
+			return (127);
 		}
 		i++;
 	}
@@ -71,7 +71,7 @@ int	ft_exec_unset(t_shell *data, t_info *curr)
 
 	i = 1;
 	height = ft_height_array(curr->argv);
-	if (curr->nb_cmd == 4 && height > 0)
+	if (curr->nb_cmd == 4 && height > 0 && curr->is_pipe == 0)
 	{
 		while (curr->argv[i])
 		{

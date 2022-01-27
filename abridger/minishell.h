@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 18:45:00 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/27 01:15:02 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/27 20:43:51 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 # include <sys/wait.h>
-# include <sys/errno.h>
+# include <errno.h>
 # include <sys/ioctl.h>
 # include <signal.h>
 # include <termios.h>
@@ -51,7 +51,7 @@ typedef struct s_info
 	char			*heredoc;
 	int				fd_heredoc[2];
 	int				error;
-	int				nb_cmd; // номер builtin
+	int				nb_cmd;
 	struct s_info	*head;
 	struct s_info	*prev;
 	struct s_info	*next;
@@ -68,12 +68,10 @@ typedef struct s_shell
 	int		save_out;
 	int		fd_pipe[2];
 	int		pid;
-	int		count; // кол-во команд (листов в t_info)
-	int		is_exit; // если есть команда exit, то cd не выполняется
+	int		count;
 }			t_shell;
 
 typedef int	(*t_builtin)(t_shell *, t_info *);
-// enum	e_command {echo, cd, pwd, export, unset, exit, env}; // ругается на переопределение exit, изменила на индексы
 
 //*** libft ***//
 int			ft_strlen(char *str);
@@ -89,13 +87,7 @@ int			ft_isdigit(int c);
 int			ft_atoi(const char *str);
 
 //*** ft_create_array.c ***//
-/* функции для создания массива переменных окружения
-ft_lstsize_env - считает сколько переменных содержит "="
-ft_lstsize_all - считает сколько всего переменных окружения (сколько заполненных листов)
-ft_malloc_array_err(char **array, t_data *data, int check) - выделяет память и проверяет, выделилась ли
-**create_array_env - создает массив переменных (где есть "=")
-**create_array_all - создает массив со всеми переменными окружения (нужен для подачи в execve)
-*/
+
 int			ft_lstsize_env(t_shell *data);
 int			ft_lstsize_all(t_shell *data);
 int			ft_malloc_array_err(char ***array, t_shell *data, int check);
@@ -114,10 +106,9 @@ t_env		*ft_lstnew(const char *line);
 t_env		*ft_lstlast(t_env *lst);
 void		ft_lstadd_back(t_env **lst, t_env *new);
 t_env		*parse_envrmnt(t_env *lst, char **envp);
-void		ft_is_exit(t_shell *data);
 
 //*** ft_action.c ***//
-int			action(t_shell *data, char **envp); // for testing envp delete
+int			action(t_shell *data, char **envp); // for testing, rewrite
 void		ft_define_cmd(t_shell *data);
 int			ft_simple_execute(t_shell *data, t_info *curr, t_builtin *func);
 int			ft_execute(t_shell *data, t_info *curr, t_builtin *func);
@@ -127,7 +118,8 @@ void		ft_execution_cycle(t_shell *data);
 char		**create_array_path(char **env_array);
 int			ft_run_execve(t_shell *data, t_info *curr, char **env_array);
 int			ft_no_path(t_shell *data, t_info *curr, char **env_array);
-int			ft_execve(t_shell *data, t_info *curr, char **env_array, char *str_path);
+int			ft_execve(t_shell *data, t_info *curr, char **env_array, \
+				char *str_path);
 
 //*** ft_fd_redirect_pipe.c ***//
 
@@ -143,7 +135,7 @@ int			ft_right_exit(t_shell *data, t_info *curr, int flag);
 int			ft_exec_exit(t_shell *data, t_info *curr);
 
 //*** ft_env.c ***//
-int			ft_wrong_path(t_shell *data, int errnum);
+int			ft_wrong_path(t_shell *data);
 int			ft_exec_env(t_shell *data, t_info *curr);
 
 //*** ft_echo_pwd.c ***//
@@ -166,7 +158,7 @@ int			ft_exec_unset(t_shell *data, t_info *curr);
 int			ft_env_check(const char *line, t_env *tmp);
 void		ft_lst_change_value(t_env *lst, const char *line);
 void		ft_add_variable(t_info *curr, t_shell *data);
-void		ft_print_export(t_shell *data, int height);
+void		ft_print_export(t_shell *data, t_info *curr, int height);
 int			ft_exec_export(t_shell *data, t_info *curr);
 
 //*** ft_export_utils.c ***//
@@ -178,7 +170,7 @@ char		*ft_add_quotes(char *str);
 
 //*** ft_errors.c ***//
 int			put_err_message(char *str);
-int			ft_error(int errnum, t_shell *data, char *str);
+int			ft_error(t_shell *data, char *str);
 char		*ft_two_colon(char *s1, char *s2);
 char		*ft_one_colon(char *s1);
 

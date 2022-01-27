@@ -6,24 +6,23 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 16:29:06 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/27 01:15:31 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/27 20:28:24 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	action(t_shell *data, char **envp) // for testing envp delete
+int	action(t_shell *data, char **envp) // for testing
 {
 	data = (t_shell *)malloc(sizeof(t_shell));
 	if (!data)
-		return (ft_error(1, NULL, "Malloc: "));
+		return (ft_error(NULL, "Malloc: "));
 	else
 	{
 		ft_init_data(data, envp);
 		// ft_define_cmd(data); // after parser
-		// ft_is_exit(data);
 		// ft_execution_cycle(data);
-		// ft_read_exec(data, envp);
+		// ft_read_exec(data, envp); // test
 		// ft_test_readline(); // test
 		ft_print_array(data); // test
 		// ft_print_lsts(data); // test
@@ -75,7 +74,7 @@ int	ft_simple_execute(t_shell *data, t_info *curr, t_builtin *func)
 		{
 			data->pid = fork();
 			if (data->pid == -1)
-				return (ft_error(10, data, "Fork error"));
+				return (ft_error(data, ft_one_colon("fork")));
 			else if (data->pid == 0)
 			{
 				env_array = create_array_env(data, NULL);
@@ -96,7 +95,7 @@ int	ft_execute(t_shell *data, t_info *curr, t_builtin *func)
 		ft_pipe_init(data, curr);
 		data->pid = fork();
 		if (data->pid == -1)
-			return (ft_error(10, data, "Fork error"));
+			return (ft_error(data, ft_one_colon("fork")));
 		else if (data->pid == 0)
 		{
 			if (curr->nb_cmd < 7 && curr->nb_cmd > 0 && !curr->is_pipe)

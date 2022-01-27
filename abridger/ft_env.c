@@ -6,13 +6,13 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 21:31:17 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/26 21:31:18 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/27 20:41:55 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_wrong_path(t_shell *data, int errnum)
+int	ft_wrong_path(t_shell *data)
 {
 	t_env	*curr;
 
@@ -23,7 +23,7 @@ int	ft_wrong_path(t_shell *data, int errnum)
 			return (0);
 		curr = curr->next;
 	}
-	return (ft_error(errnum, data, ft_one_colon("env")));
+	return (ft_error(data, ft_one_colon("env")));
 }
 
 int	ft_exec_env(t_shell *data, t_info *curr)
@@ -36,7 +36,7 @@ int	ft_exec_env(t_shell *data, t_info *curr)
 	size = ft_lstsize_env(data);
 	if (curr->nb_cmd == 6)
 	{
-		if (data->env != NULL && !ft_wrong_path(data, 2)) // 2 - ENOENT- No such file or directory
+		if (data->env != NULL && !ft_wrong_path(data) && curr->is_pipe == 0)
 		{
 			array = create_array_env(data, NULL);
 			while (i < size)

@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 15:32:20 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/26 17:52:57 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/27 20:21:55 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,17 @@
 
 int	put_err_message(char *str)
 {
-	// write(STDERR_FILENO, "Error: ", 7); // не подходит для одной функции
 	write(STDERR_FILENO, str, ft_strlen(str));
 	write(STDERR_FILENO, "\n", 1);
 	return (1);
 }
 
-int	ft_error(int errnum, t_shell *data, char *str) // errnum пока неверные в функциях
+int	ft_error(t_shell *data, char *str)
 {
 	char	*str_err;
 
-	data->exit_status = errnum;
-	str_err = strerror(errnum);
+	data->exit_status = errno;
+	str_err = strerror(errno);
 	write(STDERR_FILENO, str, ft_strlen(str));
 	write(STDERR_FILENO, str_err, ft_strlen(str_err));
 	write(STDERR_FILENO, "\n", 1);
