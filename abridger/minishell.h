@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 18:45:00 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/27 22:41:11 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/28 22:22:16 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,11 @@ typedef struct s_env
 	char			*key;
 	char			*sep;
 	char			*value;
+	int				is_sorted;
 	struct s_env	*prev;
 	struct s_env	*next;
+	struct s_env	*first;
+	struct s_env	*next_sorted;
 }					t_env;
 
 typedef struct s_info
@@ -62,6 +65,7 @@ typedef struct s_shell
 	t_info	*info;
 	t_env	*env;
 	char	*str;
+	char	**array;
 	int		exit_status;
 	int		have_a_pipe;
 	int		save_in;
@@ -90,9 +94,9 @@ int			ft_atoi(const char *str);
 
 int			ft_lstsize_env(t_shell *data);
 int			ft_lstsize_all(t_shell *data);
-int			ft_malloc_array_err(char ***array, t_shell *data, int check);
-char		**create_array_env(t_shell *data, char **array);
-char		**create_array_all(t_shell *data, char **array);
+void		ft_init_array(t_shell **data, int check);
+void		create_array_env(t_shell **data);
+void		create_array_all(t_shell **data);
 
 //*** ft_data_utils.c ***//
 int			ft_init_data(t_shell *data, char **envp);
@@ -102,10 +106,15 @@ int			ft_lstsize(t_info *lst);
 int			ft_height_array(char **array);
 
 //*** ft_env_utils.c ***//
+void		ft_add_ptr(t_env **new);
 t_env		*ft_lstnew(const char *line);
 t_env		*ft_lstlast(t_env *lst);
 void		ft_lstadd_back(t_env **lst, t_env *new);
 t_env		*parse_envrmnt(t_env *lst, char **envp);
+
+//*** ft_sorting.c ***//
+t_env		*ft_find_first(t_shell *data);
+t_env		*ft_sort_env(t_shell *data);
 
 //*** ft_action.c ***//
 int			action(t_shell *data, char **envp); // for testing, rewrite
@@ -115,11 +124,10 @@ int			ft_execute(t_shell *data, t_info *curr, t_builtin *func);
 void		ft_execution_cycle(t_shell *data);
 
 //*** ft_process.c ***//
-char		**create_array_path(char **env_array);
-int			ft_run_execve(t_shell *data, t_info *curr, char **env_array);
-int			ft_no_path(t_shell *data, t_info *curr, char **env_array);
-int			ft_execve(t_shell *data, t_info *curr, char **env_array, \
-				char *str_path);
+char		**create_array_path(t_shell *data);
+int			ft_run_execve(t_shell *data, t_info *curr);
+int			ft_no_path(t_shell *data, t_info *curr);
+int			ft_execve(t_shell *data, t_info *curr, char *str_path);
 
 //*** ft_fd_redirect_pipe.c ***//
 

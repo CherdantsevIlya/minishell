@@ -6,11 +6,18 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 15:46:39 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/27 16:24:28 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/28 22:26:14 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_add_ptr(t_env **new)
+{
+	(*new)->first = NULL;
+	(*new)->next_sorted = NULL;
+	(*new)->is_sorted = 0;
+}
 
 t_env	*ft_lstnew(const char *line)
 {
@@ -36,6 +43,7 @@ t_env	*ft_lstnew(const char *line)
 			new->value = NULL;
 		new->prev = NULL;
 		new->next = NULL;
+		ft_add_ptr(&new);
 	}
 	return (new);
 }

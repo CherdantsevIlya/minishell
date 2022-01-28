@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:03:08 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/27 22:45:56 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/28 20:35:52 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,19 +67,20 @@ void	ft_print_array(t_shell *data)
 {
 	int		size;
 	int		i;
-	char	**array;
 
-	size = ft_lstsize_all(data);
+	size = ft_lstsize_env(data);
 	i = 0;
-	array = create_array_all(data, NULL);
+	create_array_env(&data);
 	printf("\n\n\nPRINT ARRAY\n");
+	printf("SIZE lst in print array %d\n", size);
+	printf("HEIGHT array in print array %d\n", ft_height_array(data->array));
 	if (data->env != NULL)
 	{
 		while (i < size)
 		{
-			printf("Array[%d] %s\n", i, array[i]);
+			printf("Array[%d] %s\n", i, data->array[i]);
 			i++;
 		}
 	}
-	ft_array_clear(array);
+	ft_array_clear(data->array);
 }

@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 15:01:41 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/26 22:20:42 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/28 19:44:23 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	ft_init_data(t_shell *data, char **envp)
 		data->env = parse_envrmnt(lst, envp);
 		data->info = NULL;
 		data->str = NULL;
+		data->array = NULL;
 		return (0);
 	}
 	return (0);
@@ -78,10 +79,15 @@ int	ft_lstsize(t_info *lst)
 
 int	ft_height_array(char **array)
 {
-	int	i;
+	int		i;
+	char	**line;
 
 	i = 0;
-	while (array[i])
-		i++;
+	line = array;
+	while (*line)
+	{
+		if (line[i])
+			i++;
+	}
 	return (i);
 }

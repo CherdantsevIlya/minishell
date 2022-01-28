@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 17:15:16 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/27 22:41:24 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/28 20:07:00 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,24 +94,22 @@ void	ft_add_variable(t_info *curr, t_shell *data)
 
 void	ft_print_export(t_shell *data, t_info *curr, int height)
 {
-	char	**array;
 	int		i;
 	int		size;
 
-	array = NULL;
 	i = 0;
 	size = ft_lstsize_all(data);
 	if (data->env != NULL && height == 0 && curr->is_pipe == 0)
 	{
-		array = create_array_all(data, NULL); // добавить сортировку
+		create_array_all(&data); // добавить сортировку
 		while (i < size)
 		{
 			write(1, "declare -x ", ft_strlen("declare -x "));
-			write(1, array[i], ft_strlen(array[i]));
+			write(1, data->array[i], ft_strlen(data->array[i]));
 			write(1, "\n", 1);
 			i++;
 		}
-		ft_array_clear(array);
+		ft_array_clear(data->array);
 	}
 }
 

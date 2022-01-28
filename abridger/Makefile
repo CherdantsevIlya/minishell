@@ -6,7 +6,7 @@
 #    By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/05 18:35:44 by abridger          #+#    #+#              #
-#    Updated: 2022/01/27 01:03:19 by abridger         ###   ########.fr        #
+#    Updated: 2022/01/28 22:21:15 by abridger         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ SRCS			=	minishell.c				\
 					ft_unset.c				\
 					ft_exit.c				\
 					ft_env.c				\
+					ft_sorting.c			\
 					ft_read_line.c
 
 

@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 16:22:54 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/27 22:50:10 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/28 20:37:42 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,73 +47,68 @@ int	ft_lstsize_all(t_shell *data)
 	return (length);
 }
 
-int	ft_malloc_array_err(char ***array, t_shell *data, int check)
+void	ft_init_array(t_shell **data, int check)
 {
 	int		length;
 
 	if (check == 1)
-		length = ft_lstsize_env(data);
+		length = ft_lstsize_env(*data);
 	else
-		length = ft_lstsize_all(data);
-	*array = (char **)malloc(sizeof(char *) * length);
-	if (!array)
-		return (ft_error(data, ft_one_colon("malloc")));
-	return (0);
+		length = ft_lstsize_all(*data);
+	(*data)->array = (char **)malloc(sizeof(char *) * length);
+	(*data)->array[length] = NULL;
+	if (!(*data)->array)
+		exit(EXIT_FAILURE);
 }
 
-char	**create_array_env(t_shell *data, char **array)
+void	create_array_env(t_shell **data)
 {
 	char	*tmp;
 	t_env	*lst;
-	int		i;
+	int		line;
 
-	i = 0;
-	lst = data->env;
-	if (ft_malloc_array_err(&array, data, 1) == 0)
+	line = 0; // если 1, то запишет все строки кроме первой, она будет null
+	lst = (*data)->env;
+	ft_init_array(data, 1);
+	while (lst) // (*data)->array[0] - null
 	{
-		while (i < ft_lstsize_env(data))
+		if (0 == ft_strcmp(lst->sep, "="))
 		{
-			if (0 == ft_strcmp(lst->sep, "="))
-			{
-				tmp = ft_strjoin(lst->key, "=");
-				if (lst->value)
-					array[i] = ft_strjoin(tmp, lst->value);
-				else
-					array[i] = ft_strdup(tmp);
-				free(tmp);
-			}
-			lst = lst->next;
-			i++;
+			tmp = ft_strjoin(lst->key, "=");
+			if (lst->value)
+				(*data)->array[line] = ft_strjoin(tmp, lst->value);
+			else
+				(*data)->array[line] = ft_strdup(tmp);
+			free(tmp);
+			line++;
 		}
+		lst = lst->next;
 	}
-	return (array);
 }
 
-char	**create_array_all(t_shell *data, char **array)
+void	create_array_all(t_shell **data)
 {
 	char	*tmp;
 	char	*str;
 	t_env	*lst;
-	int		i;
+	int		line;
 
-	i = 0;
-	lst = data->env;
-	if (ft_malloc_array_err(&array, data, 2) == 0)
+	line = 0;
+	lst = (*data)->env;
+	ft_init_array(data, 2);
+	while (lst)
 	{
-		while (i++ < ft_lstsize_all(data))
-		{
-			str = ft_add_quotes(lst->value);
-			if (0 == ft_strcmp(lst->sep, "="))
-				tmp = ft_strjoin(lst->key, "=");
-			else
-				tmp = ft_strdup(lst->key);
-			if (lst->value)
-				array[i] = ft_strjoin(tmp, str);
-			else
-				array[i] = ft_strdup(tmp);
-			ft_twostr_clear(&tmp, &str);
-			lst = lst->next;
-		}
+		str = ft_add_quotes(lst->value);
+		if (0 == ft_strcmp(lst->sep, "="))
+			tmp = ft_strjoin(lst->key, "=");
+		else
+			tmp = ft_strdup(lst->key);
+		if (lst->value)
+			(*data)->array[line] = ft_strjoin(tmp, str);
+		else
+			(*data)->array[line] = ft_strdup(tmp);
+		ft_twostr_clear(&tmp, &str);
+		lst = lst->next;
+		line++;
 	}
-	return (array);
 }

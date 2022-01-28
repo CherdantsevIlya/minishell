@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 16:29:06 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/27 22:53:08 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/28 20:38:12 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,6 @@ void	ft_define_cmd(t_shell *data)
 
 int	ft_simple_execute(t_shell *data, t_info *curr, t_builtin *func)
 {
-	char	**env_array;
-
 	if (data->count == 1)
 	{
 		ft_redirect_dup(curr);
@@ -77,8 +75,8 @@ int	ft_simple_execute(t_shell *data, t_info *curr, t_builtin *func)
 				return (ft_error(data, ft_one_colon("fork")));
 			else if (data->pid == 0)
 			{
-				env_array = create_array_env(data, NULL);
-				return (ft_run_execve(data, curr, env_array));
+				create_array_env(&data);
+				return (ft_run_execve(data, curr));
 			}
 		}
 	}
@@ -87,8 +85,6 @@ int	ft_simple_execute(t_shell *data, t_info *curr, t_builtin *func)
 
 int	ft_execute(t_shell *data, t_info *curr, t_builtin *func)
 {
-	char	**env_array;
-
 	if (data->count > 1)
 	{
 		ft_redirect_dup(curr);
@@ -102,8 +98,8 @@ int	ft_execute(t_shell *data, t_info *curr, t_builtin *func)
 				return ((func)[curr->nb_cmd](data, curr));
 			else
 			{
-				env_array = create_array_env(data, NULL);
-				ft_run_execve(data, curr, env_array);
+				create_array_env(&data);
+				ft_run_execve(data, curr);
 			}
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 21:31:17 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/27 22:42:12 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/28 20:28:18 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int	ft_exec_env(t_shell *data, t_info *curr)
 {
 	int		i;
 	int		size;
-	char	**array;
 
 	i = 0;
 	size = ft_lstsize_env(data);
@@ -38,14 +37,14 @@ int	ft_exec_env(t_shell *data, t_info *curr)
 	{
 		if (data->env != NULL && !ft_wrong_path(data) && curr->is_pipe == 0)
 		{
-			array = create_array_env(data, NULL);
+			create_array_env(&data);
 			while (i < size)
 			{
-				write(1, array[i], ft_strlen(array[i]));
+				write(1, data->array[i], ft_strlen(data->array[i]));
 				write(1, "\n", 1);
 				i++;
 			}
-			ft_array_clear(array);
+			ft_array_clear(data->array);
 		}
 	}
 	return (0);
