@@ -6,13 +6,47 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:03:08 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/28 20:35:52 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/29 23:48:37 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_test_readline(void)
+int	ft_init_data(t_shell *data, char **envp)
+{
+	t_env	*lst;
+
+	lst = NULL;
+	if (data)
+	{
+		data->env = parse_envrmnt(lst, envp); // использовать только эту функцию для записи envp в листы
+		data->info = NULL;
+		data->str = NULL;
+		data->array = NULL;
+		data->check = 0;
+		return (0);
+	}
+	return (0);
+}
+
+int	action(t_shell *data, char **envp) // for testing
+{
+	data = (t_shell *)malloc(sizeof(t_shell));
+	if (!data)
+		return (ft_error(NULL, "Malloc: "));
+	else
+	{
+		ft_init_data(data, envp);
+		// ft_define_cmd(data); // after parser
+		// ft_execution_cycle(data);
+		// ft_print_array(data); // test
+		ft_print_lsts(data); // test
+		ft_data_clear(data);
+	}
+	return (0);
+}
+
+void	ft_test_readline(void) // test
 {
 	char	*input;
 	int		size;
@@ -41,11 +75,11 @@ void	ft_test_readline(void)
 	}
 }
 
-void	ft_print_lsts(t_shell *data)
+void	ft_print_lsts(t_shell *data) //test
 {
 	t_env	*tmp;
 
-	tmp = data->env;
+	tmp = ft_sort_env(data);
 	if (tmp != NULL)
 	{
 		printf("\nPRINT LISTS\n");
@@ -56,14 +90,14 @@ void	ft_print_lsts(t_shell *data)
 				printf("%s", tmp->sep);
 			if (tmp->value)
 				printf("%s\n", tmp->value);
-			tmp = tmp->next;
+			tmp = tmp->next_sorted;
 		}
 	}
 	else
 		printf("test");
 }
 
-void	ft_print_array(t_shell *data)
+void	ft_print_array(t_shell *data) //test
 {
 	int		size;
 	int		i;

@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 18:45:00 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/28 22:22:16 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/29 23:56:39 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef struct s_shell
 	int		fd_pipe[2];
 	int		pid;
 	int		count;
+	int		check;
 }			t_shell;
 
 typedef int	(*t_builtin)(t_shell *, t_info *);
@@ -90,16 +91,15 @@ char		**ft_split(char const *s, char c);
 int			ft_isdigit(int c);
 int			ft_atoi(const char *str);
 
-//*** ft_create_array.c ***//
+//*** ft_array_utils.c ***//
 
 int			ft_lstsize_env(t_shell *data);
 int			ft_lstsize_all(t_shell *data);
 void		ft_init_array(t_shell **data, int check);
 void		create_array_env(t_shell **data);
-void		create_array_all(t_shell **data);
+void		ft_array_clear(char **array);
 
 //*** ft_data_utils.c ***//
-int			ft_init_data(t_shell *data, char **envp);
 int			ft_len_key(char *str);
 int			ft_len_value(char *str);
 int			ft_lstsize(t_info *lst);
@@ -114,10 +114,13 @@ t_env		*parse_envrmnt(t_env *lst, char **envp);
 
 //*** ft_sorting.c ***//
 t_env		*ft_find_first(t_shell *data);
+int			ft_unsorted(t_shell *data);
+t_env		*ft_find_next(t_shell *data);
+t_env		*ft_find_last(t_shell *data);
 t_env		*ft_sort_env(t_shell *data);
 
 //*** ft_action.c ***//
-int			action(t_shell *data, char **envp); // for testing, rewrite
+// int			action(t_shell *data); // раскомментировать
 void		ft_define_cmd(t_shell *data);
 int			ft_simple_execute(t_shell *data, t_info *curr, t_builtin *func);
 int			ft_execute(t_shell *data, t_info *curr, t_builtin *func);
@@ -185,12 +188,13 @@ char		*ft_one_colon(char *s1);
 //*** ft_clear.c ***//
 void		ft_info_clear(t_info **lst);
 void		ft_env_clear(t_env **lst);
-void		ft_array_clear(char **array);
 void		ft_data_clear(t_shell *data);
 void		ft_str_clear(char **str);
 void		ft_twostr_clear(char **str1, char **str2);
 
 //*** ft_read_line.c (for testing) ***//
+int			action(t_shell *data, char **envp); // для теста
+int			ft_init_data(t_shell *data, char **envp); // для теста
 void		ft_test_readline(void); // delete
 void		ft_print_lsts(t_shell *data); // delete для проверки печати переменных окружения из листов
 void		ft_print_array(t_shell *data); // delete для проверки печати переменных окружения из массива

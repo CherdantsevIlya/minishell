@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_create_array.c                                  :+:      :+:    :+:   */
+/*   ft_array_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 16:22:54 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/28 20:37:42 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/29 23:45:27 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,29 +86,20 @@ void	create_array_env(t_shell **data)
 	}
 }
 
-void	create_array_all(t_shell **data)
+void	ft_array_clear(char **array)
 {
-	char	*tmp;
-	char	*str;
-	t_env	*lst;
-	int		line;
+	int		i;
 
-	line = 0;
-	lst = (*data)->env;
-	ft_init_array(data, 2);
-	while (lst)
+	i = 0;
+	if (!array)
+		return ;
+	while (array)
 	{
-		str = ft_add_quotes(lst->value);
-		if (0 == ft_strcmp(lst->sep, "="))
-			tmp = ft_strjoin(lst->key, "=");
-		else
-			tmp = ft_strdup(lst->key);
-		if (lst->value)
-			(*data)->array[line] = ft_strjoin(tmp, str);
-		else
-			(*data)->array[line] = ft_strdup(tmp);
-		ft_twostr_clear(&tmp, &str);
-		lst = lst->next;
-		line++;
+		if (array[i])
+		{
+			free(array[i]);
+			array[i] = NULL;
+		}
+		i++;
 	}
 }

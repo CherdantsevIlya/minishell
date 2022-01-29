@@ -6,30 +6,19 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 16:29:06 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/28 20:38:12 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/29 23:37:23 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	action(t_shell *data, char **envp) // for testing
-{
-	data = (t_shell *)malloc(sizeof(t_shell));
-	if (!data)
-		return (ft_error(NULL, "Malloc: "));
-	else
-	{
-		ft_init_data(data, envp);
-		// ft_define_cmd(data); // after parser
-		// ft_execution_cycle(data);
-		// ft_read_exec(data, envp); // test
-		// ft_test_readline(); // test
-		// ft_print_array(data); // test
-		ft_print_lsts(data); // test
-		ft_data_clear(data);
-	}
-	return (0);
-}
+// int	action(t_shell *data) // after parser раскомментировать
+// {
+// 	ft_define_cmd(data);
+// 	ft_execution_cycle(data);
+// 	ft_data_clear(data);
+// 	return (0);
+// }
 
 void	ft_define_cmd(t_shell *data)
 {

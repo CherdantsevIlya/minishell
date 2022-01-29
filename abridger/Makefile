@@ -6,7 +6,7 @@
 #    By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/05 18:35:44 by abridger          #+#    #+#              #
-#    Updated: 2022/01/28 22:21:15 by abridger         ###   ########.fr        #
+#    Updated: 2022/01/29 23:46:30 by abridger         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ SRCS			=	minishell.c				\
 					ft_errors.c				\
 					ft_action.c				\
 					ft_process.c			\
-					ft_create_array.c		\
+					ft_array_utils.c		\
 					ft_fd_redirect_pipe.c	\
 					ft_echo_pwd.c			\
 					ft_cd.c					\

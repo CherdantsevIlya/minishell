@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 23:23:30 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/27 01:14:37 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/29 23:23:27 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ char	*ft_quotes(void)
 	char	*str;
 
 	str = (char *)malloc(sizeof(char) * 2);
+	if (!str)
+		return (NULL);
 	str[0] = 34;
 	str[1] = '\0';
 	return (str);
@@ -88,8 +90,8 @@ char	*ft_add_quotes(char *str)
 	{
 		str1 = ft_strjoin(str3, str);
 		str2 = ft_strjoin(str1, str3);
-		free(str1);
-		free(str3);
+		ft_str_clear(&str1);
+		ft_str_clear(&str3);
 	}
 	return (str2);
 }

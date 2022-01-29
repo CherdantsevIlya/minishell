@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 17:15:16 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/28 20:07:00 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/29 23:20:32 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,22 +94,29 @@ void	ft_add_variable(t_info *curr, t_shell *data)
 
 void	ft_print_export(t_shell *data, t_info *curr, int height)
 {
-	int		i;
-	int		size;
+	t_env	*sorted;
+	char	*value;
 
-	i = 0;
-	size = ft_lstsize_all(data);
+	sorted = NULL;
+	value = NULL;
 	if (data->env != NULL && height == 0 && curr->is_pipe == 0)
 	{
-		create_array_all(&data); // добавить сортировку
-		while (i < size)
+		sorted = ft_sort_env(data);
+		while (sorted)
 		{
 			write(1, "declare -x ", ft_strlen("declare -x "));
-			write(1, data->array[i], ft_strlen(data->array[i]));
+			write(1, sorted->key, ft_strlen(sorted->key));
+			if (sorted->sep)
+				write(1, sorted->sep, ft_strlen(sorted->sep));
+			if (sorted->value)
+			{
+				value = ft_add_quotes(sorted->value);
+				write(1, value, ft_strlen(value));
+				ft_str_clear(&value);
+			}
 			write(1, "\n", 1);
-			i++;
+			sorted = sorted->next_sorted;
 		}
-		ft_array_clear(data->array);
 	}
 }
 

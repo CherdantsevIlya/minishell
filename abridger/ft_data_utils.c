@@ -6,27 +6,11 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 15:01:41 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/28 19:44:23 by abridger         ###   ########.fr       */
+/*   Updated: 2022/01/29 23:56:08 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	ft_init_data(t_shell *data, char **envp)
-{
-	t_env	*lst;
-
-	lst = NULL;
-	if (data)
-	{
-		data->env = parse_envrmnt(lst, envp);
-		data->info = NULL;
-		data->str = NULL;
-		data->array = NULL;
-		return (0);
-	}
-	return (0);
-}
 
 int	ft_len_key(char *str)
 {
