@@ -26,7 +26,25 @@ SRC				=	srcs/main.c \
 					srcs/signals.c \
 					srcs/lsts.c \
 					srcs/errors.c \
-					srcs/utils.c
+					srcs/utils.c \
+                    srcs/ft_env_utils.c			\
+                    srcs/ft_export.c			\
+                    srcs/ft_export_utils.c		\
+                    srcs/ft_clear.c				\
+                    srcs/ft_data_utils.c		\
+                    srcs/ft_errors.c			\
+                    srcs/ft_action.c			\
+                    srcs/ft_process.c			\
+                    srcs/ft_array_utils.c		\
+                    srcs/ft_fd_redirect_pipe.c	\
+                    srcs/ft_echo_pwd.c			\
+                    srcs/ft_cd.c				\
+                    srcs/ft_unset.c				\
+                    srcs/ft_exit.c				\
+                    srcs/ft_env.c				\
+                    srcs/ft_sorting.c			\
+                    srcs/ft_libft_utils1.c		\
+                    srcs/ft_libft_utils2.c
 
 OBJ				= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 

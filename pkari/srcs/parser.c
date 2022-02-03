@@ -17,6 +17,7 @@ t_info *add_new_info(void)
 	tmp->heredoc = NULL;
 	tmp->error = 0;
 	tmp->head = tmp;
+	tmp->prev = NULL;
 	tmp->next = NULL;
 	return (tmp);
 }
@@ -33,6 +34,7 @@ void add_info(t_shell *msh)
 		head = msh->info->head;
 		new = add_new_info();
 		msh->info->next = new;
+		msh->info->prev = msh->info;
 		msh->info = msh->info->next;
 		msh->info->head = head;
 	}

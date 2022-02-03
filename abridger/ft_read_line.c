@@ -39,8 +39,8 @@ int	action(t_shell *data, char **envp) // for testing
 		ft_init_data(data, envp);
 		// ft_define_cmd(data); // after parser
 		// ft_execution_cycle(data);
-		// ft_print_array(data); // test
-		ft_print_lsts(data); // test
+		ft_print_array(data); // test
+//		ft_print_lsts(data); // test
 		ft_data_clear(data);
 	}
 	return (0);

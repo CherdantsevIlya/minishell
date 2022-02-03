@@ -8,7 +8,7 @@ t_env *msh_lstnew(char *key, char *val)
 	if (!(lst))
 		return (NULL);
 	lst->key = key;
-	lst->val = val;
+	lst->value = val;
 	lst->next = NULL;
 	lst->prev = NULL;
 	return (lst);
@@ -38,4 +38,17 @@ void msh_lstadd_back(t_env **env, t_env *new)
 		new->prev = tmp;
 		tmp->next = new;
 	}
+}
+
+int msh_lstsize(t_info *curr)
+{
+	int i;
+
+	i = 1;
+	while (curr->next)
+	{
+		i++;
+		curr = curr->next;
+	}
+	return (i);
 }

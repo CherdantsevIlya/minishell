@@ -23,10 +23,13 @@
 typedef struct s_env
 {
 	char			*key;
-	char			*val;
-	char 			*sep;
-	struct s_env	*next;
+	char			*sep;
+	char			*value;
+	int				is_sorted;
 	struct s_env	*prev;
+	struct s_env	*next;
+	struct s_env	*first;
+	struct s_env	*next_sorted;
 }					t_env;
 
 typedef struct s_info
@@ -39,23 +42,32 @@ typedef struct s_info
 	int				fd_output_file;
 	char			*input_file;
 	int				fd_input_file;
-	char 			*heredoc;
-	int 			fd_heredoc[2];
-	int 			error;
+	char			*heredoc;
+	int				fd_heredoc[2];
+	int				error;
+	int				nb_cmd;
 	struct s_info	*head;
+	struct s_info	*prev;
 	struct s_info	*next;
 }					t_info;
 
-typedef struct	s_shell
+typedef struct s_shell
 {
 	t_info	*info;
 	t_env	*env;
 	char	*str;
-	int 	save_in; // fd
-	int		save_out; // fd
+	char	**array;
 	int		exit_status;
-	int 	have_a_pipe;
+	int		have_a_pipe;
+	int		save_in;
+	int		save_out;
+	int		fd_pipe[2];
+	int		pid;
+	int		count;
+	int		check;
 }			t_shell;
+
+typedef int	(*t_builtin)(t_shell *, t_info *);
 
 //*** main.c ***//
 void init_shell(t_shell *msh);
@@ -100,6 +112,7 @@ void ctrl_d(void);
 void msh_lstadd_back(t_env **env, t_env *new);
 t_env *msh_lstlast(t_env *env);
 t_env *msh_lstnew(char *ket, char *val);
+int msh_lstsize(t_info *curr);
 
 //*** errors.c ***//
 int syntax_error(t_shell *msh, char *str, int len);
@@ -109,5 +122,117 @@ void errno_error(t_shell *msh);
 void free_all(t_shell *msh);
 
 void rl_replace_line(const char *text, int clear_undo);
+
+//**************************//
+//***ДАЛЕЕ ЧАСТЬ ABRIDGER***//
+//**************************//
+
+//*** ft_array_utils.c ***//
+
+int			ft_lstsize_env(t_shell *data);
+int			ft_lstsize_all(t_shell *data);
+void		ft_init_array(t_shell **data, int check);
+void		create_array_env(t_shell **data);
+void		ft_array_clear(char **array);
+
+//*** ft_data_utils.c ***//
+int			ft_len_key(char *str);
+int			ft_len_value(char *str);
+int			ft_lstsize(t_info *lst);
+int			ft_height_array(char **array);
+
+//*** ft_env_utils.c ***//
+void		ft_add_ptr(t_env **new);
+t_env		*ft_lstnew(const char *line);
+t_env		*ft_lstlast(t_env *lst);
+void		ft_lstadd_back(t_env **lst, t_env *new);
+t_env		*parse_envrmnt(t_env *lst, char **envp);
+
+//*** ft_sorting.c ***//
+t_env		*ft_find_first(t_shell *data);
+int			ft_unsorted(t_shell *data);
+t_env		*ft_find_next(t_shell *data);
+t_env		*ft_find_last(t_shell *data);
+t_env		*ft_sort_env(t_shell *data);
+
+//*** ft_action.c ***//
+int			action(t_shell *data);
+void		ft_define_cmd(t_shell *data);
+int			ft_simple_execute(t_shell *data, t_info *curr, t_builtin *func);
+int			ft_execute(t_shell *data, t_info *curr, t_builtin *func);
+void		ft_execution_cycle(t_shell *data);
+
+//*** ft_process.c ***//
+char		**create_array_path(t_shell *data);
+int			ft_run_execve(t_shell *data, t_info *curr);
+int			ft_no_path(t_shell *data, t_info *curr);
+int			ft_execve(t_shell *data, t_info *curr, char *str_path);
+
+//*** ft_fd_redirect_pipe.c ***//
+
+void		ft_init_saved_fd(t_shell *data);
+void		ft_close_saved_fd(t_shell *data);
+void		ft_redirect_dup(t_info *curr);
+void		ft_pipe_init(t_shell *data, t_info *curr);
+
+//*** ft_exit.c ***//
+int			ft_right_digit(char *str);
+int			ft_err_exit(t_shell *data, char *str, int flag);
+int			ft_right_exit(t_shell *data, t_info *curr, int flag);
+int			ft_exec_exit(t_shell *data, t_info *curr);
+
+//*** ft_env.c ***//
+int			ft_wrong_path(t_shell *data);
+int			ft_exec_env(t_shell *data, t_info *curr);
+
+//*** ft_echo_pwd.c ***//
+t_builtin	*create_array_function(void);
+int			ft_exec_echo(t_shell *data, t_info *curr);
+int			ft_exec_pwd(t_shell *data, t_info *curr);
+
+//*** ft_cd.c ***//
+void		ft_add_oldpwd_env(t_shell *data, char *curr_pwd);
+void		ft_change_oldpwd_env(t_shell *data, char *curr_pwd, int check);
+void		ft_change_pwd_env(t_shell *data, char *curr_pwd, char *new_pwd);
+int			ft_exec_cd(t_shell *data, t_info *curr);
+
+//*** ft_unset.c ***//
+int			ft_err_unset(t_shell *data, char *str);
+void		ft_del_lst(char *str, t_shell *data);
+int			ft_exec_unset(t_shell *data, t_info *curr);
+
+//*** ft_export.c ***//
+int			ft_env_check(const char *line, t_env *tmp);
+void		ft_lst_change_value(t_env *lst, const char *line);
+void		ft_add_variable(t_info *curr, t_shell *data);
+void		ft_print_export(t_shell *data, t_info *curr, int height);
+int			ft_exec_export(t_shell *data, t_info *curr);
+
+//*** ft_export_utils.c ***//
+int			ft_check_char(int c);
+int			ft_check_key(char *str);
+int			ft_err_export(t_shell *data, char *str);
+char		*ft_quotes(void);
+char		*ft_add_quotes(char *str);
+
+//*** ft_errors.c ***//
+int			put_err_message(char *str);
+int			ft_error(t_shell *data, char *str);
+char		*ft_two_colon(char *s1, char *s2);
+char		*ft_one_colon(char *s1);
+
+//*** ft_clear.c ***//
+void		ft_info_clear(t_info **lst);
+void		ft_env_clear(t_env **lst);
+void		ft_data_clear(t_shell *data);
+void		ft_str_clear(char **str);
+void		ft_twostr_clear(char **str1, char **str2);
+
+//*** ft_libft_utils.c ***//
+int			ft_strcmp2(const char *s1, const char *s2);
+void		*ft_memcpy2(void *dst, const void *src, size_t n);
+char		*ft_strjoin2(char const *s1, char const *s2);
+char		*ft_strnstr2(const char *haystack, const char *needle, size_t len);
+char		**ft_split2(char const *s, char c);
 
 #endif

@@ -16,13 +16,13 @@ void shlvl(t_shell *msh)
 		}
 		else if (!(ft_strcmp("SHLVL", tmp->key)))
 		{
-			shlvl = ft_atoi(tmp->val);
-			if (tmp->val != NULL)
-				free(tmp->val);
+			shlvl = ft_atoi(tmp->value);
+			if (tmp->value != NULL)
+				free(tmp->value);
 			if (shlvl < 0)
-				tmp->val = ft_strdup("1");
+				tmp->value = ft_strdup("1");
 			else
-				tmp->val = ft_itoa(shlvl + 1);
+				tmp->value = ft_itoa(shlvl + 1);
 			break ;
 		}
 		tmp = tmp->next;
@@ -37,7 +37,7 @@ char *get_dollar_env(t_env *env, char *str)
 	while (tmp)
 	{
 		if (!ft_strcmp(str, tmp->key))
-			return (tmp->val);
+			return (tmp->value);
 		tmp = tmp->next;
 	}
 	return ("");
@@ -61,9 +61,11 @@ void create_env(t_shell *msh, char **env)
 void init_shell(t_shell *msh)
 {
 	msh->env = NULL;
+	msh->array = NULL;
 	msh->info = NULL;
 	msh->exit_status = 0;
 	msh->have_a_pipe = 0;
+	msh->check = 0;
 }
 
 int main(int argc, char **argv, char **env)
@@ -77,6 +79,7 @@ int main(int argc, char **argv, char **env)
 		return (1);
 	}
 	init_shell(&msh);
+//	msh.env = parse_envrmnt(msh.env, env);
 	create_env(&msh, env);
 	shlvl(&msh);
 	while (1)
@@ -88,7 +91,7 @@ int main(int argc, char **argv, char **env)
 			ctrl_d();
 		add_history(msh.str);
 		if (parser(&msh)) // parser part (pkari)
-//			execute_next(); // builtin part (abridger)
+			action(&msh); // builtin part (abridger)
 		free_all(&msh);
 	}
 }
