@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/23 18:12:43 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/27 20:52:35 by abridger         ###   ########.fr       */
+/*   Updated: 2022/02/04 20:13:11 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	ft_change_pwd_env(t_shell *data, char *curr_pwd, char *new_pwd)
 		{
 			free(tmp->value);
 			tmp->value = ft_strdup(new_pwd);
-			free(new_pwd);
+			//free(new_pwd);
 			check = 1;
 		}
 		tmp = tmp->next;
@@ -70,24 +70,34 @@ void	ft_change_pwd_env(t_shell *data, char *curr_pwd, char *new_pwd)
 		ft_change_oldpwd_env(data, curr_pwd, check);
 }
 
+int	ft_err_many_args(t_shell *data)
+{
+	data->exit_status = 1;
+	write(STDERR_FILENO, "minishell: cd: too many arguments\n", \
+		ft_strlen("minishell: cd: too many arguments\n"));
+	return (1);
+}
+
 int	ft_exec_cd(t_shell *data, t_info *curr)
 {
-	char	*buf1;
-	char	*buf2;
+	char	buf1[1024];
+	char	buf2[1024];
 	char	*curr_pwd;
 	char	*new_pwd;
 	int		height;
 
-	buf1 = NULL;
-	buf2 = NULL;
+	//buf1 = NULL;
+	//buf2 = NULL;
 	height = ft_height_array(curr->argv);
 	if (curr->nb_cmd == 1 && height > 0 && curr->token != 1 \
 		&& data->count == 1)
 	{
-		curr_pwd = getcwd(NULL, sizeof(buf1));
-		if (chdir(curr->argv[1]) < 0)
+		curr_pwd = getcwd(buf1, sizeof(buf1));
+		if (curr->argv[2])
+			return (ft_err_many_args(data));
+		if (curr->argv[1] && chdir(curr->argv[1]) < 0)
 			return (ft_error(data, ft_two_colon("cd", curr->argv[1])));
-		new_pwd = getcwd(NULL, sizeof(buf2));
+		new_pwd = getcwd(buf2, sizeof(buf2));
 		ft_change_pwd_env(data, curr_pwd, new_pwd);
 	}
 	return (0);

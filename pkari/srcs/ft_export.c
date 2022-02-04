@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 17:15:16 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/29 23:20:32 by abridger         ###   ########.fr       */
+/*   Updated: 2022/02/04 16:47:25 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,10 +95,8 @@ void	ft_add_variable(t_info *curr, t_shell *data)
 void	ft_print_export(t_shell *data, t_info *curr, int height)
 {
 	t_env	*sorted;
-	char	*value;
 
 	sorted = NULL;
-	value = NULL;
 	if (data->env != NULL && height == 1 && curr->token != 1)
 	{
 		sorted = ft_sort_env(data);

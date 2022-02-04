@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 15:32:20 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/27 20:21:55 by abridger         ###   ########.fr       */
+/*   Updated: 2022/02/04 19:59:32 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,13 @@ int	ft_error(t_shell *data, char *str)
 
 	data->exit_status = errno;
 	str_err = strerror(errno);
+	write(STDERR_FILENO, "minishell: ", ft_strlen("minishell: "));
 	write(STDERR_FILENO, str, ft_strlen(str));
 	write(STDERR_FILENO, str_err, ft_strlen(str_err));
 	write(STDERR_FILENO, "\n", 1);
 	ft_str_clear(&str);
-	ft_str_clear(&str_err);
-	ft_data_clear(data);
+	//ft_str_clear(&str_err);
+	//ft_data_clear(data);
 	return (1);
 }
 

@@ -8,6 +8,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <sys/types.h>
+#include <sys/wait.h>
 #include <sys/stat.h>
 #include <signal.h>
 #include <errno.h>
@@ -184,10 +185,12 @@ int			ft_exec_exit(t_shell *data, t_info *curr);
 
 //*** ft_env.c ***//
 int			ft_wrong_path(t_shell *data);
+int			ft_err_env_args(t_shell *data, char *str);
 int			ft_exec_env(t_shell *data, t_info *curr);
 
 //*** ft_echo_pwd.c ***//
 t_builtin	*create_array_function(void);
+void		print_argv(char **str, int indx);
 int			ft_exec_echo(t_shell *data, t_info *curr);
 int			ft_exec_pwd(t_shell *data, t_info *curr);
 
@@ -195,6 +198,7 @@ int			ft_exec_pwd(t_shell *data, t_info *curr);
 void		ft_add_oldpwd_env(t_shell *data, char *curr_pwd);
 void		ft_change_oldpwd_env(t_shell *data, char *curr_pwd, int check);
 void		ft_change_pwd_env(t_shell *data, char *curr_pwd, char *new_pwd);
+int			ft_err_many_args(t_shell *data);
 int			ft_exec_cd(t_shell *data, t_info *curr);
 
 //*** ft_unset.c ***//
