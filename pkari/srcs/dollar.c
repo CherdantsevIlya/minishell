@@ -62,8 +62,15 @@ int dollar_env(t_shell *msh, int *i, int j)
 	dollar_env = get_dollar_env(msh->env, tmp1);
 	tmp2 = ft_strdup(msh->str + *i);
 	*i = *i + ft_strlen(dollar_env) - ft_strlen(tmp1) - 2;
-	tmp = ft_strjoin(tmp, dollar_env);
-	tmp = ft_strjoin(tmp, tmp2);
+	free(tmp1);
+	tmp1 = ft_strjoin2(dollar_env, tmp2);
+	free(tmp2);
+	tmp = ft_strjoin2(tmp, tmp1);
+	if (ft_strlen(tmp) == 0)
+	{
+		free(tmp);
+		tmp = NULL;
+	}
 	free(msh->str);
 	msh->str = tmp;
 	return (0);

@@ -68,10 +68,7 @@ int	ft_height_array(char **array)
 
 	i = 0;
 	line = array;
-	while (*line)
-	{
-		if (line[i])
+	while (line[i])
 			i++;
-	}
 	return (i);
 }

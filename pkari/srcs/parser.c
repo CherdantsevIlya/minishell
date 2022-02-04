@@ -16,6 +16,7 @@ t_info *add_new_info(void)
 	tmp->fd_input_file = -2;
 	tmp->heredoc = NULL;
 	tmp->error = 0;
+	tmp->nb_cmd = -1;
 	tmp->head = tmp;
 	tmp->prev = NULL;
 	tmp->next = NULL;

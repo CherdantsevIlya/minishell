@@ -101,32 +101,26 @@ static int ft_lstsize2(t_env *env)
 	 return (i);
 }
 
-static char **get_arr_from_lst(t_env *env)
+static char **get_arr_from_lst(t_shell *data)
 {
 	 t_env *tmp;
-	 char **arr;
 	 int i;
 	 char *str;
 
-	 tmp = env;
+	 tmp = data->env;
 	 i = ft_lstsize2(tmp);
-	 arr = (char **)malloc(sizeof(char *) * (i + 1));
+	 data->array = (char **)malloc(sizeof(char *) * (i + 1));
 	 i = 0;
 	 while (tmp)
 	 {
 		 str = ft_strjoin2(tmp->key, "=");
-		 arr[i] = ft_strjoin2(str, tmp->value);
+		 data->array[i] = ft_strjoin2(str, tmp->value);
 		 free(str);
 		 i++;
 		 tmp = tmp->next;
 	 }
-	 arr[i] = NULL;
-	 return (arr);
-}
-
-static void execve_error(t_shell *data)
-{
-	(void)data; // ошибки
+	 data->array[i] = NULL;
+	 return (data->array);
 }
 
 //**end new functions**//
@@ -135,9 +129,9 @@ int	ft_simple_execute(t_shell *data, t_info *curr, t_builtin *func)
 {
 	if (data->count == 1)
 	{
-		ft_redirect_dup(curr);
 		ft_pipe_init(data, curr);
-		if (curr->nb_cmd < 7 && curr->nb_cmd > 0 && !curr->is_pipe)
+		ft_redirect_dup(curr);
+		if ((curr->nb_cmd >= 0 && curr->nb_cmd < 7) && (curr->token != 1))
 			return ((func)[curr->nb_cmd](data, curr));
 		else
 		{
@@ -147,11 +141,9 @@ int	ft_simple_execute(t_shell *data, t_info *curr, t_builtin *func)
 			else if (data->pid == 0)
 			{
 				if (execve(get_prog_name(data), data->info->argv,
-						   get_arr_from_lst(data->env)) == -1)
+						   get_arr_from_lst(data)) == -1)
 					execve_error(data);
 				exit(data->exit_status);
-//				create_array_env(&data);
-//				return (ft_run_execve(data, curr));
 			}
 		}
 	}
@@ -174,11 +166,9 @@ int	ft_execute(t_shell *data, t_info *curr, t_builtin *func)
 			else
 			{
 				if (execve(get_prog_name(data), data->info->argv,
-						   get_arr_from_lst(data->env)) == -1)
+						   get_arr_from_lst(data)) == -1)
 					execve_error(data);
 				exit(data->exit_status);
-//				create_array_env(&data);
-//				ft_run_execve(data, curr);
 			}
 		}
 	}

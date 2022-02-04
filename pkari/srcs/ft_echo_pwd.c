@@ -30,8 +30,8 @@ t_builtin	*create_array_function(void)
 
 int	ft_exec_echo(t_shell *data, t_info *curr)
 {
-	(void) data;
-	if ((curr->nb_cmd == 0 && curr->is_pipe == 0) \
+	(void)data;
+	if ((curr->nb_cmd == 0 && curr->token != 1) \
 		|| (curr->nb_cmd == 0 && curr->fd_output_file != -2))
 	{
 		if (!ft_strcmp2(curr->argv[1], "-n"))
@@ -53,7 +53,7 @@ int	ft_exec_pwd(t_shell *data, t_info *curr)
 	(void) data;
 	buf = NULL;
 	str = getcwd(NULL, sizeof(buf));
-	if ((curr->nb_cmd == 2 && curr->is_pipe == 0) \
+	if ((curr->nb_cmd == 2 && curr->token != 1) \
 		|| (curr->nb_cmd == 2 && curr->fd_output_file != -2))
 	{
 		write(1, str, ft_strlen(str));

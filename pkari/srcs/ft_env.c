@@ -28,23 +28,24 @@ int	ft_wrong_path(t_shell *data)
 
 int	ft_exec_env(t_shell *data, t_info *curr)
 {
-	int		i;
-	int		size;
+	t_env *tmp;
 
-	i = 0;
-	size = ft_lstsize_env(data);
+	tmp = data->env;
 	if (curr->nb_cmd == 6)
 	{
-		if (data->env != NULL && !ft_wrong_path(data) && curr->is_pipe == 0)
+		if (data->env != NULL && !ft_wrong_path(data) && curr->token != 1)
 		{
-			create_array_env(&data);
-			while (i < size)
+			while (tmp)
 			{
-				write(1, data->array[i], ft_strlen(data->array[i]));
-				write(1, "\n", 1);
-				i++;
+				if (tmp->sep)
+				{
+					write(1, tmp->key, ft_strlen(tmp->key));
+					write(1, tmp->sep, ft_strlen(tmp->sep));
+					write(1, tmp->value, ft_strlen(tmp->value));
+					write(1, "\n", 1);
+				}
+				tmp = tmp->next;
 			}
-			ft_array_clear(data->array);
 		}
 	}
 	return (0);

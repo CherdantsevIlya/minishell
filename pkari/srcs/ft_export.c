@@ -99,7 +99,7 @@ void	ft_print_export(t_shell *data, t_info *curr, int height)
 
 	sorted = NULL;
 	value = NULL;
-	if (data->env != NULL && height == 0 && curr->is_pipe == 0)
+	if (data->env != NULL && height == 1 && curr->token != 1)
 	{
 		sorted = ft_sort_env(data);
 		while (sorted)
@@ -110,9 +110,9 @@ void	ft_print_export(t_shell *data, t_info *curr, int height)
 				write(1, sorted->sep, ft_strlen(sorted->sep));
 			if (sorted->value)
 			{
-				value = ft_add_quotes(sorted->value);
-				write(1, value, ft_strlen(value));
-				ft_str_clear(&value);
+				write(1,"\"", 1);
+				write(1, sorted->value, ft_strlen(sorted->value));
+				write(1,"\"", 1);
 			}
 			write(1, "\n", 1);
 			sorted = sorted->next_sorted;
@@ -125,9 +125,9 @@ int	ft_exec_export(t_shell *data, t_info *curr)
 	int		height;
 
 	height = ft_height_array(curr->argv);
-	if (curr->nb_cmd == 3 && curr->is_pipe == 0)
+	if (curr->nb_cmd == 3 && curr->token != 1)
 	{
-		if (height > 0)
+		if (height > 1)
 		{
 			if (ft_check_key(curr->argv[1]) == 1)
 				return (ft_err_export(data, curr->argv[1]));

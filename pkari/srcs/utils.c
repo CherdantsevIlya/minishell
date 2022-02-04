@@ -3,16 +3,14 @@
 void free_all(t_shell *msh)
 {
 	t_info *tmp;
+	t_env *tmp2;
 	int i;
 
-	if (msh->env != NULL)
-		msh->env = msh->env->first;
-	while (msh->env)
+	tmp2 = msh->env;
+	while (tmp2->next)
 	{
-		ft_str_clear(&msh->env->key);
-		ft_str_clear(&msh->env->sep);
-		ft_str_clear(&msh->env->value);
-		msh->env = msh->env->next;
+		tmp2->is_sorted = 0;
+		tmp2 = tmp2->next;
 	}
 	if (msh->info != NULL)
 		msh->info = msh->info->head;
@@ -37,4 +35,5 @@ void free_all(t_shell *msh)
 	if (msh->str)
 		free(msh->str);
 	msh->have_a_pipe = 0;
+	msh->check = 0;
 }

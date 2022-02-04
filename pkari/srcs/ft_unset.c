@@ -43,24 +43,27 @@ void	ft_del_lst(char *str, t_shell *data)
 {
 	t_env	*tmp;
 	t_env	*envrmnt;
-	t_env	*previous;
+//	t_env	*previous;
 
 	tmp = NULL;
-	previous = NULL;
+//	previous = NULL;
 	envrmnt = data->env;
-	while (envrmnt)
+	while (envrmnt->next)
 	{
-		if (!ft_strcmp2(envrmnt->next->key, str))
+		if (!ft_strcmp2(envrmnt->key, str))
 		{
-			tmp = envrmnt;
-			previous = envrmnt->prev;
-			ft_str_clear(&envrmnt->key);
-			ft_str_clear(&envrmnt->sep);
-			ft_str_clear(&envrmnt->value);
 			envrmnt = envrmnt->next;
+			tmp = envrmnt->prev;
+//			previous = envrmnt->prev;
+			envrmnt->prev = tmp->prev;
+			envrmnt->prev->next = envrmnt;
+			ft_str_clear(&tmp->key);
+			ft_str_clear(&tmp->sep);
+			ft_str_clear(&tmp->value);
 			free(tmp);
-			envrmnt->prev = previous;
 		}
+		else
+			envrmnt = envrmnt->next;
 	}
 }
 
@@ -71,7 +74,7 @@ int	ft_exec_unset(t_shell *data, t_info *curr)
 
 	i = 1;
 	height = ft_height_array(curr->argv);
-	if (curr->nb_cmd == 4 && height > 0 && curr->is_pipe == 0)
+	if (curr->nb_cmd == 4 && height > 0 && curr->token != 1)
 	{
 		while (curr->argv[i])
 		{

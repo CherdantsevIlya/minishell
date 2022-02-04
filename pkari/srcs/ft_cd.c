@@ -81,7 +81,7 @@ int	ft_exec_cd(t_shell *data, t_info *curr)
 	buf1 = NULL;
 	buf2 = NULL;
 	height = ft_height_array(curr->argv);
-	if (curr->nb_cmd == 1 && height > 0 && curr->is_pipe == 0 \
+	if (curr->nb_cmd == 1 && height > 0 && curr->token != 1 \
 		&& data->count == 1)
 	{
 		curr_pwd = getcwd(NULL, sizeof(buf1));

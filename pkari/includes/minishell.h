@@ -117,6 +117,7 @@ int msh_lstsize(t_info *curr);
 //*** errors.c ***//
 int syntax_error(t_shell *msh, char *str, int len);
 void errno_error(t_shell *msh);
+void execve_error(t_shell *data);
 
 //*** utils.c ***//
 void free_all(t_shell *msh);
@@ -212,8 +213,6 @@ int			ft_exec_export(t_shell *data, t_info *curr);
 int			ft_check_char(int c);
 int			ft_check_key(char *str);
 int			ft_err_export(t_shell *data, char *str);
-char		*ft_quotes(void);
-char		*ft_add_quotes(char *str);
 
 //*** ft_errors.c ***//
 int			put_err_message(char *str);

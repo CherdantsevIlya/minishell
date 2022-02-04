@@ -36,22 +36,26 @@ int	ft_err_exit(t_shell *data, char *str, int flag)
 
 	part_str = NULL;
 	err = NULL;
-	data->exit_status = 1;
 	if (flag == 1)
 	{
+		data->exit_status = 255;
 		part_str = ft_two_colon("exit", str);
 		err = ft_strjoin2(part_str, "numeric argument required");
 	}
 	else if (flag == 2)
 	{
+		data->exit_status = 1;
 		part_str = ft_one_colon("exit");
 		err = ft_strjoin2(part_str, "too many arguments");
 	}
 	write(STDERR_FILENO, "exit\n", ft_strlen("exit\n"));
+	write(STDERR_FILENO, "minishell: ", ft_strlen("minishell: "));
 	write(STDERR_FILENO, err, ft_strlen(err));
 	write(STDERR_FILENO, "\n", 1);
 	ft_str_clear(&part_str);
 	ft_str_clear(&err);
+	if (flag == 1)
+		exit(data->exit_status);
 	return (1);
 }
 
@@ -65,6 +69,7 @@ int	ft_right_exit(t_shell *data, t_info *curr, int flag)
 	{
 		write(1, curr->argv[0], ft_strlen(curr->argv[0]));
 		write(1, "\n", 1);
+		exit(data->exit_status);
 	}
 	return (0);
 }

@@ -64,34 +64,3 @@ int	ft_err_export(t_shell *data, char *str)
 	ft_str_clear(&err);
 	return (1);
 }
-
-char	*ft_quotes(void)
-{
-	char	*str;
-
-	str = (char *)malloc(sizeof(char) * 2);
-	if (!str)
-		return (NULL);
-	str[0] = 34;
-	str[1] = '\0';
-	return (str);
-}
-
-char	*ft_add_quotes(char *str)
-{
-	char	*str1;
-	char	*str2;
-	char	*str3;
-
-	str1 = NULL;
-	str2 = NULL;
-	str3 = ft_quotes();
-	if (str)
-	{
-		str1 = ft_strjoin(str3, str);
-		str2 = ft_strjoin(str1, str3);
-		ft_str_clear(&str1);
-		ft_str_clear(&str3);
-	}
-	return (str2);
-}

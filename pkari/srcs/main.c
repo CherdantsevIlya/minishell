@@ -79,8 +79,8 @@ int main(int argc, char **argv, char **env)
 		return (1);
 	}
 	init_shell(&msh);
-//	msh.env = parse_envrmnt(msh.env, env);
-	create_env(&msh, env);
+	msh.env = parse_envrmnt(msh.env, env);
+//	create_env(&msh, env);
 	shlvl(&msh);
 	while (1)
 	{
