@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/23 18:12:43 by abridger          #+#    #+#             */
-/*   Updated: 2022/02/04 20:13:11 by abridger         ###   ########.fr       */
+/*   Updated: 2022/02/04 20:57:21 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	ft_exec_cd(t_shell *data, t_info *curr)
 	//buf1 = NULL;
 	//buf2 = NULL;
 	height = ft_height_array(curr->argv);
-	if (curr->nb_cmd == 1 && height > 0 && curr->token != 1 \
+	if (curr->nb_cmd == 1 && height > 1 && curr->token != 1 \
 		&& data->count == 1)
 	{
 		curr_pwd = getcwd(buf1, sizeof(buf1));
