@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_fd_redirect_pipe.c                              :+:      :+:    :+:   */
+/*   ft_fd_redirect.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 20:56:15 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/25 18:56:53 by abridger         ###   ########.fr       */
+/*   Updated: 2022/02/05 22:19:19 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,10 @@ void	ft_redirect_dup(t_info *curr)
 	}
 }
 
-void	ft_pipe_init(t_shell *data, t_info *curr)
+void	ft_close_files(t_info *curr)
 {
-	if (curr->token == TOKEN_PIPE && data->count == 1)
-		pipe(data->fd_pipe);
-	if (data->count >= 2)
-	{
-		dup2(data->fd_pipe[0], 0);
-		close(data->fd_pipe[0]);
-	}
-	if (curr->token == TOKEN_PIPE)
-	{
-		dup2(data->fd_pipe[1], 1);
-		close(data->fd_pipe[1]);
-	}
+	if (curr->fd_input_file != -2)
+		close(curr->fd_input_file);
+	if (curr->fd_output_file != -2)
+		close(curr->fd_output_file);
 }

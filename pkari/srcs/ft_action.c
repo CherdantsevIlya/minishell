@@ -6,13 +6,13 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 16:29:06 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/29 23:37:23 by abridger         ###   ########.fr       */
+/*   Updated: 2022/02/05 22:00:54 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
- int	action(t_shell *data) // after parser раскомментировать
+ int	action(t_shell *data)
  {
 	 ft_define_cmd(data);
 	 ft_execution_cycle(data);
@@ -128,14 +128,16 @@ static char **get_arr_from_lst(t_shell *data)
 
 int	ft_simple_execute(t_shell *data, t_info *curr, t_builtin *func)
 {
+	int	status;
+	
 	if (data->count == 1)
 	{
-		ft_pipe_init(data, curr);
 		ft_redirect_dup(curr);
-		if ((curr->nb_cmd >= 0 && curr->nb_cmd < 7) && (curr->token != 1))
-			return ((func)[curr->nb_cmd](data, curr));
+		if (curr->nb_cmd >= 0 && curr->nb_cmd < 7)
+			return ((func)[curr->nb_cmd](data, curr)); // close files?
 		else
 		{
+			//ft_redirect_dup(curr);
 			data->pid = fork();
 			if (data->pid == -1)
 				return (ft_error(data, ft_one_colon("fork")));
@@ -146,6 +148,8 @@ int	ft_simple_execute(t_shell *data, t_info *curr, t_builtin *func)
 					execve_error(data);
 				exit(data->exit_status);
 			}
+			ft_close_files(curr);
+			waitpid(-1, &status, 0);
 		}
 	}
 	return (0);
@@ -153,16 +157,20 @@ int	ft_simple_execute(t_shell *data, t_info *curr, t_builtin *func)
 
 int	ft_execute(t_shell *data, t_info *curr, t_builtin *func)
 {
+	int	status;
+	
 	if (data->count > 1)
 	{
-		ft_pipe_init(data, curr);
+		ft_pipe_dup(data, curr);
 		ft_redirect_dup(curr);
 		data->pid = fork();
 		if (data->pid == -1)
 			return (ft_error(data, ft_one_colon("fork")));
 		else if (data->pid == 0)
 		{
-			if (curr->nb_cmd < 7 && curr->nb_cmd > 0 && !curr->is_pipe)
+			//ft_pipe_dup(data, curr);
+			//ft_redirect_dup(curr);
+			if (curr->nb_cmd < 7 && curr->nb_cmd > 0)
 				return ((func)[curr->nb_cmd](data, curr));
 			else
 			{
@@ -172,6 +180,8 @@ int	ft_execute(t_shell *data, t_info *curr, t_builtin *func)
 				exit(data->exit_status);
 			}
 		}
+		ft_close_files(curr);
+		waitpid(-1, &status, 0);
 	}
 	return (0);
 }
@@ -180,18 +190,21 @@ void	ft_execution_cycle(t_shell *data)
 {
 	t_info		*curr;
 	t_builtin	*func;
-	int			status;
-
+	
 	curr = data->info->head;
 	data->count = msh_lstsize(curr);
 	func = create_array_function();
+	//ft_init_saved_fd(data);
+	ft_pipe_init(data);
 	while (curr)
 	{
 		signal(SIGINT, ctrl_c2);
+		ft_init_saved_fd(data);
 		ft_simple_execute(data, curr, func);
 		ft_execute(data, curr, func);
 		curr = curr->next;
+		ft_close_saved_fd(data);
 	}
-	waitpid(-1, &status, 0);
+	//ft_close_saved_fd(data);
 	free(func);
 }

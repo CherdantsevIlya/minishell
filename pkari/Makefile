@@ -36,7 +36,8 @@ SRC				=	srcs/main.c \
                     srcs/ft_action.c			\
                     srcs/ft_process.c			\
                     srcs/ft_array_utils.c		\
-                    srcs/ft_fd_redirect_pipe.c	\
+                    srcs/ft_fd_redirect.c		\
+					srcs/ft_fd_pipe.c			\
                     srcs/ft_echo_pwd.c			\
                     srcs/ft_cd.c				\
                     srcs/ft_unset.c				\

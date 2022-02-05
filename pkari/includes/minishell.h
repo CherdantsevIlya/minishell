@@ -175,12 +175,15 @@ int			ft_run_execve(t_shell *data, t_info *curr);
 int			ft_no_path(t_shell *data, t_info *curr);
 int			ft_execve(t_shell *data, t_info *curr, char *str_path);
 
-//*** ft_fd_redirect_pipe.c ***//
-
+//*** ft_fd_redirect.c ***//
 void		ft_init_saved_fd(t_shell *data);
 void		ft_close_saved_fd(t_shell *data);
 void		ft_redirect_dup(t_info *curr);
-void		ft_pipe_init(t_shell *data, t_info *curr);
+void		ft_close_files(t_info *curr);
+
+//*** ft_fd_pipe.c ***//
+void		ft_pipe_init(t_shell *data);
+void		ft_pipe_dup(t_shell *data, t_info *curr);
 
 //*** ft_exit.c ***//
 int			ft_right_digit(char *str);

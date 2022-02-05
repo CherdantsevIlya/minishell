@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/23 18:12:43 by abridger          #+#    #+#             */
-/*   Updated: 2022/02/04 20:57:21 by abridger         ###   ########.fr       */
+/*   Updated: 2022/02/05 21:59:36 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,19 +84,16 @@ int	ft_exec_cd(t_shell *data, t_info *curr)
 	char	buf2[1024];
 	char	*curr_pwd;
 	char	*new_pwd;
-	int		height;
-
-	//buf1 = NULL;
-	//buf2 = NULL;
-	height = ft_height_array(curr->argv);
-	if (curr->nb_cmd == 1 && height > 1 && curr->token != 1 \
-		&& data->count == 1)
+	
+	if (curr->nb_cmd == 1 && data->count == 1)
 	{
 		curr_pwd = getcwd(buf1, sizeof(buf1));
 		if (curr->argv[2])
 			return (ft_err_many_args(data));
 		if (curr->argv[1] && chdir(curr->argv[1]) < 0)
 			return (ft_error(data, ft_two_colon("cd", curr->argv[1])));
+		if (curr->argv[1] && curr->token == TOKEN_PIPE)
+			chdir(curr_pwd);
 		new_pwd = getcwd(buf2, sizeof(buf2));
 		ft_change_pwd_env(data, curr_pwd, new_pwd);
 	}
