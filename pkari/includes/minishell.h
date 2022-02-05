@@ -70,6 +70,10 @@ typedef struct s_shell
 
 typedef int	(*t_builtin)(t_shell *, t_info *);
 
+//**************************//
+//**********PKARI***********//
+//**************************//
+
 //*** main.c ***//
 void init_shell(t_shell *msh);
 void create_env(t_shell *msh, char **env);
@@ -108,6 +112,7 @@ void redirect_heredoc(t_shell *msh, int *i);
 //*** signals.c ***//
 void ctrl_c(int signal);
 void ctrl_d(void);
+void ctrl_c2(int signal);
 
 //*** lsts.c ***//
 void msh_lstadd_back(t_env **env, t_env *new);
@@ -126,7 +131,7 @@ void free_all(t_shell *msh);
 void rl_replace_line(const char *text, int clear_undo);
 
 //**************************//
-//***ДАЛЕЕ ЧАСТЬ ABRIDGER***//
+//*********ABRIDGER*********//
 //**************************//
 
 //*** ft_array_utils.c ***//
@@ -203,7 +208,8 @@ int			ft_exec_cd(t_shell *data, t_info *curr);
 
 //*** ft_unset.c ***//
 int			ft_err_unset(t_shell *data, char *str);
-void		ft_del_lst(char *str, t_shell *data);
+void		ft_del_lst(char *str, t_env *env);
+void		ft_del_lst_support(t_env *env);
 int			ft_exec_unset(t_shell *data, t_info *curr);
 
 //*** ft_export.c ***//

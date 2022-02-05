@@ -39,31 +39,36 @@ int	ft_err_unset(t_shell *data, char *str)
 	return (0);
 }
 
-void	ft_del_lst(char *str, t_shell *data)
+void ft_del_lst_support(t_env *env)
 {
-	t_env	*tmp;
-	t_env	*envrmnt;
-//	t_env	*previous;
+	t_env *prev;
+	t_env *next;
 
-	tmp = NULL;
-//	previous = NULL;
-	envrmnt = data->env;
-	while (envrmnt->next)
+	prev = NULL;
+	next = NULL;
+	prev = env->prev;
+	next = env->next;
+	if (env->prev)
+		prev->next = env->next;
+	if (env->next)
+		next->prev = env->prev;
+	ft_str_clear(&env->key);
+	ft_str_clear(&env->sep);
+	ft_str_clear(&env->value);
+	free(env);
+}
+
+void	ft_del_lst(char *str, t_env *env)
+{
+	while (env)
 	{
-		if (!ft_strcmp2(envrmnt->key, str))
+		if (!ft_strcmp2(env->key, str))
 		{
-			envrmnt = envrmnt->next;
-			tmp = envrmnt->prev;
-//			previous = envrmnt->prev;
-			envrmnt->prev = tmp->prev;
-			envrmnt->prev->next = envrmnt;
-			ft_str_clear(&tmp->key);
-			ft_str_clear(&tmp->sep);
-			ft_str_clear(&tmp->value);
-			free(tmp);
+			ft_del_lst_support(env);
+			break ;
 		}
 		else
-			envrmnt = envrmnt->next;
+			env = env->next;
 	}
 }
 
@@ -71,6 +76,7 @@ int	ft_exec_unset(t_shell *data, t_info *curr)
 {
 	int		i;
 	int		height;
+	t_env *tmp;
 
 	i = 1;
 	height = ft_height_array(curr->argv);
@@ -78,8 +84,9 @@ int	ft_exec_unset(t_shell *data, t_info *curr)
 	{
 		while (curr->argv[i])
 		{
+			tmp = data->env;
 			if (!ft_err_unset(data, curr->argv[i]))
-				ft_del_lst(curr->argv[i], data);
+				ft_del_lst(curr->argv[i], tmp);
 			i++;
 		}
 	}

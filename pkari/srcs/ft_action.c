@@ -16,6 +16,7 @@
  {
 	 ft_define_cmd(data);
 	 ft_execution_cycle(data);
+	 signal(SIGINT, ctrl_c);
 	 return (0);
  }
 
@@ -186,6 +187,7 @@ void	ft_execution_cycle(t_shell *data)
 	func = create_array_function();
 	while (curr)
 	{
+		signal(SIGINT, ctrl_c2);
 		ft_simple_execute(data, curr, func);
 		ft_execute(data, curr, func);
 		curr = curr->next;

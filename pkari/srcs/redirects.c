@@ -61,6 +61,8 @@ void redirect_heredoc(t_shell *msh, int *i)
 	while (1)
 	{
 		str = readline("> ");
+		if (!str)
+			break ;
 		if (!(ft_strcmp(msh->info->heredoc, str)))
 		{
 			free(str);
