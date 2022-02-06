@@ -211,8 +211,8 @@ int			ft_exec_cd(t_shell *data, t_info *curr);
 
 //*** ft_unset.c ***//
 int			ft_err_unset(t_shell *data, char *str);
-void		ft_del_lst(char *str, t_env *env);
-void		ft_del_lst_support(t_env *env);
+void		ft_del_lst(char *str, t_env *env, t_shell *data);
+void		ft_del_lst_support(t_env *env, t_shell *data);
 int			ft_exec_unset(t_shell *data, t_info *curr);
 
 //*** ft_export.c ***//

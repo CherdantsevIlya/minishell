@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 17:15:16 by abridger          #+#    #+#             */
-/*   Updated: 2022/02/04 16:47:25 by abridger         ###   ########.fr       */
+/*   Updated: 2022/02/06 18:31:21 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ int	ft_env_check(const char *line, t_env *tmp)
 		sep = NULL;
 	while (tmp && check == 0)
 	{
-		if (!ft_strcmp2(key, tmp->key) && !ft_strcmp2(sep, tmp->sep))
-			check = 1;
-		else if (!ft_strcmp2(key, tmp->key) && ft_strcmp2(sep, tmp->sep))
+		if (!ft_strcmp2(key, tmp->key) && tmp->sep)
 			check = 2;
+		else if (!ft_strcmp2(key, tmp->key) && !tmp->sep)
+			check = 1;
 		tmp = tmp->next;
 	}
 	ft_str_clear(&key);
@@ -55,6 +55,8 @@ void	ft_lst_change_value(t_env *lst, const char *line)
 		if (!ft_strcmp2(key, lst->key))
 		{
 			ft_str_clear(&lst->value);
+			if (ft_strlen((char *)line) - len_key >= 1)
+				lst->sep = ft_substr(line, len_key, 1);
 			if (len_value > 0)
 				lst->value = ft_substr(line, len_key + 1, len_value);
 			else
@@ -105,13 +107,14 @@ void	ft_print_export(t_shell *data, t_info *curr, int height)
 			write(1, "declare -x ", ft_strlen("declare -x "));
 			write(1, sorted->key, ft_strlen(sorted->key));
 			if (sorted->sep)
-				write(1, sorted->sep, ft_strlen(sorted->sep));
-			if (sorted->value)
 			{
-				write(1,"\"", 1);
-				write(1, sorted->value, ft_strlen(sorted->value));
+				write(1, sorted->sep, ft_strlen(sorted->sep));
 				write(1,"\"", 1);
 			}
+			if (sorted->value)
+				write(1, sorted->value, ft_strlen(sorted->value));
+			if (sorted->sep)
+				write(1,"\"", 1);
 			write(1, "\n", 1);
 			sorted = sorted->next_sorted;
 		}

@@ -7,9 +7,11 @@ void free_all(t_shell *msh)
 	int i;
 
 	tmp2 = msh->env;
-	while (tmp2->next)
+	while (tmp2)
 	{
 		tmp2->is_sorted = 0;
+		tmp2->next_sorted = NULL;
+		tmp2->first = NULL;
 		tmp2 = tmp2->next;
 	}
 	if (msh->info != NULL)
