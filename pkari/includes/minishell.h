@@ -182,8 +182,10 @@ void		ft_redirect_dup(t_info *curr);
 void		ft_close_files(t_info *curr);
 
 //*** ft_fd_pipe.c ***//
-void		ft_pipe_init(t_shell *data);
+void		ft_pipe_init(t_shell *data, t_info *curr);
+void		ft_pipe_close(t_shell *data, t_info *curr);
 void		ft_pipe_dup(t_shell *data, t_info *curr);
+//void		ft_pipe_dup_c(t_shell *data, t_info *curr);
 
 //*** ft_exit.c ***//
 int			ft_right_digit(char *str);
