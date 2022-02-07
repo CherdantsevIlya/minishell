@@ -135,6 +135,7 @@ int	ft_exec_export(t_shell *data, t_info *curr)
 			ft_add_variable(curr, data);
 		}
 		ft_print_export(data, curr, height);
+		data->exit_status = 0;
 	}
 	return (0);
 }

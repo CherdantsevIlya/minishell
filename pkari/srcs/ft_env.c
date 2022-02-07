@@ -44,6 +44,7 @@ int	ft_exec_env(t_shell *data, t_info *curr)
 	t_env *tmp;
 
 	tmp = data->env;
+	data->exit_status = 0;
 	if (curr->nb_cmd == 6 && !curr->argv[1])
 	{
 		if (data->env != NULL && !ft_wrong_path(data) && curr->token != 1)

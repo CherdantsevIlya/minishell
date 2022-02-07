@@ -25,7 +25,7 @@ int	ft_err_unset(t_shell *data, char *str)
 	{
 		if (str[i] == 61)
 		{
-			data->exit_status = 127;
+			data->exit_status = 1;
 			part_str = ft_strjoin2("unset: `", str);
 			err = ft_strjoin2(part_str, "': not a valid identifier");
 			ft_str_clear(&part_str);
@@ -36,6 +36,7 @@ int	ft_err_unset(t_shell *data, char *str)
 		}
 		i++;
 	}
+	data->exit_status = 0;
 	return (0);
 }
 

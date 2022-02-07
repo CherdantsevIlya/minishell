@@ -55,6 +55,7 @@ int	ft_exec_echo(t_shell *data, t_info *curr)
 		else
 			print_argv(curr->argv, 1);
 	}
+	data->exit_status = 0;
 	return (0);
 }
 
@@ -75,5 +76,6 @@ int	ft_exec_pwd(t_shell *data, t_info *curr)
 		write(1, "\n", 1);
 		//ft_str_clear(&str);
 	}
+	data->exit_status = 0;
 	return (0);
 }

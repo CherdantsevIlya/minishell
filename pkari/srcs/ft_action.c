@@ -124,12 +124,21 @@ static char **get_arr_from_lst(t_shell *data)
 	 return (data->array);
 }
 
+static void exit_status_handler(t_shell *data)
+{
+	 int status;
+
+	 waitpid(-1, &status, 0);
+	 if (WIFSIGNALED(status))
+		 data->exit_status = WTERMSIG(status) + 128;
+	 else
+		 data->exit_status = WEXITSTATUS(status);
+}
+
 //**end new functions**//
 
 int	ft_simple_execute(t_shell *data, t_info *curr, t_builtin *func)
 {
-	int	status;
-	
 	if (data->count == 1)
 	{
 		ft_redirect_dup(curr);
@@ -148,7 +157,7 @@ int	ft_simple_execute(t_shell *data, t_info *curr, t_builtin *func)
 				exit(data->exit_status);
 			}
 			ft_close_files(curr);
-			waitpid(-1, &status, 0);
+			exit_status_handler(data);
 		}
 	}
 	return (0);
@@ -156,8 +165,6 @@ int	ft_simple_execute(t_shell *data, t_info *curr, t_builtin *func)
 
 int	ft_execute(t_shell *data, t_info *curr, t_builtin *func)
 {
-	int	status;
-	
 	if (data->count > 1)
 	{
 		data->pid = fork();
@@ -167,19 +174,19 @@ int	ft_execute(t_shell *data, t_info *curr, t_builtin *func)
 		{
 			ft_pipe_dup(data, curr);
 			ft_redirect_dup(curr);
-			if (curr->nb_cmd < 7 && curr->nb_cmd > 0)
-				return ((func)[curr->nb_cmd](data, curr));
+			if (curr->nb_cmd < 7 && curr->nb_cmd >= 0)
+				(func)[curr->nb_cmd](data, curr);
 			else
 			{
 				if (execve(get_prog_name(data), data->info->argv,
 						   get_arr_from_lst(data)) == -1)
 					execve_error(data);
-				exit(data->exit_status);
 			}
+			exit(data->exit_status);
 		}
 		ft_pipe_close(data, curr);
 		ft_close_files(curr);
-		waitpid(-1, &status, 0);
+		exit_status_handler(data);
 	}
 	return (0);
 }
