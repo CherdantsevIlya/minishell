@@ -36,6 +36,6 @@ void free_all(t_shell *msh)
 		free(msh->array[i++]);
 	if (msh->str)
 		free(msh->str);
-	msh->have_a_pipe = 0;
+	msh->have_a_pipe = 0; // это не используется?
 	msh->check = 0;
 }

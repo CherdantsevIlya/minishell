@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 20:56:15 by abridger          #+#    #+#             */
-/*   Updated: 2022/02/05 22:19:19 by abridger         ###   ########.fr       */
+/*   Updated: 2022/02/08 03:01:44 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ void	ft_redirect_dup(t_info *curr)
 	}
 }
 
-void	ft_close_files(t_info *curr)
-{
-	if (curr->fd_input_file != -2)
-		close(curr->fd_input_file);
-	if (curr->fd_output_file != -2)
-		close(curr->fd_output_file);
-}
+//void	ft_close_files(t_info *curr)
+//{
+//	if (curr->fd_input_file != -2)
+//		close(curr->fd_input_file);
+//	if (curr->fd_output_file != -2)
+//		close(curr->fd_output_file);
+//}

@@ -64,7 +64,7 @@ void init_shell(t_shell *msh)
 	msh->array = NULL;
 	msh->info = NULL;
 	msh->exit_status = 0;
-	msh->have_a_pipe = 0;
+	msh->have_a_pipe = 0; // это не используется?
 	msh->check = 0;
 }
 

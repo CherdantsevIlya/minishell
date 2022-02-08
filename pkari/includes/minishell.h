@@ -47,6 +47,8 @@ typedef struct s_info
 	int				fd_heredoc[2];
 	int				error;
 	int				nb_cmd;
+	int				fd_pipe[2];
+	int				pid;
 	struct s_info	*head;
 	struct s_info	*prev;
 	struct s_info	*next;
@@ -59,11 +61,11 @@ typedef struct s_shell
 	char	*str;
 	char	**array;
 	int		exit_status;
-	int		have_a_pipe;
+	int		have_a_pipe; // это не используется?
 	int		save_in;
 	int		save_out;
-	int		fd_pipe[2];
-	int		pid;
+	//int		fd_pipe[2];
+	//int		pid;
 	int		count;
 	int		check;
 }			t_shell;
@@ -165,7 +167,7 @@ t_env		*ft_sort_env(t_shell *data);
 //*** ft_action.c ***//
 int			action(t_shell *data);
 void		ft_define_cmd(t_shell *data);
-int			ft_simple_execute(t_shell *data, t_info *curr, t_builtin *func);
+//int			ft_simple_execute(t_shell *data, t_info *curr, t_builtin *func);
 int			ft_execute(t_shell *data, t_info *curr, t_builtin *func);
 void		ft_execution_cycle(t_shell *data);
 
@@ -179,11 +181,11 @@ int			ft_execve(t_shell *data, t_info *curr, char *str_path);
 void		ft_init_saved_fd(t_shell *data);
 void		ft_close_saved_fd(t_shell *data);
 void		ft_redirect_dup(t_info *curr);
-void		ft_close_files(t_info *curr);
+//void		ft_close_files(t_info *curr);
 
 //*** ft_fd_pipe.c ***//
 void		ft_pipe_init(t_shell *data, t_info *curr);
-void		ft_pipe_close(t_shell *data, t_info *curr);
+//void		ft_pipe_close(t_shell *data, t_info *curr);
 void		ft_pipe_dup(t_shell *data, t_info *curr);
 //void		ft_pipe_dup_c(t_shell *data, t_info *curr);
 

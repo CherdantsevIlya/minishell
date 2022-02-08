@@ -17,6 +17,9 @@ t_info *add_new_info(void)
 	tmp->heredoc = NULL;
 	tmp->error = 0;
 	tmp->nb_cmd = -1;
+	tmp->fd_pipe[0] = -2;
+	tmp->fd_pipe[1] = -2;
+	tmp->pid = -2;
 	tmp->head = tmp;
 	tmp->prev = NULL;
 	tmp->next = NULL;
