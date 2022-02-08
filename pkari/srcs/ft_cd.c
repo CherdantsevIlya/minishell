@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/23 18:12:43 by abridger          #+#    #+#             */
-/*   Updated: 2022/02/08 01:39:36 by abridger         ###   ########.fr       */
+/*   Updated: 2022/02/08 03:16:48 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	ft_exec_cd(t_shell *data, t_info *curr)
 	if (curr->nb_cmd == 1)
 	{
 		curr_pwd = getcwd(buf1, sizeof(buf1));
-		if (curr->argv &&ft_height_array(curr->argv) > 2)
+		if (curr->argv && ft_height_array(curr->argv) > 2)
 			return (ft_err_many_args(data));
 		if (curr->argv[1] && chdir(curr->argv[1]) < 0)
 			return (ft_error(data, ft_two_colon("cd", curr->argv[1])));
