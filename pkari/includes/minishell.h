@@ -167,7 +167,7 @@ t_env		*ft_sort_env(t_shell *data);
 //*** ft_action.c ***//
 int			action(t_shell *data);
 void		ft_define_cmd(t_shell *data);
-//int			ft_simple_execute(t_shell *data, t_info *curr, t_builtin *func);
+int			ft_simple_execute(t_shell *data, t_info *curr, t_builtin *func);
 int			ft_execute(t_shell *data, t_info *curr, t_builtin *func);
 void		ft_execution_cycle(t_shell *data);
 
@@ -181,13 +181,14 @@ int			ft_execve(t_shell *data, t_info *curr, char *str_path);
 void		ft_init_saved_fd(t_shell *data);
 void		ft_close_saved_fd(t_shell *data);
 void		ft_redirect_dup(t_info *curr);
-//void		ft_close_files(t_info *curr);
+void		ft_close_files1(t_info *curr); // не помогает
+void		ft_close_files2(t_info *curr); // не помогает и висит
 
 //*** ft_fd_pipe.c ***//
 void		ft_pipe_init(t_shell *data, t_info *curr);
-//void		ft_pipe_close(t_shell *data, t_info *curr);
+void		ft_pipe_close(t_shell *data, t_info *curr); // не помогает
 void		ft_pipe_dup(t_shell *data, t_info *curr);
-//void		ft_pipe_dup_c(t_shell *data, t_info *curr);
+void		ft_dup_add(t_shell *data, t_info *curr); // не помогает
 
 //*** ft_exit.c ***//
 int			ft_right_digit(char *str);
