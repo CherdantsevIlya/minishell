@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 16:29:06 by abridger          #+#    #+#             */
-/*   Updated: 2022/02/10 02:12:58 by abridger         ###   ########.fr       */
+/*   Updated: 2022/02/10 23:27:46 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static char *ft_get_path(t_env *env, char *key)
 	return ("");
 }
 
-static char *get_prog_name(t_shell *data)
+static char *get_prog_name(t_shell *data, t_info *curr)
 {
 	 int i;
 	 char **path;
@@ -73,11 +73,11 @@ static char *get_prog_name(t_shell *data)
 	 char *str;
 
 	 i = 0;
-	 str = data->info->argv[0];
+	 str = curr->argv[0];
 	 path = ft_split(ft_get_path(data->env, "PATH"), ':');
 	 while (path[i])
 	 {
-		 tmp = ft_strjoin2("/", data->info->argv[0]);
+		 tmp = ft_strjoin2("/", curr->argv[0]);
 		 tmp = ft_strjoin(path[i], tmp);
 		 if (access(tmp, 0) == 0)
 			 str = tmp;
@@ -151,7 +151,7 @@ int	ft_simple_execute(t_shell *data, t_info *curr, t_builtin *func)
 				return (ft_error(data, ft_one_colon("fork")));
 			else if (curr->pid == 0)
 			{
-				if (execve(get_prog_name(data), data->info->argv,
+				if (execve(get_prog_name(data, curr), data->info->argv,
 						   get_arr_from_lst(data)) == -1)
 					execve_error(data);
 				exit(data->exit_status);
@@ -166,25 +166,29 @@ int	ft_execute(t_shell *data, t_info *curr, t_builtin *func)
 {
 	if (data->count > 1)
 	{
+		ft_pipe_dup(data, curr);
+		ft_redirect_dup(curr);
+		ft_dup_add(data, curr);
+		ft_pipe_close(data, curr);
 		curr->pid = fork();
 		if (curr->pid == -1)
 			return (ft_error(data, ft_one_colon("fork")));
 		else if (curr->pid == 0)
 		{
-			ft_pipe_dup(data, curr);
-			ft_redirect_dup(curr);
+			//ft_pipe_dup(data, curr);
+			//ft_redirect_dup(curr);
+			//ft_dup_add(data, curr);
 			if (curr->nb_cmd < 7 && curr->nb_cmd >= 0)
 				(func)[curr->nb_cmd](data, curr);
 			else
 			{
-				if (execve(get_prog_name(data), data->info->argv,
+				if (execve(get_prog_name(data, curr), curr->argv,
 						   get_arr_from_lst(data)) == -1)
 					execve_error(data);
 			}
 			exit(data->exit_status);
 		}
-		ft_close_files1(curr);
-		ft_pipe_close(data, curr);
+		//ft_pipe_close(data, curr);
 		exit_status_handler(data);
 	}
 	return (0);
@@ -198,17 +202,17 @@ void	ft_execution_cycle(t_shell *data)
 	curr = data->info->head;
 	data->count = msh_lstsize(curr);
 	func = create_array_function();
-	//ft_init_saved_fd(data);
+	ft_init_saved_fd(data);
 	while (curr)
 	{
-		ft_init_saved_fd(data);
+		//ft_init_saved_fd(data);
 		signal(SIGINT, ctrl_c2);
 		ft_pipe_init(data, curr);
 		ft_simple_execute(data, curr, func);
 		ft_execute(data, curr, func);
 		curr = curr->next;
-		ft_close_saved_fd(data);
+		//ft_close_saved_fd(data);
 	}
-	//ft_close_saved_fd(data);
+	ft_close_saved_fd(data);
 	free(func);
 }
