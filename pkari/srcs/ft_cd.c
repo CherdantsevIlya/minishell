@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/23 18:12:43 by abridger          #+#    #+#             */
-/*   Updated: 2022/02/08 03:16:48 by abridger         ###   ########.fr       */
+/*   Updated: 2022/02/13 01:23:45 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	ft_add_oldpwd_env(t_shell *data, char *curr_pwd)
 	str = ft_strjoin2("OLDPWD=", curr_pwd);
 	new = ft_lstnew(str);
 	ft_lstadd_back(&tmp, new);
-	//ft_str_clear(&curr_pwd);
 	ft_str_clear(&str);
 }
 
@@ -61,7 +60,6 @@ void	ft_change_pwd_env(t_shell *data, char *curr_pwd, char *new_pwd)
 		{
 			free(tmp->value);
 			tmp->value = ft_strdup(new_pwd);
-			//free(new_pwd);
 			check = 1;
 		}
 		tmp = tmp->next;
@@ -91,7 +89,7 @@ int	ft_exec_cd(t_shell *data, t_info *curr)
 		if (curr->argv && ft_height_array(curr->argv) > 2)
 			return (ft_err_many_args(data));
 		if (curr->argv[1] && chdir(curr->argv[1]) < 0)
-			return (ft_error(data, ft_two_colon("cd", curr->argv[1])));
+			return (ft_err_no_dir(data, curr->argv[1]));
 		if (curr->argv[1] && curr->token == TOKEN_PIPE)
 			chdir(curr_pwd);
 		new_pwd = getcwd(buf2, sizeof(buf2));

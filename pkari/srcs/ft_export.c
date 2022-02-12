@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 17:15:16 by abridger          #+#    #+#             */
-/*   Updated: 2022/02/06 18:31:21 by abridger         ###   ########.fr       */
+/*   Updated: 2022/02/12 23:41:58 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,12 +94,12 @@ void	ft_add_variable(t_info *curr, t_shell *data)
 	}
 }
 
-void	ft_print_export(t_shell *data, t_info *curr, int height)
+void	ft_print_export(t_shell *data, int height)
 {
 	t_env	*sorted;
 
 	sorted = NULL;
-	if (data->env != NULL && height == 1 && curr->token != 1)
+	if (data->env != NULL && height == 1)
 	{
 		sorted = ft_sort_env(data);
 		while (sorted)
@@ -126,7 +126,7 @@ int	ft_exec_export(t_shell *data, t_info *curr)
 	int		height;
 
 	height = ft_height_array(curr->argv);
-	if (curr->nb_cmd == 3 && curr->token != 1)
+	if (curr->nb_cmd == 3)
 	{
 		if (height > 1)
 		{
@@ -134,7 +134,7 @@ int	ft_exec_export(t_shell *data, t_info *curr)
 				return (ft_err_export(data, curr->argv[1]));
 			ft_add_variable(curr, data);
 		}
-		ft_print_export(data, curr, height);
+		ft_print_export(data, height);
 		data->exit_status = 0;
 	}
 	return (0);

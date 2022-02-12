@@ -47,8 +47,7 @@ int	ft_exec_echo(t_shell *data, t_info *curr)
 {
 
 	(void)data;
-	if ((curr->nb_cmd == 0 && curr->token != 1) \
-		|| (curr->nb_cmd == 0 && curr->fd_output_file != -2))
+	if (curr->nb_cmd == 0)
 	{
 		if (curr->argv[1] && !ft_strcmp2(curr->argv[1], "-n"))
 			print_argv(curr->argv, 2);
@@ -63,18 +62,13 @@ int	ft_exec_pwd(t_shell *data, t_info *curr)
 {
 	char	*str;
 	char	buf[1024];
-	//char	*buf;
 
 	(void) data;
-	//buf = NULL;
 	str = getcwd(buf, sizeof(buf));
-	//str = getcwd(NULL, sizeof(buf));
-	if ((curr->nb_cmd == 2 && curr->token != 1 && str) \
-		|| (curr->nb_cmd == 2 && curr->fd_output_file != -2 && str))
+	if (curr->nb_cmd == 2 && str)
 	{
 		write(1, str, ft_strlen(str));
 		write(1, "\n", 1);
-		//ft_str_clear(&str);
 	}
 	data->exit_status = 0;
 	return (0);

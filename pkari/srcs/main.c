@@ -64,7 +64,7 @@ void init_shell(t_shell *msh)
 	msh->array = NULL;
 	msh->info = NULL;
 	msh->exit_status = 0;
-	msh->have_a_pipe = 0; // это не используется?
+	msh->have_a_pipe = 0;
 	msh->check = 0;
 }
 
@@ -94,5 +94,7 @@ int main(int argc, char **argv, char **env)
 			action(&msh); // builtin part (abridger)
 		free_all(&msh);
 	}
+	free_all(&msh);
+	ft_data_clear(&msh);
 }
 

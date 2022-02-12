@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 15:01:41 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/29 23:56:08 by abridger         ###   ########.fr       */
+/*   Updated: 2022/02/13 01:28:09 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,22 +43,6 @@ int	ft_len_value(char *str)
 	}
 	else
 		return (0);
-}
-
-int	ft_lstsize(t_info *lst)
-{
-	int	length;
-
-	if (!lst)
-		return (0);
-	length = 1;
-	while (lst->next)
-	{
-		length++;
-		lst = lst->next;
-	}
-	lst = lst->head;
-	return (length);
 }
 
 int	ft_height_array(char **array)

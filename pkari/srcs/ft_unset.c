@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/21 20:46:58 by abridger          #+#    #+#             */
-/*   Updated: 2022/02/06 18:40:29 by abridger         ###   ########.fr       */
+/*   Updated: 2022/02/12 23:45:24 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	ft_exec_unset(t_shell *data, t_info *curr)
 
 	i = 1;
 	height = ft_height_array(curr->argv);
-	if (curr->nb_cmd == 4 && height > 0 && curr->token != 1)
+	if (curr->nb_cmd == 4 && height > 0)
 	{
 		while (curr->argv[i])
 		{

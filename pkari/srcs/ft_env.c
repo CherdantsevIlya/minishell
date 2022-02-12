@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 21:31:17 by abridger          #+#    #+#             */
-/*   Updated: 2022/02/04 20:44:30 by abridger         ###   ########.fr       */
+/*   Updated: 2022/02/12 23:34:23 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	ft_exec_env(t_shell *data, t_info *curr)
 	data->exit_status = 0;
 	if (curr->nb_cmd == 6 && !curr->argv[1])
 	{
-		if (data->env != NULL && !ft_wrong_path(data) && curr->token != 1)
+		if (data->env != NULL && !ft_wrong_path(data))
 		{
 			while (tmp)
 			{

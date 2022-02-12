@@ -1,28 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   ft_cd_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/05 18:59:52 by abridger          #+#    #+#             */
-/*   Updated: 2022/01/30 00:00:50 by abridger         ###   ########.fr       */
+/*   Created: 2022/01/18 16:22:54 by abridger          #+#    #+#             */
+/*   Updated: 2022/02/13 01:25:15 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
-int	main(int argc, char **argv, char **envp) // для теста
+int	ft_err_no_dir(t_shell *data, char *str)
 {
-	t_shell	*data;
-
-	(void) argv;
-	data = NULL;
-	if (argc != 1)
-		return (put_err_message("Run program without arguments!"));
-	else
-	{
-		action(data, envp);
-	}
-	return (0);
+	data->exit_status = 1;
+	write(STDERR_FILENO, "minishell: cd: ", ft_strlen("minishell: cd: "));
+	write(STDERR_FILENO, str, ft_strlen(str));
+	write(STDERR_FILENO, ": No such file or directory\n", \
+		ft_strlen(": No such file or directory\n"));
+	return (1);
 }

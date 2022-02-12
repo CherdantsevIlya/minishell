@@ -28,18 +28,20 @@ t_info *add_new_info(void)
 
 void add_info(t_shell *msh)
 {
-	t_info *new;
-	t_info *head;
+	t_info	*new;
+	t_info	*head;
+	t_info	*temp;
 
 	if (msh->info == NULL)
 		msh->info = add_new_info();
 	else
 	{
+		temp = msh->info;
 		head = msh->info->head;
 		new = add_new_info();
 		msh->info->next = new;
-		msh->info->prev = msh->info;
 		msh->info = msh->info->next;
+		msh->info->prev = temp;
 		msh->info->head = head;
 	}
 }

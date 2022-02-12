@@ -61,11 +61,9 @@ typedef struct s_shell
 	char	*str;
 	char	**array;
 	int		exit_status;
-	int		have_a_pipe; // это не используется?
+	int		have_a_pipe;
 	int		save_in;
 	int		save_out;
-	//int		fd_pipe[2];
-	//int		pid;
 	int		count;
 	int		check;
 }			t_shell;
@@ -77,77 +75,73 @@ typedef int	(*t_builtin)(t_shell *, t_info *);
 //**************************//
 
 //*** main.c ***//
-void init_shell(t_shell *msh);
-void create_env(t_shell *msh, char **env);
-char *get_dollar_env(t_env *env, char *str);
-void shlvl(t_shell *msh);
+void		init_shell(t_shell *msh);
+void		create_env(t_shell *msh, char **env);
+char		*get_dollar_env(t_env *env, char *str);
+void		shlvl(t_shell *msh);
 
 //*** parser.c ***//
-int parser(t_shell *msh);
-int minishell_pre_parser(t_shell *msh);
-int minishell_parser(t_shell *msh, int *i);
-void add_info(t_shell *msh);
-t_info *add_new_info(void);
+int			parser(t_shell *msh);
+int			minishell_pre_parser(t_shell *msh);
+int			minishell_parser(t_shell *msh, int *i);
+void		add_info(t_shell *msh);
+t_info		*add_new_info(void);
 
 //*** quotes.c ***//
-int single_quotes(t_shell *msh, int *i);
-int double_quotes(t_shell *msh, int *i);
+int			single_quotes(t_shell *msh, int *i);
+int			double_quotes(t_shell *msh, int *i);
 
 //*** dollar.c ***//
-int dollar(t_shell *msh, int *i);
-int dollar_env(t_shell *msh, int *i, int j);
-int dollar_pass(t_shell *msh, int *i, int j);
-int dollar_ignore(t_shell *msh, int *i, int j);
-int dollar_question(t_shell *msh, int *i, int j);
+int			dollar(t_shell *msh, int *i);
+int			dollar_env(t_shell *msh, int *i, int j);
+int			dollar_pass(t_shell *msh, int *i, int j);
+int			dollar_ignore(t_shell *msh, int *i, int j);
+int			dollar_question(t_shell *msh, int *i, int j);
 
 //*** tokens.c ***//
-int token_space(t_shell *msh, int *i);
-int token_pipe(t_shell *msh, int *i);
-int token_redirects(t_shell *msh, int *i, int token);
-void token_handler(t_shell *msh, int *i);
+int			token_space(t_shell *msh, int *i);
+int			token_pipe(t_shell *msh, int *i);
+int			token_redirects(t_shell *msh, int *i, int token);
+void		token_handler(t_shell *msh, int *i);
 
 //*** redirects.c ***//
-void redirect_input(t_shell *msh, int *i);
-void redirect_output(t_shell *msh, int *i);
-void redirect_heredoc(t_shell *msh, int *i);
+void		redirect_input(t_shell *msh, int *i);
+void		redirect_output(t_shell *msh, int *i);
+void		redirect_heredoc(t_shell *msh, int *i);
 
 //*** signals.c ***//
-void ctrl_c(int signal);
-void ctrl_d(void);
-void ctrl_c2(int signal);
+void		ctrl_c(int signal);
+void		ctrl_d(void);
+void		ctrl_c2(int signal);
 
 //*** lsts.c ***//
-void msh_lstadd_back(t_env **env, t_env *new);
-t_env *msh_lstlast(t_env *env);
-t_env *msh_lstnew(char *ket, char *val);
-int msh_lstsize(t_info *curr);
+void		msh_lstadd_back(t_env **env, t_env *new);
+t_env		*msh_lstlast(t_env *env);
+t_env		*msh_lstnew(char *ket, char *val);
+int			msh_lstsize(t_info *curr);
 
 //*** errors.c ***//
-int syntax_error(t_shell *msh, char *str, int len);
-void errno_error(t_shell *msh);
-void execve_error(t_shell *data);
+int			syntax_error(t_shell *msh, char *str, int len);
+void		errno_error(t_shell *msh);
+void		execve_error(t_shell *data);
 
 //*** utils.c ***//
-void free_all(t_shell *msh);
+void		free_all(t_shell *msh);
+void		rl_replace_line(const char *text, int clear_undo);
 
-void rl_replace_line(const char *text, int clear_undo);
+//*** action_utils.c ***//
+char		*get_prog_name(t_shell *data, t_info *curr);
+char		**get_arr_from_lst(t_shell *data);
+void		exit_status_handler(t_shell *data);
+
 
 //**************************//
 //*********ABRIDGER*********//
 //**************************//
 
-//*** ft_array_utils.c ***//
-
-int			ft_lstsize_env(t_shell *data);
-int			ft_lstsize_all(t_shell *data);
-void		ft_init_array(t_shell **data, int check);
-void		create_array_env(t_shell **data);
-void		ft_array_clear(char **array);
-
 //*** ft_data_utils.c ***//
 int			ft_len_key(char *str);
 int			ft_len_value(char *str);
-int			ft_lstsize(t_info *lst);
 int			ft_height_array(char **array);
 
 //*** ft_env_utils.c ***//
@@ -171,24 +165,18 @@ int			ft_simple_execute(t_shell *data, t_info *curr, t_builtin *func);
 int			ft_execute(t_shell *data, t_info *curr, t_builtin *func);
 void		ft_execution_cycle(t_shell *data);
 
-//*** ft_process.c ***//
-char		**create_array_path(t_shell *data);
-int			ft_run_execve(t_shell *data, t_info *curr);
-int			ft_no_path(t_shell *data, t_info *curr);
-int			ft_execve(t_shell *data, t_info *curr, char *str_path);
-
 //*** ft_fd_redirect.c ***//
 void		ft_init_saved_fd(t_shell *data);
 void		ft_close_saved_fd(t_shell *data);
 void		ft_redirect_dup(t_info *curr);
-void		ft_close_files1(t_info *curr); // не помогает
-void		ft_close_files2(t_info *curr); // не помогает и висит
+void		ft_redirect_output(t_info *curr);
+void		ft_close_curr_files(t_info *curr);
 
 //*** ft_fd_pipe.c ***//
-void		ft_pipe_init(t_shell *data, t_info *curr);
-void		ft_pipe_close(t_shell *data, t_info *curr); // не помогает
-void		ft_pipe_dup(t_shell *data, t_info *curr);
-void		ft_dup_add(t_shell *data, t_info *curr); // не помогает
+int			ft_pipe_init(t_shell *data, t_info *curr);
+void		ft_pipe_close(t_shell *data, t_info *curr);
+void		ft_pipe_dup_child(t_shell *data, t_info *curr);
+void		ft_pipe_dup_parent(t_shell *data, t_info *curr);
 
 //*** ft_exit.c ***//
 int			ft_right_digit(char *str);
@@ -214,6 +202,9 @@ void		ft_change_pwd_env(t_shell *data, char *curr_pwd, char *new_pwd);
 int			ft_err_many_args(t_shell *data);
 int			ft_exec_cd(t_shell *data, t_info *curr);
 
+//*** ft_cd_utils.c ***//
+int			ft_err_no_dir(t_shell *data, char *str);
+
 //*** ft_unset.c ***//
 int			ft_err_unset(t_shell *data, char *str);
 void		ft_del_lst(char *str, t_env *env, t_shell *data);
@@ -224,7 +215,7 @@ int			ft_exec_unset(t_shell *data, t_info *curr);
 int			ft_env_check(const char *line, t_env *tmp);
 void		ft_lst_change_value(t_env *lst, const char *line);
 void		ft_add_variable(t_info *curr, t_shell *data);
-void		ft_print_export(t_shell *data, t_info *curr, int height);
+void		ft_print_export(t_shell *data, int height);
 int			ft_exec_export(t_shell *data, t_info *curr);
 
 //*** ft_export_utils.c ***//
@@ -239,11 +230,9 @@ char		*ft_two_colon(char *s1, char *s2);
 char		*ft_one_colon(char *s1);
 
 //*** ft_clear.c ***//
-void		ft_info_clear(t_info **lst);
 void		ft_env_clear(t_env **lst);
 void		ft_data_clear(t_shell *data);
 void		ft_str_clear(char **str);
-void		ft_twostr_clear(char **str1, char **str2);
 
 //*** ft_libft_utils.c ***//
 int			ft_strcmp2(const char *s1, const char *s2);
