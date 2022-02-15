@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_abs.c                                           :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pkari <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:53:41 by pkari             #+#    #+#             */
-/*   Updated: 2022/02/14 17:53:43 by pkari            ###   ########.fr       */
+/*   Updated: 2022/02/15 21:14:15 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	init_shell(t_shell *msh)
 	msh->exit_status = 0;
 	msh->have_a_pipe = 0;
 	msh->check = 0;
+	msh->home_value = NULL;
 }
 
 int	main(int argc, char **argv, char **env)
@@ -93,6 +94,7 @@ int	main(int argc, char **argv, char **env)
 	init_shell(&msh);
 	msh.env = parse_envrmnt(msh.env, env);
 	shlvl(&msh);
+	ft_get_home(&msh);
 	while (1)
 	{
 		signal(SIGINT, ctrl_c);
@@ -105,4 +107,5 @@ int	main(int argc, char **argv, char **env)
 			action(&msh);
 		free_all(&msh);
 	}
+	ft_data_clear(&msh);
 }

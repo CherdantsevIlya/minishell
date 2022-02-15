@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_abs.c                                           :+:      :+:    :+:   */
+/*   redirects.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pkari <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:53:41 by pkari             #+#    #+#             */
-/*   Updated: 2022/02/14 17:53:43 by pkari            ###   ########.fr       */
+/*   Updated: 2022/02/15 23:47:40 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ void	redirect_heredoc(t_shell *msh, int *i)
 	msh->info->heredoc = ft_substr(msh->str, 0, *i);
 	if (msh->info->heredoc == NULL)
 		errno_error(msh);
+	msh->info->fd_heredoc_file = open(msh->info->heredoc, O_WRONLY
+		| O_CREAT | O_APPEND, 0644);
 	while (1)
 	{
 		str = readline("> ");
@@ -87,12 +89,11 @@ void	redirect_heredoc(t_shell *msh, int *i)
 			free(str);
 			break ;
 		}
-		msh->info->fd_heredoc_file = open(msh->info->heredoc, O_WRONLY
-				| O_CREAT | O_APPEND, 0644);
 		write(msh->info->fd_heredoc_file, str, ft_strlen(str));
 		write(msh->info->fd_heredoc_file, "\n", 1);
 		free(str);
 	}
+	close(msh->info->fd_heredoc_file);
 	msh->info->fd_heredoc_file = open(msh->info->heredoc, O_RDONLY, 0644);
 	msh->info->token = 0;
 }

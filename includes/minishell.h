@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pkari <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:51:03 by pkari             #+#    #+#             */
-/*   Updated: 2022/02/15 19:08:59 by pkari            ###   ########.fr       */
+/*   Updated: 2022/02/15 20:59:58 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ typedef struct s_shell
 	int		save_out;
 	int		count;
 	int		check;
+	char	*home_value;
 }			t_shell;
 
 typedef int	(*t_builtin)(t_shell *, t_info *);
@@ -215,8 +216,15 @@ void		ft_change_pwd_env(t_shell *data, char *curr_pwd, char *new_pwd);
 int			ft_err_many_args(t_shell *data);
 int			ft_exec_cd(t_shell *data, t_info *curr);
 
-//*** ft_cd_utils.c ***//
+//*** ft_cd_utils1.c ***//
 int			ft_err_no_dir(t_shell *data, char *str);
+void		ft_get_home(t_shell *data);
+int			ft_add_home_dir(t_shell *data, char *line, char *curr_pwd);
+
+//*** ft_cd_utils2.c ***//
+int			ft_no_oldpwd(t_shell *data, char *str);
+void		ft_write_str(char *str);
+int			ft_print_dir(t_shell *data, char *curr_pwd);
 
 //*** ft_unset.c ***//
 int			ft_err_unset(t_shell *data, char *str);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_abs.c                                           :+:      :+:    :+:   */
+/*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pkari <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:53:41 by pkari             #+#    #+#             */
-/*   Updated: 2022/02/14 18:56:09 by pkari            ###   ########.fr       */
+/*   Updated: 2022/02/15 21:23:40 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,6 @@ void	execve_error(t_shell *data)
 	}
 	write(2, "minishell: ", 11);
 	write(2, data->info->argv[0], (size_t)ft_strlen(data->info->argv[0]));
-	write(2, ": command not found\n", 20);
+	write(2, ": No such file or directory\n", 29);
 	exit (127);
 }

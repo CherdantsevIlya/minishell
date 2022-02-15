@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 16:29:06 by abridger          #+#    #+#             */
-/*   Updated: 2022/02/13 00:59:27 by abridger         ###   ########.fr       */
+/*   Updated: 2022/02/16 00:22:33 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,5 +118,6 @@ void	ft_execution_cycle(t_shell *data)
 		ft_execute(data, curr, func);
 		curr = curr->next;
 	}
+
 	free(func);
 }
