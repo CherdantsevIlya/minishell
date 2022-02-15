@@ -23,11 +23,17 @@ void	dollar_env2(t_shell *msh, char *tmp)
 	msh->str = tmp;
 }
 
-void	free_all(t_shell *msh)
+static void	free_all3(t_shell *msh)
 {
-	t_info	*tmp;
+	if (msh->str)
+		free(msh->str);
+	msh->have_a_pipe = 0;
+	msh->check = 0;
+}
+
+static void	free_all2(t_shell *msh)
+{
 	t_env	*tmp2;
-	int		i;
 
 	tmp2 = msh->env;
 	while (tmp2)
@@ -37,6 +43,14 @@ void	free_all(t_shell *msh)
 		tmp2->first = NULL;
 		tmp2 = tmp2->next;
 	}
+}
+
+void	free_all(t_shell *msh)
+{
+	t_info	*tmp;
+	int		i;
+
+	free_all2(msh);
 	if (msh->info != NULL)
 		msh->info = msh->info->head;
 	while (msh->info)
@@ -57,8 +71,5 @@ void	free_all(t_shell *msh)
 	}
 	while (msh->array && msh->array[i])
 		free(msh->array[i++]);
-	if (msh->str)
-		free(msh->str);
-	msh->have_a_pipe = 0;
-	msh->check = 0;
+	free_all3(msh);
 }

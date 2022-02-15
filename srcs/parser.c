@@ -100,12 +100,8 @@ int	minishell_pre_parser(t_shell *msh)
 			return (syntax_error(msh, msh->str + i, 2));
 		return (syntax_error(msh, msh->str + i, 1));
 	}
-	if (!msh->str)
-	{
-		free(msh->str);
-		return (1);
-	}
-	new = ft_strdup(msh->str + i);
+	if (msh->str[i] != 0)
+		new = ft_strdup(msh->str + i);
 	free(msh->str);
 	msh->str = new;
 	return (0);
@@ -116,7 +112,7 @@ int	parser(t_shell *msh)
 	int	i;
 
 	i = 0;
-	if (minishell_pre_parser(msh))
+	if (minishell_pre_parser(msh) || msh->str == NULL)
 		return (0);
 	add_info(msh);
 	while (msh->str)

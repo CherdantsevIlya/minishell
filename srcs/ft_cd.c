@@ -83,6 +83,7 @@ int	ft_exec_cd(t_shell *data, t_info *curr)
 	char	*curr_pwd;
 	char	*new_pwd;
 
+	data->exit_status = 0;
 	if (curr->nb_cmd == 1)
 	{
 		curr_pwd = getcwd(buf1, sizeof(buf1));
