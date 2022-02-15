@@ -29,8 +29,10 @@ t_info	*add_new_info(void)
 	tmp->heredoc = NULL;
 	tmp->error = 0;
 	tmp->nb_cmd = -1;
+	tmp->fd_heredoc_file = -2;
 	tmp->fd_pipe[0] = -2;
 	tmp->fd_pipe[1] = -2;
+	tmp->redirect_flag = 0;
 	tmp->pid = -2;
 	tmp->head = tmp;
 	tmp->prev = NULL;

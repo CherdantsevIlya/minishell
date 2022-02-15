@@ -6,7 +6,7 @@
 /*   By: pkari <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:51:03 by pkari             #+#    #+#             */
-/*   Updated: 2022/02/14 17:51:10 by pkari            ###   ########.fr       */
+/*   Updated: 2022/02/15 19:08:59 by pkari            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,16 @@ typedef struct s_info
 {
 	int				token;
 	int				is_pipe;
+	int				redirect_flag;
 	int				argc;
 	char			**argv;
 	char			*output_file;
 	int				fd_output_file;
 	char			*input_file;
 	int				fd_input_file;
+	char			*heredoc_file;
 	char			*heredoc;
-	int				fd_heredoc[2];
+	int				fd_heredoc_file;
 	int				error;
 	int				nb_cmd;
 	int				fd_pipe[2];

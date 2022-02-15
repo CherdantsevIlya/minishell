@@ -23,6 +23,16 @@ void	dollar_env2(t_shell *msh, char *tmp)
 	msh->str = tmp;
 }
 
+static void	free_all4(t_shell *msh)
+{
+	if (msh->info->output_file)
+		free(msh->info->output_file);
+	if (msh->info->input_file)
+		free(msh->info->input_file);
+	if (msh->info->heredoc)
+		free(msh->info->heredoc);
+}
+
 static void	free_all3(t_shell *msh)
 {
 	if (msh->str)
@@ -56,15 +66,12 @@ void	free_all(t_shell *msh)
 	while (msh->info)
 	{
 		i = 0;
+		if (msh->info->heredoc)
+			unlink(msh->info->heredoc);
 		while (msh->info->argv && msh->info->argv[i])
 			free(msh->info->argv[i++]);
 		free(msh->info->argv);
-		if (msh->info->output_file)
-			free(msh->info->output_file);
-		if (msh->info->input_file)
-			free(msh->info->input_file);
-		if (msh->info->heredoc)
-			free(msh->info->heredoc);
+		free_all4(msh);
 		tmp = msh->info;
 		msh->info = msh->info->next;
 		free(tmp);

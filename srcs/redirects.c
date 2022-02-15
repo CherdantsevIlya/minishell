@@ -14,6 +14,7 @@
 
 void	redirect_input(t_shell *msh, int *i)
 {
+	msh->info->redirect_flag = 1;
 	if (msh->info->error == 0)
 	{
 		if (msh->info->input_file != NULL)
@@ -61,7 +62,7 @@ static void	redirect_heredoc2(t_shell *msh)
 {
 	if (msh->info->heredoc != NULL)
 	{
-		close(msh->info->fd_heredoc[0]);
+		close(msh->info->fd_heredoc_file);
 		free(msh->info->heredoc);
 		msh->info->heredoc = NULL;
 	}
@@ -71,9 +72,10 @@ void	redirect_heredoc(t_shell *msh, int *i)
 {
 	char	*str;
 
+	msh->info->redirect_flag = 2;
 	redirect_heredoc2(msh);
 	msh->info->heredoc = ft_substr(msh->str, 0, *i);
-	if (msh->info->heredoc == NULL || pipe(msh->info->fd_heredoc) != 0)
+	if (msh->info->heredoc == NULL)
 		errno_error(msh);
 	while (1)
 	{
@@ -85,10 +87,12 @@ void	redirect_heredoc(t_shell *msh, int *i)
 			free(str);
 			break ;
 		}
-		write(msh->info->fd_heredoc[1], str, ft_strlen(str));
-		write(msh->info->fd_heredoc[1], "\n", 1);
+		msh->info->fd_heredoc_file = open(msh->info->heredoc, O_WRONLY
+				| O_CREAT | O_APPEND, 0644);
+		write(msh->info->fd_heredoc_file, str, ft_strlen(str));
+		write(msh->info->fd_heredoc_file, "\n", 1);
 		free(str);
 	}
-	close(msh->info->fd_heredoc[1]);
+	msh->info->fd_heredoc_file = open(msh->info->heredoc, O_RDONLY, 0644);
 	msh->info->token = 0;
 }
