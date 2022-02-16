@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:53:41 by pkari             #+#    #+#             */
-/*   Updated: 2022/02/15 21:23:40 by abridger         ###   ########.fr       */
+/*   Updated: 2022/02/16 14:41:07 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,9 @@ void	execve_error(t_shell *data)
 	}
 	write(2, "minishell: ", 11);
 	write(2, data->info->argv[0], (size_t)ft_strlen(data->info->argv[0]));
-	write(2, ": No such file or directory\n", 29);
+	if (data->flag_path == 1)
+		write(2, ": No such file or directory\n", 29);
+	else
+		write(2, ": command not found\n", 21);
 	exit (127);
 }

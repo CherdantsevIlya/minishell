@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:53:41 by pkari             #+#    #+#             */
-/*   Updated: 2022/02/15 23:47:40 by abridger         ###   ########.fr       */
+/*   Updated: 2022/02/16 13:04:29 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,13 @@ static void	redirect_heredoc2(t_shell *msh)
 	}
 }
 
+static void	write_in_file(int fd, char *str)
+{
+	write(fd, str, ft_strlen(str));
+	write(fd, "\n", 1);
+	free(str);
+}
+
 void	redirect_heredoc(t_shell *msh, int *i)
 {
 	char	*str;
@@ -78,7 +85,7 @@ void	redirect_heredoc(t_shell *msh, int *i)
 	if (msh->info->heredoc == NULL)
 		errno_error(msh);
 	msh->info->fd_heredoc_file = open(msh->info->heredoc, O_WRONLY
-		| O_CREAT | O_APPEND, 0644);
+			| O_CREAT | O_APPEND, 0644);
 	while (1)
 	{
 		str = readline("> ");
@@ -89,9 +96,7 @@ void	redirect_heredoc(t_shell *msh, int *i)
 			free(str);
 			break ;
 		}
-		write(msh->info->fd_heredoc_file, str, ft_strlen(str));
-		write(msh->info->fd_heredoc_file, "\n", 1);
-		free(str);
+		write_in_file(msh->info->fd_heredoc_file, str);
 	}
 	close(msh->info->fd_heredoc_file);
 	msh->info->fd_heredoc_file = open(msh->info->heredoc, O_RDONLY, 0644);

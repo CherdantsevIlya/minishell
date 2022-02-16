@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_abs.c                                           :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pkari <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:53:41 by pkari             #+#    #+#             */
-/*   Updated: 2022/02/14 17:53:43 by pkari            ###   ########.fr       */
+/*   Updated: 2022/02/16 14:51:28 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,6 @@ void	free_all(t_shell *msh)
 	while (msh->info)
 	{
 		i = 0;
-		if (msh->info->heredoc)
-			unlink(msh->info->heredoc);
 		while (msh->info->argv && msh->info->argv[i])
 			free(msh->info->argv[i++]);
 		free(msh->info->argv);

@@ -38,6 +38,7 @@ SRC				=	srcs/main.c \
                     srcs/ft_cd_utils1.c			\
 					srcs/ft_cd_utils2.c			\
                     srcs/ft_fd_redirect.c		\
+					srcs/ft_fd_redirect_utils.c	\
 					srcs/ft_fd_pipe.c			\
                     srcs/ft_echo_pwd.c			\
                     srcs/ft_cd.c				\

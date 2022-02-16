@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:53:41 by pkari             #+#    #+#             */
-/*   Updated: 2022/02/15 21:14:15 by abridger         ###   ########.fr       */
+/*   Updated: 2022/02/16 14:38:22 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void	init_shell(t_shell *msh)
 	msh->have_a_pipe = 0;
 	msh->check = 0;
 	msh->home_value = NULL;
+	msh->flag_path = 0;
 }
 
 int	main(int argc, char **argv, char **env)

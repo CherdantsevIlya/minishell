@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 17:51:03 by pkari             #+#    #+#             */
-/*   Updated: 2022/02/15 20:59:58 by abridger         ###   ########.fr       */
+/*   Updated: 2022/02/16 14:33:33 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ typedef struct s_shell
 	int		count;
 	int		check;
 	char	*home_value;
+	int		flag_path;
 }			t_shell;
 
 typedef int	(*t_builtin)(t_shell *, t_info *);
@@ -183,8 +184,12 @@ void		ft_execution_cycle(t_shell *data);
 void		ft_init_saved_fd(t_shell *data);
 void		ft_close_saved_fd(t_shell *data);
 void		ft_redirect_dup(t_info *curr);
-void		ft_redirect_output(t_info *curr);
 void		ft_close_curr_files(t_info *curr);
+
+//*** ft_fd_redirect_utils.c ***//
+void		ft_redirect_output(t_info *curr);
+void		ft_redirect_input(t_info *curr);
+void		ft_read_input(t_info *curr);
 
 //*** ft_fd_pipe.c ***//
 int			ft_pipe_init(t_shell *data, t_info *curr);
@@ -220,11 +225,13 @@ int			ft_exec_cd(t_shell *data, t_info *curr);
 int			ft_err_no_dir(t_shell *data, char *str);
 void		ft_get_home(t_shell *data);
 int			ft_add_home_dir(t_shell *data, char *line, char *curr_pwd);
+int			ft_check_args(t_shell *data, t_info *curr, char *curr_pwd);
 
 //*** ft_cd_utils2.c ***//
 int			ft_no_oldpwd(t_shell *data, char *str);
 void		ft_write_str(char *str);
 int			ft_print_dir(t_shell *data, char *curr_pwd);
+int			ft_err_option(t_shell *data, char *str);
 
 //*** ft_unset.c ***//
 int			ft_err_unset(t_shell *data, char *str);

@@ -6,7 +6,7 @@
 /*   By: abridger <abridger@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 20:32:44 by abridger          #+#    #+#             */
-/*   Updated: 2022/02/15 20:37:37 by abridger         ###   ########.fr       */
+/*   Updated: 2022/02/16 13:30:40 by abridger         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,15 @@ int	ft_print_dir(t_shell *data, char *curr_pwd)
 	}
 	ft_write_str(str);
 	return (0);
+}
+
+int	ft_err_option(t_shell *data, char *str)
+{
+	data->exit_status = 1;
+	write(STDERR_FILENO, "minishell: cd: ", ft_strlen("minishell: cd: "));
+	write(STDERR_FILENO, str, 2);
+	write(STDERR_FILENO, ": invalid option\n", ft_strlen(": invalid option\n"));
+	write(STDERR_FILENO, "cd: usage: cd [-L|-P] [dir]\n", \
+		ft_strlen("cd: usage: cd [-L|-P] [dir]\n"));
+	return (1);
 }
