@@ -28,5 +28,5 @@ This project is about creating a simple shell. Yes, your own little bash. You wi
 Here is an example of what it looks like:
 
 <p align="center">
-    <img src="https://github.com/cherdantsevilya/minishell/blob/main/content/Screen%20Shot%202022-06-01%20at%206.28.06%20PM.png">
+    <img width="1017" alt="msh" src="https://user-images.githubusercontent.com/70847388/171484226-0d5269e5-0c50-4167-8b4d-79af06ac8ed1.png">
 </p>
