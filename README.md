@@ -31,6 +31,12 @@ Here is an example of what it looks like:
     <img width="1017" alt="msh" src="https://user-images.githubusercontent.com/70847388/171484226-0d5269e5-0c50-4167-8b4d-79af06ac8ed1.png">
 </p>
 
+### *What is shell?*
+
+In computing, a shell is a computer program which exposes an operating system's services to a human user or other programs. In general, operating system shells use either a command-line interface (CLI) or graphical user interface (GUI), depending on a computer's role and particular operation. It is named a shell because it is the outermost layer around the operating system.
+
+Command-line shells require the user to be familiar with commands and their calling syntax, and to understand concepts about the shell-specific scripting language (for example, bash).
+
 ### *Shell should:*
 
 + Display a prompt when waiting for a new command.
@@ -61,3 +67,13 @@ Here is an example of what it looks like:
     + **`env`** with no options or arguments
     + **`exit`** with no options
 
+___
+
+## 📌 **Useful links**
+
++ [minishell docs](https://harm-smits.github.io/42docs/projects/minishell)
++ [Bash Reference Manual](https://www.gnu.org/software/bash/manual/bash.html)
++ [Writing Your Own Shell](https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf)
++ [Minishell Materials](https://www.notion.so/Minishell-Materials-7bbd45a806e04395ab578ca3f805806c)
++ [minishell - Лекция от @imicah](https://misty-anglerfish-277.notion.site/minishell-imicah-af096f1006ea4f2f8ec364d708a068b0)
++ [minishell - Мануал от @avivien & @wpersimm](https://misty-anglerfish-277.notion.site/minishell-avivien-wpersimm-cb026bed394d42118302fd427bfb0b3e)
